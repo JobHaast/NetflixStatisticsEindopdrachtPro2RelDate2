@@ -48,7 +48,7 @@ public class Main extends Application {
         HBox2all1.getChildren().addAll(vBox1All1, vBox2All1, vBox3All1);
         all1.setCenter(HBox2all1);
 
-        //Hallokjvjon dupovjbhilmjdbsfidjusakasjdkbjas
+        //Ik heb shit veranderd
 
         Scene scene1 = new Scene(all1);
         stage.setScene(scene1);
