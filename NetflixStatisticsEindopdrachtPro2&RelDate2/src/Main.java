@@ -19,7 +19,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        //Dit is om te testen
         BorderPane all1 = new BorderPane();
         HBox HBox1all1 = new HBox(new Label("Netflix Statistics"));
         HBox1all1.setAlignment(Pos.CENTER);
