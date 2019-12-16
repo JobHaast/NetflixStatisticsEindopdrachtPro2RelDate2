@@ -17,4 +17,29 @@ public class Address {
     public Address(String streetName, int number, String city){
         this(streetName, number, "", city);
     }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public String getAdressid() {
+        return adressid;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    @Override
+    public String toString() {
+        return streetName + " " + number+addition + " " + city;
+    }
 }
