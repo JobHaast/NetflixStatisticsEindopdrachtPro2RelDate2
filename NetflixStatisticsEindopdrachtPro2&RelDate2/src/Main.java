@@ -1,3 +1,4 @@
+import database.Connect;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,7 +15,14 @@ import static javafx.application.Application.launch;
 
 public class Main extends Application {
     public static void main(String[] args) {
-        launch(Main.class);
+//        launch(Main.class);
+        Connect connect = null;
+        try{
+            connect = new Connect();
+            connect.executeQuery("SELECT TOP 5 * FROM Boek");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
