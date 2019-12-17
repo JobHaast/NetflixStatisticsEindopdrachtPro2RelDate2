@@ -49,6 +49,7 @@ public class Main extends Application {
         all1.setCenter(HBox2all1);
 
         //Ik heb shit veranderd
+        //ik ook, ;)
 
         Scene scene1 = new Scene(all1);
         stage.setScene(scene1);
