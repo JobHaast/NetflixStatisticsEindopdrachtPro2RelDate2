@@ -1,26 +1,15 @@
-import GUIScenes.SceneUserChange;
+import GUIScenes.GUI;
 import database.Connect;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
 
 public class Main{
     public static void main(String[] args) {
-        launch(SceneUserChange.class);
+        launch(GUI.class);
 
 
-//        Connect connect = new Connect();
-//        connect.executeQuery("SELECT * FROM Films");
+//        Connect connect = new Connect("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
+//        System.out.println(connect.executeQueryPassword("SELECT Password FROM Users WHERE Username = 'Job';"));
 
     }
 }
