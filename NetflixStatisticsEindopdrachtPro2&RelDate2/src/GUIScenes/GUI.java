@@ -7,10 +7,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -49,31 +55,39 @@ public class GUI extends Application {
         Scene sceneuserChange = new Scene(all1);
 
         // Scene login
-        BorderPane main = new BorderPane();
-        Label topText = new Label("Login");
-        main.setTop(topText);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        BorderPane login = new BorderPane();
-        HBox hBoxUsername = new HBox();
-        Label labelUsername = new Label("Username");
-        TextField textFieldUsername = new TextField();
-        hBoxUsername.getChildren().addAll(labelUsername, textFieldUsername);
+        Text scenetitle = new Text("Welcome");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle, 0, 0, 2, 1);
 
-        HBox hBoxPassword = new HBox();
-        Label labelPassword = new Label("Password");
-        TextField textFieldPassword = new TextField();
-        hBoxPassword.getChildren().addAll(labelPassword, textFieldPassword);
+        Label userName = new Label("User Name:");
+        grid.add(userName, 0, 1);
 
-        HBox hBoxSubmit = new HBox();
-        Button submit = new Button("Submit");
+        TextField userTextField = new TextField();
+        grid.add(userTextField, 1, 1);
 
-        hBoxSubmit.getChildren().addAll(submit);
+        Label pw = new Label("Password:");
+        grid.add(pw, 0, 2);
 
-        login.setTop(hBoxUsername);
-        login.setCenter(hBoxPassword);
-        main.setCenter(login);
-        login.setBottom(hBoxSubmit);
-        Scene loginScene = new Scene(main);
+        PasswordField pwBox = new PasswordField();
+        grid.add(pwBox, 1, 2);
+
+        Button btn = new Button("Sign in");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(btn);
+        grid.add(hbBtn, 1, 4);
+
+        final Text actiontarget = new Text();
+        grid.add(actiontarget, 1, 6);
+
+        Scene loginScene = new Scene(grid, 300, 275);
+
 
         //Homepage scene
         Label label = new Label("Logged in");
@@ -81,16 +95,18 @@ public class GUI extends Application {
 
         //Set first page
         stage.setScene(loginScene);
+        stage.setTitle("Netflix Statistics");
         stage.show();
 
         //Onclick event for submit button in login scene
-        submit.setOnAction(event -> {
+        btn.setOnAction(event -> {
             Connect connect = new Connect("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
-            String password = connect.executeQueryPassword("SELECT Password FROM Users WHERE Username = '"+textFieldUsername.getText()+"';");
-            if(textFieldPassword.getText().equals(password)){
-                stage.setScene(homepage);
+            String password = connect.executeQueryPassword("SELECT Password FROM Users WHERE Username = '"+userTextField.getText()+"';");
+            if(pwBox.getText().equals(password)){
+                stage.setScene(sceneuserChange);
             }else{
-                System.out.println("Wrong");
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Wrong password");
             }
         });
     }
