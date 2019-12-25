@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Connect {
     //String needed to make a connection to your database.
@@ -72,8 +73,8 @@ public class Connect {
         }
     }
 
-    public String executeQueryPassword(String query){
-        String password = null;
+    public String executeQueryOneValue(String query, String columnName){
+        String returnValue = null;
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -84,7 +85,7 @@ public class Connect {
             resultSet = statement.executeQuery(query);
 
             while(resultSet.next()){
-                password = resultSet.getString("Password");
+                returnValue = resultSet.getString(columnName);
             }
 
 //            Handle any errors that may have occurred.
@@ -107,6 +108,88 @@ public class Connect {
             } catch (Exception e) {
             }
         }
-        return password;
+        return returnValue;
+    }
+
+    public ArrayList<String> personInfo(String username){
+        ArrayList<String> personInfo = new ArrayList<>();
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, AddressID FROM Users WHERE Username = '"+username+"';");
+
+            while(resultSet.next()){
+                personInfo.add(resultSet.getString("Username"));
+                personInfo.add(resultSet.getString("Email"));
+                personInfo.add(resultSet.getString("Phonenumber"));
+                personInfo.add(resultSet.getString("AddresID"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return personInfo;
+    }
+
+    public ArrayList<String> addressInfo(String addressID){
+        ArrayList<String> addressInfo = new ArrayList<>();
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT StreetName, Number, Addition, City FROM Addresses WHERE AddressID = '"+addressID+"';");
+
+            while(resultSet.next()){
+                addressInfo.add(resultSet.getString("StreetName"));
+                addressInfo.add(resultSet.getString("Number"));
+                addressInfo.add(resultSet.getString("Addition"));
+                addressInfo.add(resultSet.getString("City"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return addressInfo;
     }
 }

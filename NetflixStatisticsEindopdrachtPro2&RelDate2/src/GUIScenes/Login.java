@@ -47,7 +47,7 @@ public class Login extends Application {
         //Onclick event for button submit in login
         submit.setOnAction(event -> {
             Connect connect = new Connect("jdbc:sqlserver://localhost;databaseName=Users;integratedSecurity=true;");
-            String password = connect.executeQueryPassword("SELECT Password FROM Users WHERE Username = "+textFieldUsername.getText()+";");
+            String password = connect.executeQueryOneValue("SELECT Password FROM Users WHERE Username = "+textFieldUsername.getText()+";", "Password");
             if(textFieldPassword.equals(password)){
                 stage.setScene(homepage);
             }else{
