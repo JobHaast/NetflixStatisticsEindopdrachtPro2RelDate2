@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,6 +21,7 @@ import javafx.stage.Stage;
 import logic.Account;
 import logic.Address;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -59,7 +63,7 @@ public class GUI extends Application {
         final Text actiontarget = new Text();
         gridPaneLogin.add(actiontarget, 1, 6);
 
-        Scene loginScene = new Scene(gridPaneLogin, 300, 275);
+        Scene loginScene = new Scene(gridPaneLogin);
 
         // Scene profileOverView
         BorderPane borderPaneProfileOverView = new BorderPane();
@@ -120,11 +124,88 @@ public class GUI extends Application {
         TextField additionNameNumberFieldProfileOverView = new TextField();
         gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 7);
 
-//Set grindPaneProfileOverView center
+        //Set grindPaneProfileOverView center
         borderPaneProfileOverView.setCenter(gridPaneProfileOverView);
-        Scene profileOverView = new Scene(borderPaneProfileOverView, 300, 300);
+        Scene profileOverView = new Scene(borderPaneProfileOverView);
+
+        //program scene Lost in space
+        Label lostInSpace = new Label("Lost in space");
+        Scene lostInSpaceScene = new Scene(lostInSpace);
+
+        //Scene programs
+        GridPane programsGridPane = new GridPane();
+        programsGridPane.setAlignment(Pos.CENTER);
+        programsGridPane.setHgap(10);
+        programsGridPane.setVgap(10);
+        programsGridPane.setPadding(new Insets(25, 25, 25, 25));
+
+        Image imgLostInSpace = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\LostInSpace.jpg"));
+        ImageView imageViewLostInSpace = new ImageView(imgLostInSpace);
+        imageViewLostInSpace.setFitHeight(100);
+        imageViewLostInSpace.setFitWidth(200);
+        imageViewLostInSpace.setPickOnBounds(true);
+        programsGridPane.add(imageViewLostInSpace, 0, 0);
+
+        Image imgRickAndMorty = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\RickAndMorty.jpg"));
+        ImageView imageRickAndMorty = new ImageView(imgRickAndMorty);
+        imageRickAndMorty.setFitHeight(100);
+        imageRickAndMorty.setFitWidth(200);
+        imageRickAndMorty.setPickOnBounds(true);
+        programsGridPane.add(imageRickAndMorty, 1, 0);
+
+        Image imgTheFlash = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\TheFlash.jpg"));
+        ImageView imageTheFlash = new ImageView(imgTheFlash);
+        imageTheFlash.setFitHeight(100);
+        imageTheFlash.setFitWidth(200);
+        imageTheFlash.setPickOnBounds(true);
+        programsGridPane.add(imageTheFlash, 2, 0);
+
+        Image imgInsidious = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\Insidious.jpg"));
+        ImageView imageInsidious = new ImageView(imgInsidious);
+        imageInsidious.setFitHeight(100);
+        imageInsidious.setFitWidth(200);
+        imageInsidious.setPickOnBounds(true);
+        programsGridPane.add(imageInsidious, 0, 1);
+
+        Image imgJumanji = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\Jumanji.jpg"));
+        ImageView imageJumanji = new ImageView(imgJumanji);
+        imageJumanji.setFitHeight(100);
+        imageJumanji.setFitWidth(200);
+        imageJumanji.setPickOnBounds(true);
+        programsGridPane.add(imageJumanji, 0, 2);
+
+        Image imgTheDictator = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\TheDictator.jpg"));
+        ImageView imageTheDictator = new ImageView(imgTheDictator);
+        imageTheDictator.setFitHeight(100);
+        imageTheDictator.setFitWidth(200);
+        imageTheDictator.setPickOnBounds(true);
+        programsGridPane.add(imageTheDictator, 1, 1);
+
+        Image imgHowIMetYourMother = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\HowIMetYourMother.jpg"));
+        ImageView imageHowIMetYourMother = new ImageView(imgHowIMetYourMother);
+        imageHowIMetYourMother.setFitHeight(100);
+        imageHowIMetYourMother.setFitWidth(200);
+        imageHowIMetYourMother.setPickOnBounds(true);
+        programsGridPane.add(imageHowIMetYourMother, 1, 2);
+
+        Image imgTheWitcher = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\TheWitcher.jpg"));
+        ImageView imageTheWitcher = new ImageView(imgTheWitcher);
+        imageTheWitcher.setFitHeight(100);
+        imageTheWitcher.setFitWidth(200);
+        imageTheWitcher.setPickOnBounds(true);
+        programsGridPane.add(imageTheWitcher, 2, 1);
+
+        Image imgBrooklynNineNine = new Image(new FileInputStream("C:\\Users\\Job\\Documents\\GitTest\\NetflixStatisticsEindopdrachtPro2RelDate2\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\BrooklynNineNine.jpg"));
+        ImageView imageBrooklynNineNine = new ImageView(imgBrooklynNineNine);
+        imageBrooklynNineNine.setFitHeight(100);
+        imageBrooklynNineNine.setFitWidth(200);
+        imageBrooklynNineNine.setPickOnBounds(true);
+        programsGridPane.add(imageBrooklynNineNine, 2, 2);
+
+        Scene programs = new Scene(programsGridPane);
 
         //Set first page
+        stage.setMaximized(true);
         stage.setScene(loginScene);
         stage.setTitle("Netflix Statistics");
         stage.show();
@@ -133,14 +214,69 @@ public class GUI extends Application {
         btn.setOnAction(event -> {
             String password = connect.executeQueryOneValue("SELECT Password FROM Users WHERE Username = '"+userTextField.getText()+"';", "Password");
             if(pwBox.getText().equals(password)) {
-                stage.setScene(profileOverView);
-                userTextFieldGridPaneProfileOverView.setText(userTextField.getText());
-                emailTextFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Email FROM Users WHERE Username = '"+userTextField.getText()+"';", "Email"));
-                phoneNumberFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Phonenumber FROM Users WHERE Username = '"+userTextField.getText()+"';", "Phonenumber"));
+                stage.setScene(programs);
+
+//                userTextFieldGridPaneProfileOverView.setText(userTextField.getText());
+//                emailTextFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Email FROM Users WHERE Username = '"+userTextField.getText()+"';", "Email"));
+//                phoneNumberFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Phonenumber FROM Users WHERE Username = '"+userTextField.getText()+"';", "Phonenumber"));
             }else{
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Combination is incorrect");
             }
         });
+
+        //Onclick event for photo of the serie Lost in space
+        imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the serie Rick and Morty
+        imageRickAndMorty.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the serie The flash
+        imageTheFlash.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the film Insidious
+        imageInsidious.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the film Jumanji
+        imageJumanji.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the film The dictator
+        imageTheDictator.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the serie how i met your mother
+        imageTheWitcher.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the serie the witcher
+        imageHowIMetYourMother.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
+
+        //Onclick event for photo of the serie Brooklyn nine-nine
+        imageBrooklynNineNine.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(lostInSpaceScene);
+                }
+        );
     }
 }
