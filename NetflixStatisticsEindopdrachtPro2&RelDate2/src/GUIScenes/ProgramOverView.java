@@ -1,6 +1,10 @@
 package GUIScenes;
 
+import GUIScenes.Programs.Insidious;
+import GUIScenes.Programs.Jumanji;
 import GUIScenes.Programs.LostInSpace;
+import GUIScenes.Programs.TheDictator;
+import database.Connect;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,12 +17,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ProgramOverView {
-    public static Scene display(Stage stage) throws FileNotFoundException {
+    public static Scene display(Stage stage, Connect connect) throws FileNotFoundException {
         //Set alignment padding, hgap and vgap.
         GridPane programsGridPane = new GridPane();
         programsGridPane.setAlignment(Pos.CENTER);
-        programsGridPane.setHgap(10);
-        programsGridPane.setVgap(10);
+        programsGridPane.setHgap(20);
+        programsGridPane.setVgap(20);
         programsGridPane.setPadding(new Insets(25, 25, 25, 25));
 
         //Set picture and position.
@@ -95,7 +99,7 @@ public class ProgramOverView {
 
         //Onclick event for photo of the serie Lost in space
         imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(LostInSpace.display());
+                    stage.setScene(LostInSpace.display(stage, connect));
                 }
         );
 
@@ -112,22 +116,22 @@ public class ProgramOverView {
 //        );
 
         //Onclick event for photo of the film Insidious
-//        imageInsidious.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
+        imageInsidious.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(Insidious.display(stage, connect));
+                }
+        );
 
         //Onclick event for photo of the film Jumanji
-//        imageJumanji.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
+        imageJumanji.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(Jumanji.display(stage, connect));
+                }
+        );
 
         //Onclick event for photo of the film The dictator
-//        imageTheDictator.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
+        imageTheDictator.setOnMouseClicked(mouseEvent -> {
+                    stage.setScene(TheDictator.display(stage, connect));
+                }
+        );
 
         //Onclick event for photo of the serie how i met your mother
 //        imageTheWitcher.setOnMouseClicked(mouseEvent -> {

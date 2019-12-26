@@ -69,7 +69,7 @@ public class LoginScene extends Application {
             String password = connect.executeQueryOneValue("SELECT Password FROM Users WHERE Username = '"+userTextField.getText()+"';", "Password");
             if(pwBox.getText().equals(password)) {
                 try {
-                    stage.setScene(ProgramOverView.display(stage));
+                    stage.setScene(ProgramOverView.display(stage, connect));
                 }catch(Exception e){
                     e.getMessage();
                 }

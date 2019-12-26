@@ -1,5 +1,10 @@
 package database;
 
+import logic.Account;
+import logic.Address;
+import logic.Film;
+import logic.Serie;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -111,8 +116,11 @@ public class Connect {
         return returnValue;
     }
 
-    public ArrayList<String> personInfo(String username){
-        ArrayList<String> personInfo = new ArrayList<>();
+    public Account accountInfo(String username){
+        String email = "";
+        String phonenumber = "";
+        int addressID = 0;
+
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -123,10 +131,9 @@ public class Connect {
             resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, AddressID FROM Users WHERE Username = '"+username+"';");
 
             while(resultSet.next()){
-                personInfo.add(resultSet.getString("Username"));
-                personInfo.add(resultSet.getString("Email"));
-                personInfo.add(resultSet.getString("Phonenumber"));
-                personInfo.add(resultSet.getString("AddresID"));
+                email = resultSet.getString("Email");
+                phonenumber = resultSet.getString("Phonenumber");
+                addressID = resultSet.getInt("AddresID");
             }
 
 //            Handle any errors that may have occurred.
@@ -149,11 +156,17 @@ public class Connect {
             } catch (Exception e) {
             }
         }
-        return personInfo;
+
+        Account account = new Account(username, email, phonenumber, addressInfo(addressID));
+        return account;
     }
 
-    public ArrayList<String> addressInfo(String addressID){
-        ArrayList<String> addressInfo = new ArrayList<>();
+    public Address addressInfo(int addressID){
+        String streetName = "";
+        int number = 0;
+        String addition = "";
+        String city = "";
+
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -163,11 +176,11 @@ public class Connect {
             // Execute the query
             resultSet = statement.executeQuery("SELECT StreetName, Number, Addition, City FROM Addresses WHERE AddressID = '"+addressID+"';");
 
-            while(resultSet.next()){
-                addressInfo.add(resultSet.getString("StreetName"));
-                addressInfo.add(resultSet.getString("Number"));
-                addressInfo.add(resultSet.getString("Addition"));
-                addressInfo.add(resultSet.getString("City"));
+            while (resultSet.next()) {
+                streetName = resultSet.getString("StreetName");
+                number = resultSet.getInt("Number");
+                addition = resultSet.getString("Addition");
+                city = resultSet.getString("City");
             }
 
 //            Handle any errors that may have occurred.
@@ -190,6 +203,104 @@ public class Connect {
             } catch (Exception e) {
             }
         }
-        return addressInfo;
+
+        Address address = new Address(streetName, number, addition, city);
+        return address;
+    }
+
+    public Film filmInfo(String title){
+        String filmTitle = "";
+        int length = 0;
+        String language = "";
+        String genre = "";
+        String ageGroup = "";
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title, Length, Language, Genre, AgeGroup FROM Film WHERE Title = '"+title+"';");
+
+            while (resultSet.next()) {
+                filmTitle = resultSet.getString("Title");
+                length = resultSet.getInt("Length");
+                language = resultSet.getString("Language");
+                genre = resultSet.getString("Genre");
+                ageGroup = resultSet.getString("AgeGroup");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        Film film = new Film(filmTitle, length, language, genre, ageGroup);
+        return film;
+    }
+
+    public Serie seriesInfo(String title){
+        String seriesTitle = "";
+        String language = "";
+        String genre = "";
+        String recommendation = "";
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title, Language, Genre, recommendation FROM Series WHERE Title = '"+title+"';");
+
+            while (resultSet.next()) {
+                seriesTitle = resultSet.getString("Title");
+                language = resultSet.getString("Language");
+                genre = resultSet.getString("Genre");
+                recommendation = resultSet.getString("Recommendation");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        Serie serie = new Serie(seriesTitle, language, genre, recommendation);
+        return serie;
     }
 }
