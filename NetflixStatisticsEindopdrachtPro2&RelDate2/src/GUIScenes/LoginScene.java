@@ -22,8 +22,15 @@ public class LoginScene extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Connect connect = new Connect("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
-        Profile user;
 
+        //Set first page
+        stage.setMaximized(true);
+        stage.setScene(LoginScene.display(stage, connect));
+        stage.setTitle("Job Haast - 2151057, Noah Korten - 2153017, Wesley de Jonge - 2144101");
+        stage.show();
+    }
+
+    public static Scene display(Stage stage, Connect connect){
         // Scene login
         GridPane gridPaneLogin = new GridPane();
         gridPaneLogin.setAlignment(Pos.CENTER);
@@ -58,15 +65,9 @@ public class LoginScene extends Application {
 
         Scene loginScene = new Scene(gridPaneLogin);
 
-        //Set first page
-        stage.setMaximized(true);
-        stage.setScene(loginScene);
-        stage.setTitle("Netflix Statistics");
-        stage.show();
-
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
-            String password = connect.executeQueryOneValue("SELECT Password FROM Users WHERE Username = '"+userTextField.getText()+"';", "Password");
+            String password = connect.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
             if(pwBox.getText().equals(password)) {
                 try {
                     stage.setScene(ProgramOverView.display(stage, connect));
@@ -78,5 +79,6 @@ public class LoginScene extends Application {
                 actiontarget.setText("Combination is incorrect");
             }
         });
+        return loginScene;
     }
 }

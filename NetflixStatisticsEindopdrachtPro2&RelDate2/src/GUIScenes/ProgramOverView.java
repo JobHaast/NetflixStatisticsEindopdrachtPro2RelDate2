@@ -8,6 +8,7 @@ import database.Connect;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -97,6 +98,28 @@ public class ProgramOverView {
         imageBrooklynNineNine.setPickOnBounds(true);
         programsGridPane.add(imageBrooklynNineNine, 2, 2);
 
+        //Button for profileoverview
+        Button profileOverView = new Button("Profile");
+        programsGridPane.add(profileOverView, 0, 4);
+
+        //Button for logOut
+        Button logOut = new Button("Log out");
+        programsGridPane.add(logOut, 1, 4);
+
+        //Button for CRUD scene
+        Button cRUD = new Button("CRUD");
+        programsGridPane.add(cRUD, 2, 4);
+
+        //Onclick event for profileoverview
+        profileOverView.setOnAction(event -> {
+            stage.setScene(ProfileOverView.display());
+        });
+
+        //Onclick event for logout
+        logOut.setOnAction(event -> {
+            stage.setScene(LoginScene.display(stage, connect));
+        });
+
         //Onclick event for photo of the serie Lost in space
         imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
                     stage.setScene(LostInSpace.display(stage, connect));
@@ -150,6 +173,12 @@ public class ProgramOverView {
 //                    stage.setScene(lostInSpaceScene);
 //                }
 //        );
+
+        //Onclick event for button CRUD
+        cRUD.setOnAction(event -> {
+                    stage.setScene(CRUD.display(stage, connect));
+                }
+        );
 
         Scene programs = new Scene(programsGridPane);
 

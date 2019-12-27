@@ -128,7 +128,7 @@ public class Connect {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, AddressID FROM Users WHERE Username = '"+username+"';");
+            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, AddressID FROM Account WHERE Username = '"+username+"';");
 
             while(resultSet.next()){
                 email = resultSet.getString("Email");
@@ -302,5 +302,56 @@ public class Connect {
 
         Serie serie = new Serie(seriesTitle, language, genre, recommendation);
         return serie;
+    }
+
+    public ArrayList<Address> getAddresses(){
+        ArrayList<Address> addresses = new ArrayList<>();
+        String streetName = "";
+        int number = 0;
+        String addition = "";
+        String city = "";
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT * FROM Address;");
+
+            while (resultSet.next()) {
+                streetName = resultSet.getString("StreetName");
+                number = resultSet.getInt("Number");
+                addition = resultSet.getString("Addition");
+                city = resultSet.getString("City");
+                if(addition == null){
+                    addition = "";
+                }
+                addresses.add(new Address(streetName, number, addition, city));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return addresses;
     }
 }
