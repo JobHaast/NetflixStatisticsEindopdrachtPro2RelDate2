@@ -8,7 +8,7 @@ import logic.Serie;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Connect {
+public class Read {
     //String needed to make a connection to your database.
     private String connectionUrl;
     //Connection controls information about the connection with the database.
@@ -18,7 +18,7 @@ public class Connect {
     //Result of a query is store in here.
     private ResultSet resultSet;
 
-    public Connect(String connectionUrl){
+    public Read(String connectionUrl){
         this.connectionUrl = connectionUrl;
         this.con = null;
         this.statement = null;
@@ -118,8 +118,9 @@ public class Connect {
 
     public Account accountInfo(String username){
         String email = "";
-        String phonenumber = "";
+        String phonenumber= "";
         int addressID = 0;
+        String password = "";
 
         try {
             // Import the downloaded driver.
@@ -128,9 +129,10 @@ public class Connect {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, AddressID FROM Account WHERE Username = '"+username+"';");
+            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, Password, AddressID FROM Account WHERE Username = '"+username+"';");
 
             while(resultSet.next()){
+                password = resultSet.getString("Password");
                 email = resultSet.getString("Email");
                 phonenumber = resultSet.getString("Phonenumber");
                 addressID = resultSet.getInt("AddresID");
@@ -157,7 +159,7 @@ public class Connect {
             }
         }
 
-        Account account = new Account(username, email, phonenumber, addressInfo(addressID));
+        Account account = new Account(username, email, phonenumber, password, addressInfo(addressID));
         return account;
     }
 
@@ -353,5 +355,45 @@ public class Connect {
         }
 
         return addresses;
+    }
+
+    public ArrayList<String> getAccountsNames(){
+        ArrayList<String> namesAccounts = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT * FROM Account;");
+
+            while (resultSet.next()) {
+                namesAccounts.add(resultSet.getString("AccountName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return namesAccounts;
     }
 }

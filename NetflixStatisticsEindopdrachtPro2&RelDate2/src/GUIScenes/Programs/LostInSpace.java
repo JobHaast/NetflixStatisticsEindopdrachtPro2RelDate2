@@ -1,7 +1,7 @@
 package GUIScenes.Programs;
 
 import GUIScenes.ProgramOverView;
-import database.Connect;
+import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 import logic.Serie;
 
 public class LostInSpace {
-    public static Scene display(Stage stage, Connect connect){
+    public static Scene display(Stage stage, Read read){
         //Scene for the program lost in space
-        Serie lostInSpace = connect.seriesInfo("Lost in space");
+        Serie lostInSpace = read.seriesInfo("Lost in space");
 
         BorderPane borderPane = new BorderPane();
         Label lostInSpaceLabel = new Label("Lost In Space");
@@ -63,7 +63,7 @@ public class LostInSpace {
         gridPane.add(backButton, 0, 8);
         backButton.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, connect));
+                stage.setScene(ProgramOverView.display(stage, read));
             } catch (Exception e) {
                 e.getMessage();
             }

@@ -1,9 +1,7 @@
 package GUIScenes.Programs.CRUDActions;
 
-import database.Connect;
+import database.Read;
 import database.Create;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,12 +10,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Address;
-
-import java.util.ArrayList;
 
 public class CreateAccount {
-    public static Scene display(Stage stage, Connect connect){
+    public static Scene display(Stage stage, Read read){
         Create cA = new Create("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
 
         //CRUD Scene
@@ -103,7 +98,7 @@ public class CreateAccount {
                 actiontarget.setText("Please fill in all fields!");
             }else if("Address created".equals(cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText())) &&
                     "Account created".equals(cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(),
-                            Integer.parseInt(connect.executeQueryOneValue("SELECT AddressId FROM Address WHERE Streetname = '"+textFieldStreetName.getText()+"' AND Number = "+textFieldNumber.getText()+" AND Addition = '"+textFieldAddition.getText()+"' AND City = '"+textFieldCity.getText()+"'", "AddressId"))))){
+                            Integer.parseInt(read.executeQueryOneValue("SELECT AddressId FROM Address WHERE Streetname = '"+textFieldStreetName.getText()+"' AND Number = "+textFieldNumber.getText()+" AND Addition = '"+textFieldAddition.getText()+"' AND City = '"+textFieldCity.getText()+"'", "AddressId"))))){
                 actiontarget.setFill(Color.GREEN);
                 actiontarget.setText("Account created successfully");
             }else{

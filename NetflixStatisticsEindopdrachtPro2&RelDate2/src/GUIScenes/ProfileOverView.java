@@ -1,30 +1,20 @@
 package GUIScenes;
 
+import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 public class ProfileOverView {
 
-    public static Scene display(){
+    public static Scene display(Stage stage, Read read){
         // Scene profileOverView
-
-        BorderPane borderPaneProfileOverView = new BorderPane();
-        Label profileOverViewLabel = new Label("Account");
-        profileOverViewLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        HBox gridPaneProfileOverViewTopHBox = new HBox();
-        gridPaneProfileOverViewTopHBox.getChildren().add(profileOverViewLabel);
-        gridPaneProfileOverViewTopHBox.setAlignment(Pos.CENTER);
-        gridPaneProfileOverViewTopHBox.setPadding(new Insets(10, 10, 10 ,10));
-        borderPaneProfileOverView.setTop(gridPaneProfileOverViewTopHBox);
-
         GridPane gridPaneProfileOverView = new GridPane();
         gridPaneProfileOverView.setAlignment(Pos.CENTER);
         gridPaneProfileOverView.setHgap(10);
@@ -74,14 +64,61 @@ public class ProfileOverView {
         TextField additionNameNumberFieldProfileOverView = new TextField();
         gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 7);
 
-//        userTextFieldGridPaneProfileOverView.setText(userTextField.getText());
-//        emailTextFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Email FROM Users WHERE Username = '"+userTextField.getText()+"';", "Email"));
-//        phoneNumberFieldProfileOverView.setText(connect.executeQueryOneValue("SELECT Phonenumber FROM Users WHERE Username = '"+userTextField.getText()+"';", "Phonenumber"));
+        //GridPane for different tabs
+        GridPane menu = new GridPane();
+        menu.setAlignment(Pos.CENTER);
+        menu.setHgap(20);
+        menu.setVgap(20);
+        menu.setPadding(new Insets(25, 25, 25, 25));
 
-        //Set grindPaneProfileOverView center
-        borderPaneProfileOverView.setCenter(gridPaneProfileOverView);
-        Scene profileOverView = new Scene(borderPaneProfileOverView);
+        //Button for profileoverview
+        Button profileOverView = new Button("Profile");
+        menu.add(profileOverView, 0, 0);
 
-        return profileOverView;
+        //Button for logOut
+        Button logOut = new Button("Log out");
+        menu.add(logOut, 1, 0);
+
+        //Button for CRUD scene
+        Button cRUD = new Button("CRUD");
+        menu.add(cRUD, 2, 0);
+
+        //Button for programoverview
+        Button programOverView = new Button("Program overview");
+        menu.add(programOverView, 3, 0);
+
+        //Onclick event for logout
+        logOut.setOnAction(event -> {
+            stage.setScene(LoginScene.display(stage, read));
+        });
+
+        //Onclick event for button CRUD
+        cRUD.setOnAction(event -> {
+                    stage.setScene(CRUD.display(stage, read));
+                }
+        );
+
+        //Onclick event for profileoverview
+        profileOverView.setOnAction(event -> {
+            stage.setScene(ProfileOverView.display(stage, read));
+        });
+
+        //Onclick event for programoverview
+        programOverView.setOnAction(event -> {
+            try {
+                stage.setScene(ProgramOverView.display(stage, read));
+            }catch(Exception e){
+                e.getMessage();
+            }
+        });
+
+        //Borderpane for layout
+        BorderPane mainScene = new BorderPane();
+        mainScene.setBottom(menu);
+        mainScene.setCenter(gridPaneProfileOverView);
+
+        Scene scene = new Scene(mainScene);
+
+        return scene;
     }
 }

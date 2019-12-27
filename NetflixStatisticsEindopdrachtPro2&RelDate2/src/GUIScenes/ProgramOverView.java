@@ -4,13 +4,14 @@ import GUIScenes.Programs.Insidious;
 import GUIScenes.Programs.Jumanji;
 import GUIScenes.Programs.LostInSpace;
 import GUIScenes.Programs.TheDictator;
-import database.Connect;
+import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -18,7 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ProgramOverView {
-    public static Scene display(Stage stage, Connect connect) throws FileNotFoundException {
+    public static Scene display(Stage stage, Read read) throws FileNotFoundException {
         //Set alignment padding, hgap and vgap.
         GridPane programsGridPane = new GridPane();
         programsGridPane.setAlignment(Pos.CENTER);
@@ -98,31 +99,9 @@ public class ProgramOverView {
         imageBrooklynNineNine.setPickOnBounds(true);
         programsGridPane.add(imageBrooklynNineNine, 2, 2);
 
-        //Button for profileoverview
-        Button profileOverView = new Button("Profile");
-        programsGridPane.add(profileOverView, 0, 4);
-
-        //Button for logOut
-        Button logOut = new Button("Log out");
-        programsGridPane.add(logOut, 1, 4);
-
-        //Button for CRUD scene
-        Button cRUD = new Button("CRUD");
-        programsGridPane.add(cRUD, 2, 4);
-
-        //Onclick event for profileoverview
-        profileOverView.setOnAction(event -> {
-            stage.setScene(ProfileOverView.display());
-        });
-
-        //Onclick event for logout
-        logOut.setOnAction(event -> {
-            stage.setScene(LoginScene.display(stage, connect));
-        });
-
         //Onclick event for photo of the serie Lost in space
         imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(LostInSpace.display(stage, connect));
+                    stage.setScene(LostInSpace.display(stage, read));
                 }
         );
 
@@ -140,19 +119,19 @@ public class ProgramOverView {
 
         //Onclick event for photo of the film Insidious
         imageInsidious.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Insidious.display(stage, connect));
+                    stage.setScene(Insidious.display(stage, read));
                 }
         );
 
         //Onclick event for photo of the film Jumanji
         imageJumanji.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Jumanji.display(stage, connect));
+                    stage.setScene(Jumanji.display(stage, read));
                 }
         );
 
         //Onclick event for photo of the film The dictator
         imageTheDictator.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(TheDictator.display(stage, connect));
+                    stage.setScene(TheDictator.display(stage, read));
                 }
         );
 
@@ -174,13 +153,62 @@ public class ProgramOverView {
 //                }
 //        );
 
+
+        //GridPane for different tabs
+        GridPane menu = new GridPane();
+        menu.setAlignment(Pos.CENTER);
+        menu.setHgap(20);
+        menu.setVgap(20);
+        menu.setPadding(new Insets(25, 25, 25, 25));
+
+        //Button for profileoverview
+        Button profileOverView = new Button("Profile");
+        menu.add(profileOverView, 0, 0);
+
+        //Button for logOut
+        Button logOut = new Button("Log out");
+        menu.add(logOut, 1, 0);
+
+        //Button for CRUD scene
+        Button cRUD = new Button("CRUD");
+        menu.add(cRUD, 2, 0);
+
+        //Button for programoverview
+        Button programOverView = new Button("Program overview");
+        menu.add(programOverView, 3, 0);
+
+        //Onclick event for logout
+        logOut.setOnAction(event -> {
+            stage.setScene(LoginScene.display(stage, read));
+        });
+
         //Onclick event for button CRUD
         cRUD.setOnAction(event -> {
-                    stage.setScene(CRUD.display(stage, connect));
+                    stage.setScene(CRUD.display(stage, read));
                 }
         );
 
-        Scene programs = new Scene(programsGridPane);
+        //Onclick event for profileoverview
+        profileOverView.setOnAction(event -> {
+            stage.setScene(ProfileOverView.display(stage, read));
+        });
+
+        //Onclick event for programoverview
+        programOverView.setOnAction(event -> {
+            try {
+                stage.setScene(ProgramOverView.display(stage, read));
+            }catch(Exception e){
+                e.getMessage();
+            }
+        });
+
+        //Borderpane for layout
+        BorderPane mainScene = new BorderPane();
+        mainScene.setCenter(programsGridPane);
+        mainScene.setBottom(menu);
+
+
+        Scene programs = new Scene(mainScene);
 
         return programs;
     }

@@ -1,7 +1,7 @@
 package GUIScenes.Programs;
 
 import GUIScenes.ProgramOverView;
-import database.Connect;
+import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 import logic.Film;
 
 public class Insidious {
-    public static Scene display(Stage stage, Connect connect){
+    public static Scene display(Stage stage, Read read){
         //Scene for the program lost in space
-        Film insidious = connect.filmInfo("Insidious");
+        Film insidious = read.filmInfo("Insidious");
 
         BorderPane borderPane = new BorderPane();
         Label lostInSpaceLabel = new Label("Insidious");
@@ -70,7 +70,7 @@ public class Insidious {
         gridPane.add(backButton, 0, 8);
         backButton.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, connect));
+                stage.setScene(ProgramOverView.display(stage, read));
             } catch (Exception e) {
                 e.getMessage();
             }

@@ -1,6 +1,6 @@
 package GUIScenes;
 
-import database.Connect;
+import database.Read;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,22 +15,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Profile;
 
 public class LoginScene extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Connect connect = new Connect("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
+        Read read = new Read("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
 
         //Set first page
         stage.setMaximized(true);
-        stage.setScene(LoginScene.display(stage, connect));
+        stage.setScene(LoginScene.display(stage, read));
         stage.setTitle("Job Haast - 2151057, Noah Korten - 2153017, Wesley de Jonge - 2144101");
         stage.show();
     }
 
-    public static Scene display(Stage stage, Connect connect){
+    public static Scene display(Stage stage, Read read){
         // Scene login
         GridPane gridPaneLogin = new GridPane();
         gridPaneLogin.setAlignment(Pos.CENTER);
@@ -67,10 +66,10 @@ public class LoginScene extends Application {
 
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
-            String password = connect.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
+            String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
             if(pwBox.getText().equals(password)) {
                 try {
-                    stage.setScene(ProgramOverView.display(stage, connect));
+                    stage.setScene(ProgramOverView.display(stage, read));
                 }catch(Exception e){
                     e.getMessage();
                 }
