@@ -2,6 +2,8 @@ package GUIScenes;
 
 import GUIScenes.Programs.CRUDActions.CreateAccount;
 import GUIScenes.Programs.CRUDActions.CreateProfile;
+import GUIScenes.Programs.CRUDActions.DeleteAccount;
+import GUIScenes.Programs.CRUDActions.DeleteProfile;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -46,9 +48,19 @@ public class CRUD {
         Button deleteAccount = new Button("Delete Account");
         cRUDGridPane.add(deleteAccount, 1, 0);
 
-        //Button for profile creation
+        //Onclick event for the button delete account
+        deleteAccount.setOnAction(event -> {
+            stage.setScene(DeleteAccount.display(stage, read));
+        });
+
+        //Button for deleting profile
         Button deleteProfile = new Button("Delete Profile");
         cRUDGridPane.add(deleteProfile, 1, 1);
+
+        //onclick for button deleteProfile
+        deleteProfile.setOnAction(event -> {
+            stage.setScene(DeleteProfile.display(stage, read));
+        });
 
         //Button for creating watched program
         Button deleteWatchedProgram = new Button("Delete Watched Program");

@@ -367,7 +367,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT * FROM Account;");
+            resultSet = statement.executeQuery("SELECT AccountName FROM Account;");
 
             while (resultSet.next()) {
                 namesAccounts.add(resultSet.getString("AccountName"));
@@ -395,5 +395,45 @@ public class Read {
         }
 
         return namesAccounts;
+    }
+
+    public ArrayList<String> getProfileNames(String accountName){
+        ArrayList<String> namesProfiles = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT ProfileName FROM Profile WHERE AccountName = '"+accountName+"';");
+
+            while (resultSet.next()) {
+                namesProfiles.add(resultSet.getString("ProfileName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return namesProfiles;
     }
 }
