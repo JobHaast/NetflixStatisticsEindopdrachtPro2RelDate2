@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class CreateAccount {
     public static Scene display(Stage stage, Read read){
-        Create cA = new Create("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
+        Create cA = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
 
         //CRUD Scene
         GridPane createAccountGridPane = new GridPane();

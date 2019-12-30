@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class DeleteAccount {
     public static Scene display(Stage stage, Read read){
-        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
+        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
 

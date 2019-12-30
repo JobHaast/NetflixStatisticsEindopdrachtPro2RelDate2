@@ -20,7 +20,7 @@ public class LoginScene extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Read read = new Read("jdbc:sqlserver://localhost;databaseName=Login;integratedSecurity=true;");
+        Read read = new Read("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
 
         //Set first page
         stage.setMaximized(true);
