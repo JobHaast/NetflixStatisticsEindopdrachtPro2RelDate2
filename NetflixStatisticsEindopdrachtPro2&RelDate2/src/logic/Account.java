@@ -5,14 +5,14 @@ public class Account {
     private String email;
     private String phoneNumber;
     private String password;
-    private Address address;
+    private int addressId;
 
-    public Account(String accountName, String email, String phoneNumber, String password, Address address){
+    public Account(String accountName, String email, String phoneNumber, String password, int address){
         this.accountName = accountName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.address = address;
+        this.addressId = address;
     }
 
 
@@ -24,8 +24,8 @@ public class Account {
         return phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
+    public int getAddress() {
+        return addressId;
     }
 
     public String getAccountName() {

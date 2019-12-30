@@ -1,19 +1,26 @@
 package GUIScenes;
 
 import database.Read;
+import database.Update;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import logic.Account;
+import logic.Address;
 
 public class ProfileOverView {
 
-    public static Scene display(Stage stage, Read read){
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
+        Address addressLoggedPerson = read.addressInfo(loggedPerson.getAddress());
+        Update update = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+
         // Scene profileOverView
         GridPane gridPaneProfileOverView = new GridPane();
         gridPaneProfileOverView.setAlignment(Pos.CENTER);
@@ -24,45 +31,59 @@ public class ProfileOverView {
         Label userNameGridPaneProfileOverView = new Label("User Name:");
         gridPaneProfileOverView.add(userNameGridPaneProfileOverView, 0, 1);
 
-        TextField userTextFieldGridPaneProfileOverView = new TextField();
+        TextField userTextFieldGridPaneProfileOverView = new TextField(loggedPerson.getAccountName());
         userTextFieldGridPaneProfileOverView.setDisable(true);
         gridPaneProfileOverView.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
         Label emailGridPaneProfileOverView = new Label("Email:");
         gridPaneProfileOverView.add(emailGridPaneProfileOverView, 0, 2);
 
-        TextField emailTextFieldProfileOverView = new TextField();
+        TextField emailTextFieldProfileOverView = new TextField(loggedPerson.getEmail());
         gridPaneProfileOverView.add(emailTextFieldProfileOverView, 1, 2);
 
         Label phoneNumberGridPaneProfileOverView = new Label("Phonenumber:");
         gridPaneProfileOverView.add(phoneNumberGridPaneProfileOverView, 0, 3);
 
-        TextField phoneNumberFieldProfileOverView = new TextField();
+        TextField phoneNumberFieldProfileOverView = new TextField(loggedPerson.getPhoneNumber());
         gridPaneProfileOverView.add(phoneNumberFieldProfileOverView, 1, 3);
 
-        Label cityGridPaneProfileOverView = new Label("City:");
-        gridPaneProfileOverView.add(cityGridPaneProfileOverView, 0, 4);
+        Label passwordLabel = new Label("Password");
+        gridPaneProfileOverView.add(passwordLabel, 0, 4);
 
-        TextField cityNumberFieldProfileOverView = new TextField();
-        gridPaneProfileOverView.add(cityNumberFieldProfileOverView, 1, 4);
+        PasswordField passwordTextField = new PasswordField();
+        passwordTextField.setText(loggedPerson.getPassword());
+        gridPaneProfileOverView.add(passwordTextField, 1, 4);
+
+        Label cityGridPaneProfileOverView = new Label("City:");
+        gridPaneProfileOverView.add(cityGridPaneProfileOverView, 0, 5);
+
+        TextField cityNumberFieldProfileOverView = new TextField(addressLoggedPerson.getCity());
+        gridPaneProfileOverView.add(cityNumberFieldProfileOverView, 1, 5);
 
         Label streetNameGridPaneProfileOverView = new Label("Street:");
-        gridPaneProfileOverView.add(streetNameGridPaneProfileOverView, 0, 5);
+        gridPaneProfileOverView.add(streetNameGridPaneProfileOverView, 0, 6);
 
-        TextField streetNameNumberFieldProfileOverView = new TextField();
-        gridPaneProfileOverView.add(streetNameNumberFieldProfileOverView, 1, 5);
+        TextField streetNameNumberFieldProfileOverView = new TextField(addressLoggedPerson.getStreetName());
+        gridPaneProfileOverView.add(streetNameNumberFieldProfileOverView, 1, 6);
 
         Label numberNameGridPaneProfileOverView = new Label("Number:");
-        gridPaneProfileOverView.add(numberNameGridPaneProfileOverView, 0, 6);
+        gridPaneProfileOverView.add(numberNameGridPaneProfileOverView, 0, 7);
 
-        TextField numberNameNumberFieldProfileOverView = new TextField();
-        gridPaneProfileOverView.add(numberNameNumberFieldProfileOverView, 1, 6);
+        TextField numberNameNumberFieldProfileOverView = new TextField(Integer.toString(addressLoggedPerson.getNumber()));
+        gridPaneProfileOverView.add(numberNameNumberFieldProfileOverView, 1, 7);
 
         Label additionNameGridPaneProfileOverView = new Label("Addition:");
-        gridPaneProfileOverView.add(additionNameGridPaneProfileOverView, 0, 7);
+        gridPaneProfileOverView.add(additionNameGridPaneProfileOverView, 0, 8);
 
-        TextField additionNameNumberFieldProfileOverView = new TextField();
-        gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 7);
+        TextField additionNameNumberFieldProfileOverView = new TextField(addressLoggedPerson.getAddition());
+        gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 8);
+
+        Button submitChanges = new Button("Change");
+        gridPaneProfileOverView.add(submitChanges, 1, 9);
+
+        submitChanges.setOnAction(event -> {
+//            update.updateAccount();
+        });
 
         //GridPane for different tabs
         GridPane menu = new GridPane();
@@ -94,19 +115,19 @@ public class ProfileOverView {
 
         //Onclick event for button CRUD
         cRUD.setOnAction(event -> {
-                    stage.setScene(CRUD.display(stage, read));
+                    stage.setScene(CRUD.display(stage, read, loggedPerson));
                 }
         );
 
         //Onclick event for profileoverview
         profileOverView.setOnAction(event -> {
-            stage.setScene(ProfileOverView.display(stage, read));
+            stage.setScene(ProfileOverView.display(stage, read, loggedPerson));
         });
 
         //Onclick event for programoverview
         programOverView.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, read));
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
             }catch(Exception e){
                 e.getMessage();
             }

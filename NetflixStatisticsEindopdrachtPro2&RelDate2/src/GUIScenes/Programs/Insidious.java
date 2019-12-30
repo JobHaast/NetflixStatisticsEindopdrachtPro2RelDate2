@@ -13,10 +13,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import logic.Account;
 import logic.Film;
 
 public class Insidious {
-    public static Scene display(Stage stage, Read read){
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
         //Scene for the program lost in space
         Film insidious = read.filmInfo("Insidious");
 
@@ -70,7 +71,7 @@ public class Insidious {
         gridPane.add(backButton, 0, 8);
         backButton.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, read));
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
             } catch (Exception e) {
                 e.getMessage();
             }

@@ -12,9 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import logic.Account;
 
 public class CRUD {
-    public static Scene display(Stage stage, Read read){
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
         //CRUD Scene
         GridPane cRUDGridPane = new GridPane();
         cRUDGridPane.setAlignment(Pos.CENTER);
@@ -109,19 +110,19 @@ public class CRUD {
 
         //Onclick event for button CRUD
         cRUD.setOnAction(event -> {
-                    stage.setScene(CRUD.display(stage, read));
+                    stage.setScene(CRUD.display(stage, read, loggedPerson));
                 }
         );
 
         //Onclick event for profileoverview
         profileOverView.setOnAction(event -> {
-            stage.setScene(ProfileOverView.display(stage, read));
+            stage.setScene(ProfileOverView.display(stage, read, loggedPerson));
         });
 
         //Onclick event for programoverview
         programOverView.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, read));
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
             }catch(Exception e){
                 e.getMessage();
             }

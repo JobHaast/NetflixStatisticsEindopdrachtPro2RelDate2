@@ -116,53 +116,6 @@ public class Read {
         return returnValue;
     }
 
-    public Account accountInfo(String username){
-        String email = "";
-        String phonenumber= "";
-        int addressID = 0;
-        String password = "";
-
-        try {
-            // Import the downloaded driver.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Make a connection with the database
-            con = DriverManager.getConnection(connectionUrl);
-            statement = con.createStatement();
-            // Execute the query
-            resultSet = statement.executeQuery("SELECT Username, Email, Phonenumber, Password, AddressID FROM Account WHERE Username = '"+username+"';");
-
-            while(resultSet.next()){
-                password = resultSet.getString("Password");
-                email = resultSet.getString("Email");
-                phonenumber = resultSet.getString("Phonenumber");
-                addressID = resultSet.getInt("AddresID");
-            }
-
-//            Handle any errors that may have occurred.
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        finally {
-            if (resultSet != null) try {
-                resultSet.close();
-            } catch (Exception e) {
-            }
-            if (statement != null) try {
-                statement.close();
-            } catch (Exception e) {
-            }
-            if (con != null) try {
-                con.close();
-            } catch (Exception e) {
-            }
-        }
-
-        Account account = new Account(username, email, phonenumber, password, addressInfo(addressID));
-        return account;
-    }
-
     public Address addressInfo(int addressID){
         String streetName = "";
         int number = 0;
@@ -176,7 +129,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT StreetName, Number, Addition, City FROM Addresses WHERE AddressID = '"+addressID+"';");
+            resultSet = statement.executeQuery("SELECT StreetName, Number, Addition, City FROM Address WHERE AddressID = '"+addressID+"';");
 
             while (resultSet.next()) {
                 streetName = resultSet.getString("StreetName");
@@ -308,11 +261,6 @@ public class Read {
 
     public ArrayList<Address> getAddresses(){
         ArrayList<Address> addresses = new ArrayList<>();
-        String streetName = "";
-        int number = 0;
-        String addition = "";
-        String city = "";
-
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -323,10 +271,10 @@ public class Read {
             resultSet = statement.executeQuery("SELECT * FROM Address;");
 
             while (resultSet.next()) {
-                streetName = resultSet.getString("StreetName");
-                number = resultSet.getInt("Number");
-                addition = resultSet.getString("Addition");
-                city = resultSet.getString("City");
+                String streetName = resultSet.getString("StreetName");
+                int number = resultSet.getInt("Number");
+                String addition = resultSet.getString("Addition");
+                String city = resultSet.getString("City");
                 if(addition == null){
                     addition = "";
                 }
@@ -359,7 +307,6 @@ public class Read {
 
     public ArrayList<String> getAccountsNames(){
         ArrayList<String> namesAccounts = new ArrayList<>();
-
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -435,5 +382,45 @@ public class Read {
         }
 
         return namesProfiles;
+    }
+
+    public Account getAccount(String accountName){
+        Account loggedPerson = new Account("n", "@", "0", "x", 1);
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT * FROM Account WHERE AccountName = '"+accountName+"';");
+
+            while (resultSet.next()) {
+               loggedPerson = new Account(accountName, resultSet.getString("Email"), resultSet.getString("Phonenumber"), resultSet.getString("Password"), resultSet.getInt("AddressId"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return loggedPerson;
     }
 }

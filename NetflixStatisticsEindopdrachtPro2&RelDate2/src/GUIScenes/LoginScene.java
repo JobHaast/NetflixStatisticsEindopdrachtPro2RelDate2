@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Account;
 
 public class LoginScene extends Application {
 
@@ -64,12 +65,14 @@ public class LoginScene extends Application {
 
         Scene loginScene = new Scene(gridPaneLogin);
 
+
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
             String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
             if(pwBox.getText().equals(password)) {
                 try {
-                    stage.setScene(ProgramOverView.display(stage, read));
+                    Account loggedPerson = read.getAccount(userTextField.getText());
+                    stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
                 }catch(Exception e){
                     e.getMessage();
                 }

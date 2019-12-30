@@ -14,12 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import logic.Account;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ProgramOverView {
-    public static Scene display(Stage stage, Read read) throws FileNotFoundException {
+    public static Scene display(Stage stage, Read read, Account loggedPerson) throws FileNotFoundException {
         //Set alignment padding, hgap and vgap.
         GridPane programsGridPane = new GridPane();
         programsGridPane.setAlignment(Pos.CENTER);
@@ -101,7 +102,7 @@ public class ProgramOverView {
 
         //Onclick event for photo of the serie Lost in space
         imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(LostInSpace.display(stage, read));
+                    stage.setScene(LostInSpace.display(stage, read, loggedPerson));
                 }
         );
 
@@ -119,19 +120,19 @@ public class ProgramOverView {
 
         //Onclick event for photo of the film Insidious
         imageInsidious.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Insidious.display(stage, read));
+                    stage.setScene(Insidious.display(stage, read, loggedPerson));
                 }
         );
 
         //Onclick event for photo of the film Jumanji
         imageJumanji.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Jumanji.display(stage, read));
+                    stage.setScene(Jumanji.display(stage, read, loggedPerson));
                 }
         );
 
         //Onclick event for photo of the film The dictator
         imageTheDictator.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(TheDictator.display(stage, read));
+                    stage.setScene(TheDictator.display(stage, read, loggedPerson));
                 }
         );
 
@@ -184,19 +185,19 @@ public class ProgramOverView {
 
         //Onclick event for button CRUD
         cRUD.setOnAction(event -> {
-                    stage.setScene(CRUD.display(stage, read));
+                    stage.setScene(CRUD.display(stage, read, loggedPerson));
                 }
         );
 
         //Onclick event for profileoverview
         profileOverView.setOnAction(event -> {
-            stage.setScene(ProfileOverView.display(stage, read));
+            stage.setScene(ProfileOverView.display(stage, read, loggedPerson));
         });
 
         //Onclick event for programoverview
         programOverView.setOnAction(event -> {
             try {
-                stage.setScene(ProgramOverView.display(stage, read));
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
             }catch(Exception e){
                 e.getMessage();
             }
