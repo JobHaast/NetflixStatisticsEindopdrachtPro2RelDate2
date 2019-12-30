@@ -1,4 +1,4 @@
-package GUIScenes.Programs.CRUDActions;
+package GUIScenes.CRUDActions;
 
 import database.Delete;
 import database.Read;
@@ -62,20 +62,18 @@ public class DeleteProfile {
             actiontarget.setText(null);
         });
 
-        //arraylist with all profilenames of selected account
-        ArrayList<String> profileNames = read.getProfileNames(accountNameComboBox.getValue());
-
         Button submit = new Button("Submit");
         gridPane.add(submit,1,2);
         submit.setOnAction(event -> {
-            if("Profile deleted".equals(dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue()))){
+            String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());
+            if("Profile deleted".equals(answer)){
                 accountNameComboBox.getItems().clear();
                 accountNameComboBox.getItems().addAll(read.getAccountsNames());
                 profileNamesComboBox.getItems().clear();
                 profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
                 actiontarget.setFill(Color.GREEN);
                 actiontarget.setText("Profile deleted");
-            }else{
+            }else if("Nothing deleted".equals(answer)){
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Profile not deleted");
             }

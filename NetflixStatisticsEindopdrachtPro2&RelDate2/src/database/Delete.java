@@ -53,6 +53,7 @@ public class Delete {
     }
 
     public String deleteProfile(String profileName, String accountName) {
+        int linesAffected = 0;
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -60,7 +61,7 @@ public class Delete {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("DELETE Profile WHERE ProfileName = '"+profileName+"' AND AccountName = '"+accountName+"'");
+            linesAffected = statement.executeUpdate("DELETE Profile WHERE ProfileName = '"+profileName+"' AND AccountName = '"+accountName+"'");
 
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
@@ -79,7 +80,10 @@ public class Delete {
             } catch (Exception e) {
             }
         }
-        return "Profile deleted";
+        if(linesAffected > 0){
+            return "Profile deleted";
+        }
+        return "Nothing deleted";
     }
 
     public String deleteWatchedProgram(String streetName, int number, String addition, String city) {

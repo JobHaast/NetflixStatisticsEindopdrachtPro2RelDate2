@@ -1,4 +1,4 @@
-package GUIScenes.Programs.CRUDActions;
+package GUIScenes.CRUDActions;
 
 import database.Read;
 import database.Create;
@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Account;
 
 import java.util.ArrayList;
 

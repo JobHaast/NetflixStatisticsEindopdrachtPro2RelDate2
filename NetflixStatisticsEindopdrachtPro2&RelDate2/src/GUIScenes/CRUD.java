@@ -1,9 +1,9 @@
 package GUIScenes;
 
-import GUIScenes.Programs.CRUDActions.CreateAccount;
-import GUIScenes.Programs.CRUDActions.CreateProfile;
-import GUIScenes.Programs.CRUDActions.DeleteAccount;
-import GUIScenes.Programs.CRUDActions.DeleteProfile;
+import GUIScenes.CRUDActions.CreateAccount;
+import GUIScenes.CRUDActions.CreateProfile;
+import GUIScenes.CRUDActions.DeleteAccount;
+import GUIScenes.CRUDActions.DeleteProfile;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

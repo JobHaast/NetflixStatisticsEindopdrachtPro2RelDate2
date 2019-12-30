@@ -1,4 +1,4 @@
-package GUIScenes.Programs.CRUDActions;
+package GUIScenes.CRUDActions;
 
 import database.Delete;
 import database.Read;
