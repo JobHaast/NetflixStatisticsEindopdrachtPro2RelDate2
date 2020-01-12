@@ -1,9 +1,6 @@
 package database;
 
-import logic.Account;
-import logic.Address;
-import logic.Film;
-import logic.Serie;
+import logic.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -397,7 +394,7 @@ public class Read {
             resultSet = statement.executeQuery("SELECT * FROM Account WHERE AccountName = '"+accountName+"';");
 
             while (resultSet.next()) {
-               loggedPerson = new Account(accountName, resultSet.getString("Email"), resultSet.getString("Phonenumber"), resultSet.getString("Password"), resultSet.getInt("AddressId"));
+                loggedPerson = new Account(accountName, resultSet.getString("Email"), resultSet.getString("Phonenumber"), resultSet.getString("Password"), resultSet.getInt("AddressId"));
             }
 
 //            Handle any errors that may have occurred.
@@ -422,5 +419,52 @@ public class Read {
         }
 
         return loggedPerson;
+    }
+
+    public ArrayList<StringForTableView> getWatchedFilms(String accountName){
+        ArrayList<StringForTableView> films = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title\n" +
+                    "FROM Account\n" +
+                    "JOIN Profile ON Account.AccountName = Profile.AccountName\n" +
+                    "JOIN Profile_Program ON Profile.ProfileName = Profile_Program.ProfileName\n" +
+                    "Join Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "Join Film ON Program.ProgramId = Film.ProgramId\n" +
+                    "WHERE Profile_Program.PercentageWatched = 100\n" +
+                    "AND Account.AccountName = '"+accountName+"'");
+
+            while (resultSet.next()) {
+                films.add(new StringForTableView(resultSet.getString("Title")));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return films;
     }
 }

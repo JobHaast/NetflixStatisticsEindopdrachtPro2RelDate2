@@ -79,10 +79,17 @@ public class ProfileOverView {
         gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 8);
 
         Button submitChanges = new Button("Change");
-        gridPaneProfileOverView.add(submitChanges, 1, 9);
+        gridPaneProfileOverView.add(submitChanges, 0, 9);
+
+        Button filmsWatched = new Button("Films Watched");
+        gridPaneProfileOverView.add(filmsWatched, 1, 9);
 
         submitChanges.setOnAction(event -> {
 //            update.updateAccount();
+        });
+
+        filmsWatched.setOnAction(event -> {
+            stage.setScene(FilmsWatched.display(stage, read, loggedPerson));
         });
 
         //GridPane for different tabs
