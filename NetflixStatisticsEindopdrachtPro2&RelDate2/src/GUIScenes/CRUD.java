@@ -79,7 +79,6 @@ public class CRUD {
         Button updateWatchedProgram = new Button("Update Watched Program");
         cRUDGridPane.add(updateWatchedProgram, 2, 2);
 
-
         //GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
@@ -102,6 +101,15 @@ public class CRUD {
         //Button for programoverview
         Button programOverView = new Button("Program overview");
         menu.add(programOverView, 3, 0);
+
+        //Button for longest movie for overviews
+        Button overViews = new Button("Overviews");
+        menu.add(overViews, 4, 0);
+
+        //Onclick event for overviews
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
+        });
 
         //Onclick event for logout
         logOut.setOnAction(event -> {
@@ -127,6 +135,7 @@ public class CRUD {
                 e.getMessage();
             }
         });
+
 
         //Borderpane for layout
         BorderPane mainScene = new BorderPane();

@@ -1,4 +1,4 @@
-package GUIScenes;
+package GUIScenes.OverViews;
 
 import database.Read;
 import javafx.collections.FXCollections;
@@ -31,13 +31,9 @@ public class FilmsWatched {
         TableColumn movieTitle = new TableColumn("Movie Title");
         movieTitle.setMinWidth(500);
         ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
-        movieTitle.setCellValueFactory(
-                new PropertyValueFactory<>("string"));
+        movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
         table.getColumns().add(movieTitle);
         table.setItems(data);
-
-
-
         table.setEditable(false);
 
         final VBox vbox = new VBox();

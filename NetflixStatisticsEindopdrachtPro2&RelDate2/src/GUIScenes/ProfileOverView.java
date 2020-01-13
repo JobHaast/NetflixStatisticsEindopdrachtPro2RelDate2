@@ -1,5 +1,6 @@
 package GUIScenes;
 
+import GUIScenes.OverViews.FilmsWatched;
 import database.Read;
 import database.Update;
 import javafx.geometry.Insets;
@@ -79,17 +80,11 @@ public class ProfileOverView {
         gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 8);
 
         Button submitChanges = new Button("Change");
-        gridPaneProfileOverView.add(submitChanges, 0, 9);
+        gridPaneProfileOverView.add(submitChanges, 1, 9);
 
-        Button filmsWatched = new Button("Films Watched");
-        gridPaneProfileOverView.add(filmsWatched, 1, 9);
 
         submitChanges.setOnAction(event -> {
 //            update.updateAccount();
-        });
-
-        filmsWatched.setOnAction(event -> {
-            stage.setScene(FilmsWatched.display(stage, read, loggedPerson));
         });
 
         //GridPane for different tabs
@@ -115,6 +110,10 @@ public class ProfileOverView {
         Button programOverView = new Button("Program overview");
         menu.add(programOverView, 3, 0);
 
+        //Button for overViews
+        Button overViews = new Button("Overviews");
+        menu.add(overViews, 4, 0);
+
         //Onclick event for logout
         logOut.setOnAction(event -> {
             stage.setScene(LoginScene.display(stage, read));
@@ -138,6 +137,11 @@ public class ProfileOverView {
             }catch(Exception e){
                 e.getMessage();
             }
+        });
+
+        //Onclick event for overview
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
         });
 
         //Borderpane for layout

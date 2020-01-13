@@ -178,6 +178,10 @@ public class ProgramOverView {
         Button programOverView = new Button("Program overview");
         menu.add(programOverView, 3, 0);
 
+        //Button for overViews
+        Button overViews = new Button("Overviews");
+        menu.add(overViews, 4, 0);
+
         //Onclick event for logout
         logOut.setOnAction(event -> {
             stage.setScene(LoginScene.display(stage, read));
@@ -201,6 +205,11 @@ public class ProgramOverView {
             }catch(Exception e){
                 e.getMessage();
             }
+        });
+
+        //Onclick event for overview
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
         });
 
         //Borderpane for layout

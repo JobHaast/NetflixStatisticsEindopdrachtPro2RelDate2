@@ -467,4 +467,44 @@ public class Read {
 
         return films;
     }
+
+    public String getLongestMovieUnder16() {
+        String movie = "";
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT TOP 1 Program.Title, Program.Length\n" +
+                    "FROM Film,Program\n" +
+                    "WHERE Program.ProgramId = Film.ProgramId\n" +
+                    "AND Film.AgeGroup < 16\n" +
+                    "ORDER BY Film.AgeGroup Desc");
+
+            while (resultSet.next()) {
+                movie = resultSet.getString("Title");
+            }
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+
+        return movie;
+    }
 }
