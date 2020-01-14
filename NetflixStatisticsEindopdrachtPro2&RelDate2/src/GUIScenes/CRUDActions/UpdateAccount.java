@@ -52,17 +52,17 @@ public class UpdateAccount {
         Button submit = new Button("Submit");
         gridPane.add(submit,1,2);
         submit.setOnAction(event -> {
-//            if("Account updated".equals(uA.updateAccount())){
-//                ArrayList<String> names = read.getAccountsNames();
-//                accountNameComboBox.getItems().clear();
-//                accountNameComboBox.getItems().addAll(names);
-//                actiontarget.setFill(Color.GREEN);
-//                actiontarget.setText("Account deleted");
-//            }else{
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("Account not deleted");
-//            }
-//            pause.play();
+            if("Account updated".equals(uA.updateAccount())){
+                ArrayList<String> names = read.getAccountsNames();
+                accountNameComboBox.getItems().clear();
+                accountNameComboBox.getItems().addAll(names);
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Account deleted");
+            }else{
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Account not deleted");
+            }
+            pause.play();
         });
 
 

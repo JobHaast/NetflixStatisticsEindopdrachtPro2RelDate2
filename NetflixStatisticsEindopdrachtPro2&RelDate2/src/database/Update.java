@@ -33,11 +33,9 @@ public class Update {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("");
-
-            while (resultSet.next()) {
-                films.add(resultSet.getString("Title"));
-            }
+            resultSet = statement.executeQuery("UPDATE Account \n" +
+                    "SET Email = '', PhoneNumber = '0690675432', Password = 'noah', AddressId = '1'\n" +
+                    "WHERE AccountName = 'Noah';");
 
 //            Handle any errors that may have occurred.
         }

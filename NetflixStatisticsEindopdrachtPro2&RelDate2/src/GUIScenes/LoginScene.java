@@ -21,7 +21,7 @@ public class LoginScene extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Read read = new Read("jdbc:sqlserver://localhost\\MSSQLSERVER;databaseName=NetflixStatistix;integratedSecurity=true;");
+        Read read = new Read("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
 
         //Set first page
         stage.setMaximized(true);
@@ -55,26 +55,25 @@ public class LoginScene extends Application {
         gridPaneLogin.add(pwBox, 1, 2);
 
         Button btn = new Button("Sign in");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        gridPaneLogin.add(hbBtn, 1, 4);
+        gridPaneLogin.add(btn, 0, 4);
 
 
         Button tempButton = new Button("TempLogin");
-        HBox hbTempButton = new HBox(10);
-        hbBtn.setAlignment(Pos.TOP_RIGHT);
-        hbBtn.getChildren().add(tempButton);
-        gridPaneLogin.add(hbTempButton, 1, 4);
+        gridPaneLogin.add(tempButton, 0, 8);
+        tempButton.setOnAction(event -> {
+            Account loggedPerson = read.getAccount(userTextField.getText());
+            try {
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
+            }catch (Exception e){
+                e.getMessage();
+            }
+                });
 
         final Text actiontarget = new Text();
         gridPaneLogin.add(actiontarget, 1, 6);
 
-//        Scene loginScene = new Scene(gridPaneLogin);
-//
-//        tempButton.setOnAction(event -> {
-//            stage.setScene(ProgramOverView.display());
-//                });
+        Scene loginScene = new Scene(gridPaneLogin);
+
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
             String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
