@@ -55,19 +55,20 @@ public class LoginScene extends Application {
         gridPaneLogin.add(pwBox, 1, 2);
 
         Button btn = new Button("Sign in");
-        gridPaneLogin.add(btn, 0, 4);
+        gridPaneLogin.add(btn, 1, 4);
 
+        Button skipButton = new Button("Skip");
+        gridPaneLogin.add(skipButton, 2, 4);
 
-        Button tempButton = new Button("TempLogin");
-        gridPaneLogin.add(tempButton, 0, 8);
-        tempButton.setOnAction(event -> {
+        //onlcik for skip button
+        skipButton.setOnAction(event -> {
             Account loggedPerson = read.getAccount(userTextField.getText());
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch (Exception e){
+            }catch(Exception e){
                 e.getMessage();
             }
-                });
+        });
 
         final Text actiontarget = new Text();
         gridPaneLogin.add(actiontarget, 1, 6);
