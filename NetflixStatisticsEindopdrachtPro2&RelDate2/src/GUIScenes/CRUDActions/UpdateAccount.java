@@ -65,7 +65,6 @@ public class UpdateAccount {
 //            pause.play();
         });
 
-
         Scene scene = new Scene(gridPane);
         return scene;
     }
