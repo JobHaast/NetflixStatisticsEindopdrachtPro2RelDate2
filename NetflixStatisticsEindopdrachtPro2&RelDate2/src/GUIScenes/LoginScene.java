@@ -60,12 +60,21 @@ public class LoginScene extends Application {
         hbBtn.getChildren().add(btn);
         gridPaneLogin.add(hbBtn, 1, 4);
 
+
+        Button tempButton = new Button("TempLogin");
+        HBox hbTempButton = new HBox(10);
+        hbBtn.setAlignment(Pos.TOP_RIGHT);
+        hbBtn.getChildren().add(tempButton);
+        gridPaneLogin.add(hbTempButton, 1, 4);
+
         final Text actiontarget = new Text();
         gridPaneLogin.add(actiontarget, 1, 6);
 
-        Scene loginScene = new Scene(gridPaneLogin);
-
-
+//        Scene loginScene = new Scene(gridPaneLogin);
+//
+//        tempButton.setOnAction(event -> {
+//            stage.setScene(ProgramOverView.display());
+//                });
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
             String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
