@@ -15,7 +15,7 @@ public class Create {
     private Connection con;
     //Statement that allows to execute a query.
     private Statement statement;
-    //Result of a query is store in here.
+    //Result of a query is stored in here.
     private ResultSet resultSet;
 
     public Create(String connectionUrl){
@@ -70,7 +70,7 @@ public class Create {
 
 
 
-//            Handle any errors that may have occurred.
+//          Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
