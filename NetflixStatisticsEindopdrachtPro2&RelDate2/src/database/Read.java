@@ -578,7 +578,7 @@ public class Read {
         return id;
     }
 
-    public ArrayList<String> getWatchedFilmsWithString(String accountName, String profileName){
+    public ArrayList<String> getWatchedPrograms(String accountName, String profileName){
         ArrayList<String> films = new ArrayList<>();
 
         try {
@@ -591,10 +591,9 @@ public class Read {
             resultSet = statement.executeQuery("SELECT Title\n" +
                     "FROM Account\n" +
                     "JOIN Profile ON Account.AccountName = Profile.AccountName\n" +
-                    "JOIN Profile_Program ON Profile.ProfileName = Profile_Program.ProfileName\n" +
-                    "Join Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
-                    "Join Film ON Program.ProgramId = Film.ProgramId\n" +
-                    "WHERE Account.AccountName = '"+accountName+"' AND Profile.ProfileName = '"+profileName+"'");
+                    "JOIN Profile_Program ON Profile.ProfileName = Profile_Program.ProfileName AND Profile.AccountName = Profile_Program.AccountName\n" +
+                    "JOIN Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "WHERE Account.AccountName = '"+accountName+"' AND Profile.ProfileName = '"+profileName+"';");
 
             while (resultSet.next()) {
                 films.add(resultSet.getString("Title"));

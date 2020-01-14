@@ -1,9 +1,9 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import logic.Account;
+import logic.Address;
+
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Update {
@@ -23,9 +23,7 @@ public class Update {
         this.resultSet = null;
     }
 
-    public String updateAccount(String accountName, String email, String phoneNumber, String password, String addressId){
-        ArrayList<String> films = new ArrayList<>();
-
+    public String updateAccount(String accountName, String email, String phoneNumber, String password){
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -33,9 +31,8 @@ public class Update {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("UPDATE Account \n" +
-                    "SET Email = '', PhoneNumber = '0690675432', Password = 'noah', AddressId = '1'\n" +
-                    "WHERE AccountName = 'Noah';");
+            statement.executeUpdate("UPDATE Account \n" +
+                    "SET Email = '"+email+"', PhoneNumber = '"+phoneNumber+"', Password = '"+password+"' WHERE AccountName = '"+accountName+"';");
 
 //            Handle any errors that may have occurred.
         }
@@ -57,19 +54,24 @@ public class Update {
             } catch (Exception e) {
             }
         }
-        return "Updated account";
+        return "Account updated";
     }
 
-    public String updateAddress(String city, String streetName, int number, String addition){
+    public String updateAddress(String city, String streetName, int number, String addition, Read read){
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Make a connection with the database
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
-            // Execute the query
-            statement.executeUpdate("");
-
+            if(read.getAddresses().size() == 0){
+                // Execute the query
+                statement.executeUpdate("UPDATE Account \n" +
+                        "SET Email = 'emai.hotmail.com', PhoneNumber = '0690675432', Password = 'noah', AddressId = '1'\n" +
+                        "WHERE AccountName = 'Noah';");
+            }else{
+                throw new Exception("Error");
+            }
 
 //            Handle any errors that may have occurred.
         }
@@ -94,11 +96,73 @@ public class Update {
         return "Address updated";
     }
 
-    public String updateProfile(){
-        return "";
+    public String updateProfile(String accountName, String profileName, String profileLanguage, String birthDay){
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+                // Execute the query
+            statement.executeUpdate("UPDATE Profile \n" +
+                        "SET ProfileLanguage = '"+profileLanguage+"', Birthday = '"+birthDay+"'\n" +
+                        "WHERE AccountName = '"+accountName+"' AND ProfileName = '"+profileName+"';");
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Profile updated";
     }
 
-    public String updateWatchedProgram(){
-        return "";
+    public String updateWatchedProgram(String accountName, String profileName, int programId, int percentageWatched){
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            statement.executeUpdate("UPDATE Profile_Program \n" +
+                    "SET PercentageWatched = '"+percentageWatched+"'\n" +
+                    "WHERE AccountName = '"+accountName+"' AND ProfileName = '"+profileName+"' AND ProgramId = "+programId+";");
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Watched program updated";
     }
 }

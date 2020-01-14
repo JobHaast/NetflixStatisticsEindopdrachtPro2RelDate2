@@ -1,6 +1,5 @@
 package GUIScenes.CRUDActions;
 
-import database.Create;
 import database.Delete;
 import database.Read;
 import javafx.animation.PauseTransition;
@@ -10,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -83,7 +81,7 @@ public class DeleteWatchedProgram {
             //onclick for profileNamescomboBox
             profileNamesComboBox.setOnAction(event -> {
                 programTitles.getItems().clear();
-                programTitles.getItems().addAll(read.getWatchedFilmsWithString(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
+                programTitles.getItems().addAll(read.getWatchedPrograms(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
             });
 
             //Onclick for submit

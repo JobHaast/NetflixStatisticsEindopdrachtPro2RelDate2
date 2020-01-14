@@ -77,13 +77,28 @@ public class CRUD {
         Button updateAccount = new Button("Update Account");
         cRUDGridPane.add(updateAccount, 2, 0);
 
+        //onclick for button updating account
+        updateAccount.setOnAction(event -> {
+            stage.setScene(UpdateAccount.display(stage, read, loggedPerson));
+        });
+
         //Button for profile update
         Button updateProfile = new Button("Update Profile");
         cRUDGridPane.add(updateProfile, 2, 1);
 
+        //onclick for button updating profile
+        updateProfile.setOnAction(event -> {
+            stage.setScene(UpdateProfile.display(stage, read, loggedPerson));
+        });
+
         //Button for updating watched program
         Button updateWatchedProgram = new Button("Update Watched Program");
         cRUDGridPane.add(updateWatchedProgram, 2, 2);
+
+        //onclick for button updating account
+        updateWatchedProgram.setOnAction(event -> {
+            stage.setScene(UpdateWatchedProgram.display(stage, read, loggedPerson));
+        });
 
         //GridPane for different tabs
         GridPane menu = new GridPane();

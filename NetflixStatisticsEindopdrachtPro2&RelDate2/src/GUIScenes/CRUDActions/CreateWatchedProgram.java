@@ -74,10 +74,8 @@ public class CreateWatchedProgram {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
-            accountNameComboBox.getItems().clear();
-            accountNameComboBox.getItems().addAll(namesAccounts);
-            profileNamesComboBox.getItems().clear();
             programTitles.getItems().clear();
+            programTitles.getItems().addAll(titlesPrograms);
             textFieldPercentageWatched.setText(null);
         });
 
