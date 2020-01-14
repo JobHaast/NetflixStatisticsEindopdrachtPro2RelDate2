@@ -1,9 +1,6 @@
 package GUIScenes;
 
-import GUIScenes.CRUDActions.CreateAccount;
-import GUIScenes.CRUDActions.CreateProfile;
-import GUIScenes.CRUDActions.DeleteAccount;
-import GUIScenes.CRUDActions.DeleteProfile;
+import GUIScenes.CRUDActions.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,6 +42,10 @@ public class CRUD {
         Button createWatchedProgram = new Button("Create Watched Program");
         cRUDGridPane.add(createWatchedProgram, 0, 2);
 
+        createWatchedProgram.setOnAction(event -> {
+            stage.setScene(CreateWatchedProgram.display(stage, read));
+        });
+
         //Button for account deletion
         Button deleteAccount = new Button("Delete Account");
         cRUDGridPane.add(deleteAccount, 1, 0);
@@ -63,19 +64,24 @@ public class CRUD {
             stage.setScene(DeleteProfile.display(stage, read));
         });
 
-        //Button for creating watched program
+        //Button for Deleting watched program
         Button deleteWatchedProgram = new Button("Delete Watched Program");
         cRUDGridPane.add(deleteWatchedProgram, 1, 2);
+
+        //onclick for deleting watched program
+        deleteWatchedProgram.setOnAction(event -> {
+            stage.setScene(DeleteWatchedProgram.display(stage, read));
+        });
 
         //Button for updating account
         Button updateAccount = new Button("Update Account");
         cRUDGridPane.add(updateAccount, 2, 0);
 
-        //Button for profile creation
+        //Button for profile update
         Button updateProfile = new Button("Update Profile");
         cRUDGridPane.add(updateProfile, 2, 1);
 
-        //Button for creating watched program
+        //Button for updating watched program
         Button updateWatchedProgram = new Button("Update Watched Program");
         cRUDGridPane.add(updateWatchedProgram, 2, 2);
 
@@ -135,7 +141,6 @@ public class CRUD {
                 e.getMessage();
             }
         });
-
 
         //Borderpane for layout
         BorderPane mainScene = new BorderPane();

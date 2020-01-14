@@ -89,5 +89,37 @@ public class Create {
         }
         return "Account created";
     }
+
+    public String createWatchedProgram(String accountName, String profileName, String programtitle, int percentageWatched, Read read) {
+        int programId = read.getProgramId(programtitle);
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            statement.executeUpdate("INSERT INTO Profile_Program (AccountName, ProfileName, ProgramId, PercentageWatched)" +
+                    "VALUES ('"+accountName+"', '"+profileName+"', "+programId+", "+percentageWatched+");");
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Watched program created";
+    }
 }
 

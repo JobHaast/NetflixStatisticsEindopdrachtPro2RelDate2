@@ -507,4 +507,119 @@ public class Read {
 
         return movie;
     }
+
+    public ArrayList<String> getTitlePrograms() {
+        ArrayList<String> titles = new ArrayList<>();
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title FROM Program");
+
+            while (resultSet.next()) {
+                titles.add(resultSet.getString("Title"));
+            }
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return titles;
+    }
+
+    public int getProgramId(String programTitle) {
+        int id = 0;
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT ProgramId FROM Program WHERE Title = '"+programTitle+"'");
+
+            while (resultSet.next()) {
+                id = resultSet.getInt("ProgramId");
+            }
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return id;
+    }
+
+    public ArrayList<String> getWatchedFilmsWithString(String accountName, String profileName){
+        ArrayList<String> films = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title\n" +
+                    "FROM Account\n" +
+                    "JOIN Profile ON Account.AccountName = Profile.AccountName\n" +
+                    "JOIN Profile_Program ON Profile.ProfileName = Profile_Program.ProfileName\n" +
+                    "Join Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "Join Film ON Program.ProgramId = Film.ProgramId\n" +
+                    "WHERE Account.AccountName = '"+accountName+"' AND Profile.ProfileName = '"+profileName+"'");
+
+            while (resultSet.next()) {
+                films.add(resultSet.getString("Title"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return films;
+    }
 }

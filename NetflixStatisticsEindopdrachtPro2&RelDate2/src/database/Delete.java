@@ -86,7 +86,7 @@ public class Delete {
         return "Nothing deleted";
     }
 
-    public String deleteWatchedProgram(String streetName, int number, String addition, String city) {
+    public String deleteWatchedProgram(String accountName, String profileName, int programId) {
         try {
             // Import the downloaded driver.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -94,8 +94,7 @@ public class Delete {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("INSERT INTO Address (StreetName, Number, Addition, City)" +
-                    "VALUES ('" + streetName + "', " + number + ", '" + addition + "', '" + city + "');");
+            statement.executeUpdate("DELETE Profile_Program WHERE AccountName = '"+accountName+"' AND ProfileName = '"+profileName+"' AND ProgramId = "+programId+";");
 
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
