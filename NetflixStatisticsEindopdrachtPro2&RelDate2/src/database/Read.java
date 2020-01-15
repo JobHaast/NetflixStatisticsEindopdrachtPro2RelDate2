@@ -686,4 +686,44 @@ public class Read {
         }
         return profile;
     }
+
+    public ArrayList<String> getwatchedProgram(String accountName, String profileName, String programTitle){
+        ArrayList<String> watchedProgram = new ArrayList<>();
+        Read read = new Read("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT ProfileName FROM Profile_Program WHERE ProfileName = '"+profileName+"' AND AccountName = '"+accountName+"' AND ProgramId = "+read.getProgramId(programTitle)+";");
+
+            while (resultSet.next()) {
+                watchedProgram.add(resultSet.getString("ProfileName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return watchedProgram;
+    }
 }

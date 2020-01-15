@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="NetflixStatisticsEindopdrachtPro2RelDate2" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="13.0.1" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="NetflixStatisticsEindopdrachtPro2RelDate2" />
     <method v="2">

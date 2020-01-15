@@ -3,6 +3,7 @@ package GUIScenes.CRUDActions;
 import GUIScenes.*;
 import database.Read;
 import database.Create;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import logic.Account;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class CreateProfile {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
         Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
 
         //CRUD Scene
         GridPane gridPane = new GridPane();
@@ -70,6 +73,11 @@ public class CreateProfile {
         final Text actiontarget = new Text();
         gridPane.add(actiontarget, 1, 5);
 
+        //Action when pause.play() is called
+        pause.setOnFinished(e -> {
+            actiontarget.setText(null);
+        });
+
         Button submit = new Button("Create");
         gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
@@ -85,7 +93,7 @@ public class CreateProfile {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Profile name already exists");
             }
-
+            pause.play();
         });
 
         //GridPane for different tabs

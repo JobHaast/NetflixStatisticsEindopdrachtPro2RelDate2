@@ -77,9 +77,6 @@ public class CreateWatchedProgram {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
-            programTitles.getItems().clear();
-            programTitles.getItems().addAll(titlesPrograms);
-            textFieldPercentageWatched.setText(null);
         });
 
         //onclick for profileNamesComboBox
@@ -90,13 +87,13 @@ public class CreateWatchedProgram {
 
         //Onclick for submit
         submit.setOnAction(event -> {
-            if("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()) ,read))){
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Succesfully added");
-            }else{
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Error");
-            }
+                if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
+                    actiontarget.setFill(Color.GREEN);
+                    actiontarget.setText("Succesfully added");
+                }else {
+                    actiontarget.setFill(Color.FIREBRICK);
+                    actiontarget.setText("Error");
+                }
             pause.play();
         });
 
