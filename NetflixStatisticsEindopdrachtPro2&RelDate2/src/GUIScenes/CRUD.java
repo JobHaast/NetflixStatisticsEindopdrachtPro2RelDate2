@@ -26,7 +26,7 @@ public class CRUD {
 
         //Onclick event for the button Create Account
         createAccount.setOnAction(event -> {
-            stage.setScene(CreateAccount.display(stage, read));
+            stage.setScene(CreateAccount.display(stage, read, loggedPerson));
         });
 
         //Button for profile creation
@@ -35,7 +35,7 @@ public class CRUD {
 
         //Onclick event for the button Create profile
         createProfile.setOnAction(event -> {
-            stage.setScene(CreateProfile.display(stage, read));
+            stage.setScene(CreateProfile.display(stage, read, loggedPerson));
         });
 
         //Button for creating watched program
@@ -43,7 +43,7 @@ public class CRUD {
         cRUDGridPane.add(createWatchedProgram, 0, 2);
 
         createWatchedProgram.setOnAction(event -> {
-            stage.setScene(CreateWatchedProgram.display(stage, read));
+            stage.setScene(CreateWatchedProgram.display(stage, read, loggedPerson));
         });
 
         //Button for account deletion
@@ -52,7 +52,7 @@ public class CRUD {
 
         //Onclick event for the button delete account
         deleteAccount.setOnAction(event -> {
-            stage.setScene(DeleteAccount.display(stage, read));
+            stage.setScene(DeleteAccount.display(stage, read, loggedPerson));
         });
 
         //Button for deleting profile
@@ -61,7 +61,7 @@ public class CRUD {
 
         //onclick for button deleteProfile
         deleteProfile.setOnAction(event -> {
-            stage.setScene(DeleteProfile.display(stage, read));
+            stage.setScene(DeleteProfile.display(stage, read, loggedPerson));
         });
 
         //Button for Deleting watched program
@@ -70,7 +70,7 @@ public class CRUD {
 
         //onclick for deleting watched program
         deleteWatchedProgram.setOnAction(event -> {
-            stage.setScene(DeleteWatchedProgram.display(stage, read));
+            stage.setScene(DeleteWatchedProgram.display(stage, read, loggedPerson));
         });
 
         //Button for updating account

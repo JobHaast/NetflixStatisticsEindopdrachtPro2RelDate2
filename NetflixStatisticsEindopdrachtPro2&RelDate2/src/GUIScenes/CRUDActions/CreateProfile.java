@@ -1,20 +1,23 @@
 package GUIScenes.CRUDActions;
 
+import GUIScenes.*;
 import database.Read;
 import database.Create;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Account;
 
 import java.util.ArrayList;
 
 public class CreateProfile {
-    public static Scene display(Stage stage, Read read){
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
         Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
 
@@ -52,31 +55,102 @@ public class CreateProfile {
         gridPane.add(languagesComboBox, 1, 2);
 
         //Label for birthday
-        Label birthdayLabel = new Label("Birthday");
+        Label birthdayLabel = new Label("Birthday:");
         gridPane.add(birthdayLabel, 0, 3);
 
         //datepicker for birthday
-        DatePicker birthdayDatePicker = new DatePicker();
+        TextField birthdayDatePicker = new TextField();
         gridPane.add(birthdayDatePicker, 1, 3);
+
+        //Label for format date
+        Label birthdayLabelFormat = new Label("Format: 2002-3-15");
+        gridPane.add(birthdayLabelFormat, 2, 3);
 
         //Feedbacktext
         final Text actiontarget = new Text();
         gridPane.add(actiontarget, 1, 5);
 
-        Button submit = new Button("Submit");
-        gridPane.add(submit,1,4);
+        Button submit = new Button("Create");
+        gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
-            if("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getValue().toString()))){
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Profile created successfully");
-            }else{
+            if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
+                if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
+                    actiontarget.setFill(Color.GREEN);
+                    actiontarget.setText("Profile created successfully");
+                } else {
+                    actiontarget.setFill(Color.FIREBRICK);
+                    actiontarget.setText("Profile not created");
+                }
+            } else {
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile not created");
+                actiontarget.setText("Profile name already exists");
             }
 
         });
 
-        Scene scene = new Scene(gridPane);
+        //GridPane for different tabs
+        GridPane menu = new GridPane();
+        menu.setAlignment(Pos.CENTER);
+        menu.setHgap(20);
+        menu.setVgap(20);
+        menu.setPadding(new Insets(25, 25, 25, 25));
+
+        //Button for profileoverview
+        Button profileOverView = new Button("Profile");
+        menu.add(profileOverView, 0, 0);
+
+        //Button for logOut
+        Button logOut = new Button("Log out");
+        menu.add(logOut, 1, 0);
+
+        //Button for CRUD scene
+        Button cRUD = new Button("CRUD");
+        menu.add(cRUD, 2, 0);
+
+        //Button for programoverview
+        Button programOverView = new Button("Program overview");
+        menu.add(programOverView, 3, 0);
+
+        //Button for longest movie for overviews
+        Button overViews = new Button("Overviews");
+        menu.add(overViews, 4, 0);
+
+        //Onclick event for overviews
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
+        });
+
+        //Onclick event for logout
+        logOut.setOnAction(event -> {
+            stage.setScene(LoginScene.display(stage, read));
+        });
+
+        //Onclick event for button CRUD
+        cRUD.setOnAction(event -> {
+                    stage.setScene(CRUD.display(stage, read, loggedPerson));
+                }
+        );
+
+        //Onclick event for profileoverview
+        profileOverView.setOnAction(event -> {
+            stage.setScene(ProfileOverView.display(stage, read, loggedPerson));
+        });
+
+        //Onclick event for programoverview
+        programOverView.setOnAction(event -> {
+            try {
+                stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
+            }catch(Exception e){
+                e.getMessage();
+            }
+        });
+
+        //Borderpane for layout
+        BorderPane mainScene = new BorderPane();
+        mainScene.setBottom(menu);
+        mainScene.setCenter(gridPane);
+
+        Scene scene = new Scene(mainScene);
         return scene;
     }
 }

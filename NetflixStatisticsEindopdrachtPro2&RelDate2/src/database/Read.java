@@ -2,6 +2,7 @@ package database;
 
 import logic.*;
 
+import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -20,59 +21,6 @@ public class Read {
         this.con = null;
         this.statement = null;
         this.resultSet = null;
-    }
-
-    public void executeQuery(String query) {
-        try {
-            // Import the downloaded driver.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Make a connection with the database
-            con = DriverManager.getConnection(connectionUrl);
-            statement = con.createStatement();
-            // Execute the query
-            resultSet = statement.executeQuery(query);
-
-            System.out.print(String.format("| %-32s | %-5s | %-10s | %-20s | %-24s | %-20s | %-20s |\n", " ", " ", " ", " ", " ", " ", " ").replace(" ", "-"));
-
-            // If the resultSet variable contains values, we're going to print it here.
-            while (resultSet.next()) {
-                // Ask per row the columns.
-                String filmtitel = resultSet.getString("Filmtitel");
-                String _3d = resultSet.getString("3d");
-                int premiereJaar = resultSet.getInt("PremiereJaar");
-                String filmProductieLand = resultSet.getString("FilmProductieLand");
-                String regisseur = resultSet.getString("Regisseur");
-                Date geboortedatumRegisseur = resultSet.getDate("GeboortedatumRegisseur");
-                String geboortelandRegisseur = resultSet.getString("GeboortelandRegisseur");
-
-                // Print the columns
-
-                // With 'format' you're able to change the look of the string
-                // %d = decimal, %s = string, %-32s = string, links uitgelijnd, 32 characters wide.
-                System.out.format("| %-32s | %-5s | %-10s | %-20s | %-24s | %-20s | %-20s | \n", filmtitel, _3d, premiereJaar, filmProductieLand, regisseur, geboortedatumRegisseur, geboortelandRegisseur);
-            }
-            System.out.println(String.format("| %-32s | %-5s | %-10s | %-20s | %-24s | %-20s | %-20s |\n", " ", " ", " ", " ", " ", " ", " ").replace(" ", "-"));
-
-        }
-
-//            Handle any errors that may have occurred.
-         catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if (resultSet != null) try {
-                resultSet.close();
-            } catch (Exception e) {
-            }
-            if (statement != null) try {
-                statement.close();
-            } catch (Exception e) {
-            }
-            if (con != null) try {
-                con.close();
-            } catch (Exception e) {
-            }
-        }
     }
 
     public String executeQueryOneValue(String query, String columnName){
@@ -660,6 +608,7 @@ public class Read {
         }
         return addressId;
     }
+
     public int getHighestAddressId(){
         int addressId = 0;
 
@@ -697,5 +646,44 @@ public class Read {
             }
         }
         return addressId;
+    }
+
+    public ArrayList<String> getProfile(String accountName, String profileName){
+        ArrayList<String> profile = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT ProfileName FROM Profile WHERE ProfileName = '"+profileName+"' AND AccountName = '"+accountName+"';");
+
+            while (resultSet.next()) {
+                profile.add(resultSet.getString("ProfileName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return profile;
     }
 }
