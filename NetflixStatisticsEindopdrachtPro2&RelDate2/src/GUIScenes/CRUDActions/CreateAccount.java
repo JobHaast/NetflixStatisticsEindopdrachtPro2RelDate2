@@ -115,7 +115,7 @@ public class CreateAccount {
             pause.play();
         });
 
-        //Action when pause.play() is called
+        //Action when pause.play() is called//
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
         });
