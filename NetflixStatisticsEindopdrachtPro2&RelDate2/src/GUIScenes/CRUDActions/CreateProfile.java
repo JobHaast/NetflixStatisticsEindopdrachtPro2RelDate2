@@ -81,18 +81,24 @@ public class CreateProfile {
         Button submit = new Button("Create");
         gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
-            if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
-                if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
-                    actiontarget.setFill(Color.GREEN);
-                    actiontarget.setText("Profile created successfully");
+            if(!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)){
+                if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
+                    if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
+                        actiontarget.setFill(Color.GREEN);
+                        actiontarget.setText("Profile created successfully");
+                    } else {
+                        actiontarget.setFill(Color.FIREBRICK);
+                        actiontarget.setText("Profile not created");
+                    }
                 } else {
                     actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("Profile not created");
+                    actiontarget.setText("Profile name already exists");
                 }
-            } else {
+            }else{
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile name already exists");
+                actiontarget.setText("There are already 5 profiles for this account");
             }
+
             pause.play();
         });
 
