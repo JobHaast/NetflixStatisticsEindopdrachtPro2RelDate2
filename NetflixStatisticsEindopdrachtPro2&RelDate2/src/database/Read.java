@@ -465,7 +465,15 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT Title FROM Program");
+            resultSet = statement.executeQuery("(SELECT Title\n" +
+                    "FROM Program\n" +
+                    "JOIN Film ON Film.ProgramId = Program.ProgramId\n" +
+                    ")\n" +
+                    "UNION\n" +
+                    "(\n" +
+                    "SELECT Name\n" +
+                    "FROM Episode\n" +
+                    ")");
 
             while (resultSet.next()) {
                 titles.add(resultSet.getString("Title"));
@@ -619,7 +627,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT MAX(AddressId) FROM Address;");
+            resultSet = statement.executeQuery("SELECT MAX(AddressId) as 'AddressId' FROM Address;");
 
             while (resultSet.next()) {
                 addressId = resultSet.getInt("AddressId");

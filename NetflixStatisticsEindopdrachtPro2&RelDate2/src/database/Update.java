@@ -165,4 +165,39 @@ public class Update {
         }
         return "Watched program updated";
     }
+
+    public String updateAdministrator(String accountName, String passWord){
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            statement.executeUpdate("UPDATE Administrator()" +
+                    "VALUES('"+accountName+"', '"+passWord+"')" +
+                    "WHERE AccountName;");
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Administrator updated";
+    }
 }

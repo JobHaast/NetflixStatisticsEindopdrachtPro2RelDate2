@@ -19,72 +19,33 @@ import logic.Address;
 public class ProfileOverView {
 
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Address addressLoggedPerson = read.addressInfo(loggedPerson.getAddress());
         Update update = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
 
         // Scene profileOverView
-        GridPane gridPaneProfileOverView = new GridPane();
-        gridPaneProfileOverView.setAlignment(Pos.CENTER);
-        gridPaneProfileOverView.setHgap(10);
-        gridPaneProfileOverView.setVgap(10);
-        gridPaneProfileOverView.setPadding(new Insets(25, 25, 25, 25));
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(25, 25, 25, 25));
 
         Label userNameGridPaneProfileOverView = new Label("User Name:");
-        gridPaneProfileOverView.add(userNameGridPaneProfileOverView, 0, 1);
+        gridPane.add(userNameGridPaneProfileOverView, 0, 1);
 
-        TextField userTextFieldGridPaneProfileOverView = new TextField(loggedPerson.getAccountName());
+        TextField userTextFieldGridPaneProfileOverView = new TextField();
         userTextFieldGridPaneProfileOverView.setDisable(true);
-        gridPaneProfileOverView.add(userTextFieldGridPaneProfileOverView, 1, 1);
+        gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
-        Label emailGridPaneProfileOverView = new Label("Email:");
-        gridPaneProfileOverView.add(emailGridPaneProfileOverView, 0, 2);
+        Label passwordLabel = new Label("Password:");
+        gridPane.add(passwordLabel, 0, 2);
 
-        TextField emailTextFieldProfileOverView = new TextField(loggedPerson.getEmail());
-        gridPaneProfileOverView.add(emailTextFieldProfileOverView, 1, 2);
+        TextField passwordTextField = new TextField();
+        gridPane.add(passwordTextField, 1, 2);
 
-        Label phoneNumberGridPaneProfileOverView = new Label("Phonenumber:");
-        gridPaneProfileOverView.add(phoneNumberGridPaneProfileOverView, 0, 3);
+        Button submitButton = new Button();
+        gridPane.add(submitButton, 1, 3);
 
-        TextField phoneNumberFieldProfileOverView = new TextField(loggedPerson.getPhoneNumber());
-        gridPaneProfileOverView.add(phoneNumberFieldProfileOverView, 1, 3);
-
-        Label passwordLabel = new Label("Password");
-        gridPaneProfileOverView.add(passwordLabel, 0, 4);
-
-        PasswordField passwordTextField = new PasswordField();
-        passwordTextField.setText(loggedPerson.getPassword());
-        gridPaneProfileOverView.add(passwordTextField, 1, 4);
-
-        Label cityGridPaneProfileOverView = new Label("City:");
-        gridPaneProfileOverView.add(cityGridPaneProfileOverView, 0, 5);
-
-        TextField cityNumberFieldProfileOverView = new TextField(addressLoggedPerson.getCity());
-        gridPaneProfileOverView.add(cityNumberFieldProfileOverView, 1, 5);
-
-        Label streetNameGridPaneProfileOverView = new Label("Street:");
-        gridPaneProfileOverView.add(streetNameGridPaneProfileOverView, 0, 6);
-
-        TextField streetNameNumberFieldProfileOverView = new TextField(addressLoggedPerson.getStreetName());
-        gridPaneProfileOverView.add(streetNameNumberFieldProfileOverView, 1, 6);
-
-        Label numberNameGridPaneProfileOverView = new Label("Number:");
-        gridPaneProfileOverView.add(numberNameGridPaneProfileOverView, 0, 7);
-
-        TextField numberNameNumberFieldProfileOverView = new TextField(Integer.toString(addressLoggedPerson.getNumber()));
-        gridPaneProfileOverView.add(numberNameNumberFieldProfileOverView, 1, 7);
-
-        Label additionNameGridPaneProfileOverView = new Label("Addition:");
-        gridPaneProfileOverView.add(additionNameGridPaneProfileOverView, 0, 8);
-
-        TextField additionNameNumberFieldProfileOverView = new TextField(addressLoggedPerson.getAddition());
-        gridPaneProfileOverView.add(additionNameNumberFieldProfileOverView, 1, 8);
-
-        Button submitChanges = new Button("Change");
-        gridPaneProfileOverView.add(submitChanges, 1, 9);
-
-
-        submitChanges.setOnAction(event -> {
-//            update.updateAccount();
+        submitButton.setOnAction(event -> {
+            update.updateAdministrator(userTextFieldGridPaneProfileOverView.getText(), passwordTextField.getText());
         });
 
         //GridPane for different tabs
@@ -147,7 +108,7 @@ public class ProfileOverView {
         //Borderpane for layout
         BorderPane mainScene = new BorderPane();
         mainScene.setBottom(menu);
-        mainScene.setCenter(gridPaneProfileOverView);
+        mainScene.setCenter(gridPane);
 
         Scene scene = new Scene(mainScene);
 
