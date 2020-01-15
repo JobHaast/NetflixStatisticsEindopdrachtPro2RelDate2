@@ -45,7 +45,7 @@ public class Checks {
         return (digitCounter + spaceCounter == string.length());
     }
 
-    public static boolean checkifPostalCode(String string) {
+    public static boolean checkIfPostalCode(String string) {
         // returns true if the string is a Dutch postalCode, so if the first 4 characters are numbers and the last two are letters.
 
         boolean check = true;
@@ -59,4 +59,44 @@ public class Checks {
         }
         return check;
     }
+
+    public static boolean checkIfCorrectBirthdayFormat(String string) {
+        boolean check = true;
+
+        if (string.length() < 10) {
+            return false;
+        }
+
+        if (!Character.isDigit(string.charAt(0)) || !Character.isDigit(string.charAt(1)) || !Character.isDigit(string.charAt(2)) || !Character.isDigit(string.charAt(3))) {
+            return false;
+        }
+
+        if ((string.charAt(4) != '-')) {
+            return false;
+        }
+
+        if ((!Character.isDigit(string.charAt(5)) || !Character.isDigit(string.charAt(6))) || (!Character.isDigit(string.charAt(5)))) {
+            return false;
+        }
+
+        if ((string.charAt(7) != '-') || (string.charAt(6) != '-')) {
+            return false;
+        }
+
+        if ((!Character.isDigit(string.charAt(8)) || !Character.isDigit(string.charAt(9))) || (!Character.isDigit(string.charAt(7)))) {
+            return false;
+        }
+
+        if (!(string.charAt(5) <= 1 && (string.charAt(6) <= 2)) || ((string.charAt(5) > 1) && (string.charAt(6) != '-'))) {
+            return false;
+        }
+
+        if ((!((string.charAt(8) <= 2) && (string.charAt(9) <= 9)) || !((string.charAt(8) <= 3) && (string.charAt(9) <= 1))) || ((string.charAt(6) != '-') && string.charAt(7) <= 9)) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
