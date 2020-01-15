@@ -87,6 +87,14 @@ public class Checks {
             return false;
         }
 
+        if (!(string.charAt(5) <= 1 && (string.charAt(6) <= 2)) || ((string.charAt(5) > 1) && (string.charAt(6) != '-'))) {
+            return false;
+        }
+
+        if ((!((string.charAt(8) <= 2) && (string.charAt(9) <= 9)) || !((string.charAt(8) <= 3) && (string.charAt(9) <= 1))) || ((string.charAt(6) != '-') && string.charAt(7) <= 9)) {
+            return false;
+        }
+
         return true;
     }
 
