@@ -3,8 +3,6 @@ package logic;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ChecksTest {
 
     @Test
@@ -13,7 +11,7 @@ class ChecksTest {
         String testString = null;
 
         //Act
-        boolean testCheck = Checks.checkIfNotNull(testString);
+        boolean testCheck = Checks.checkIfNotNullOrEmptyString(testString);
 
         //Assert
         Assertions.assertFalse(testCheck);
@@ -25,22 +23,22 @@ class ChecksTest {
         String testString = "test";
 
         //Act
-        boolean testCheck = Checks.checkIfNotNull(testString);
+        boolean testCheck = Checks.checkIfNotNullOrEmptyString(testString);
 
         //Assert
         Assertions.assertTrue(testCheck);
     }
 
     @Test
-    void testcheckIfNotNullWithInputEmptyStringShouldReturnTrue() {
+    void testcheckIfNotNullWithInputEmptyStringShouldReturnFalse() {
         //Arrange
         String testString = "";
 
         //Act
-        boolean testCheck = Checks.checkIfNotNull(testString);
+        boolean testCheck = Checks.checkIfNotNullOrEmptyString(testString);
 
         //Assert
-        Assertions.assertTrue(testCheck);
+        Assertions.assertFalse(testCheck);
     }
 
     @Test
