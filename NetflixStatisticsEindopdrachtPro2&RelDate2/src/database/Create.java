@@ -121,5 +121,37 @@ public class Create {
         }
         return "Watched program created";
     }
+
+    public String createProfile(String accountName, String profileName, String profileLanguage, String birthDay) {
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            statement.executeUpdate("INSERT INTO Profile (AccountName, ProfileName, ProfileLanguage, Birthday)" +
+                    "VALUES ('"+accountName+"', '"+profileName+"', '"+profileLanguage+"', '"+birthDay+"');");
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Profile created";
+    }
 }
 

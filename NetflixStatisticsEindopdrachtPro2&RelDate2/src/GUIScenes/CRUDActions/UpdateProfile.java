@@ -58,8 +58,7 @@ public class UpdateProfile {
 
         //combobox for languages
         ComboBox<String> languagesComboBox = new ComboBox<>();
-        languagesComboBox.getItems().add("Nederlands");
-        languagesComboBox.getItems().add("English");
+        languagesComboBox.getItems().addAll("Nederlands", "English");
         gridPane.add(languagesComboBox, 1, 2);
 
         //Label for birthday

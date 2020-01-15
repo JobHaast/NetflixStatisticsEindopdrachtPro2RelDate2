@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class CreateProfile {
     public static Scene display(Stage stage, Read read){
-        Create cA = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
 
         //CRUD Scene
@@ -41,29 +42,37 @@ public class CreateProfile {
         TextField profileNameTextField = new TextField();
         gridPane.add(profileNameTextField, 1, 1);
 
-        //Label for profile language
-        Label profileLanguageLabel = new Label("Profile language:");
-        gridPane.add(profileLanguageLabel, 0, 2);
+        //Lable for langue
+        Label languageLabel = new Label("Language:");
+        gridPane.add(languageLabel, 0, 2);
 
-        //Textfield for profile language
-        TextField profileLanguageTextField = new TextField();
-        gridPane.add(profileLanguageTextField, 1, 2);
+        //combobox for languages
+        ComboBox<String> languagesComboBox = new ComboBox<>();
+        languagesComboBox.getItems().addAll("Nederlands", "English");
+        gridPane.add(languagesComboBox, 1, 2);
 
         //Label for birthday
-        Label birthdayLabel = new Label("Birthday:");
+        Label birthdayLabel = new Label("Birthday");
         gridPane.add(birthdayLabel, 0, 3);
 
-        //Passwordfield for birthday
-        TextField birthdayTextField = new TextField();
-        gridPane.add(birthdayTextField, 1, 3);
+        //datepicker for birthday
+        DatePicker birthdayDatePicker = new DatePicker();
+        gridPane.add(birthdayDatePicker, 1, 3);
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 9);
+        gridPane.add(actiontarget, 1, 5);
 
         Button submit = new Button("Submit");
-        gridPane.add(submit,0,8);
+        gridPane.add(submit,1,4);
         submit.setOnAction(event -> {
+            if("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getValue().toString()))){
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Profile created successfully");
+            }else{
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Profile not created");
+            }
 
         });
 

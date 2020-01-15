@@ -2,6 +2,7 @@ package GUIScenes.CRUDActions;
 
 import database.Read;
 import database.Create;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class CreateAccount {
     public static Scene display(Stage stage, Read read){
         Create cA = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
 
         //CRUD Scene
         GridPane createAccountGridPane = new GridPane();
@@ -92,19 +95,26 @@ public class CreateAccount {
         Button submit = new Button("Button");
         createAccountGridPane.add(submit,0,8);
         submit.setOnAction(event -> {
-            if(textFieldStreetName.getText() == null || textFieldNumber.getText() == null || textFieldCity.getText() == null || accountNameTextField.getText() == null || accountNameTextField.getText() == null || emailTextField.getText() == null ||
-                    textFieldPhonenumber.getText() == null || passwordFieldPassword.getText() == null){
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Please fill in all fields!");
-            }else if("Address created".equals(cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText())) &&
-                    "Account created".equals(cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(),
-                            Integer.parseInt(read.executeQueryOneValue("SELECT AddressId FROM Address WHERE Streetname = '"+textFieldStreetName.getText()+"' AND Number = "+textFieldNumber.getText()+" AND Addition = '"+textFieldAddition.getText()+"' AND City = '"+textFieldCity.getText()+"'", "AddressId"))))){
+            int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+            if(addressId == 0) {
+                cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
                 actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Account created successfully");
+                actiontarget.setText("Succesfully created the account");
+            }else if(addressId != 0){
+                cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Succesfully created the account");
             }else{
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("An error has occurred");
             }
+            pause.play();
+        });
+
+        //Action when pause.play() is called
+        pause.setOnFinished(e -> {
+            actiontarget.setText(null);
         });
 
         Scene createAccount = new Scene(createAccountGridPane);

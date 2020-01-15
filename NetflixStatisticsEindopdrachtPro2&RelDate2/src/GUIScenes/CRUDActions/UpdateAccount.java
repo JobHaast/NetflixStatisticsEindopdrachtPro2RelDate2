@@ -80,6 +80,9 @@ public class UpdateAccount {
                 ArrayList<String> names = read.getAccountsNames();
                 accountNameComboBox.getItems().clear();
                 accountNameComboBox.getItems().addAll(names);
+                emailTextField.setText(null);
+                phonenumberTextField.setText(null);
+                passwordField.setText(null);
                 actiontarget.setFill(Color.GREEN);
                 actiontarget.setText("Account updated");
             }else{

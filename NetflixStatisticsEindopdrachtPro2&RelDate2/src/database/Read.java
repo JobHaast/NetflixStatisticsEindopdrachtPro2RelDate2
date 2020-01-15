@@ -621,4 +621,81 @@ public class Read {
         }
         return films;
     }
+
+    public int checkIfAddressExists(String streetName, int number, String addition, String city){
+        int addressId = 0;
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT AddressId FROM Address WHERE StreetName = '"+streetName+"' AND Number = "+number+" AND Addition = '"+addition+"' AND City = '"+city+"' ");
+
+            while (resultSet.next()) {
+                addressId = resultSet.getInt("AddressId");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return addressId;
+    }
+    public int getHighestAddressId(){
+        int addressId = 0;
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT MAX(AddressId) FROM Address;");
+
+            while (resultSet.next()) {
+                addressId = resultSet.getInt("AddressId");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return addressId;
+    }
 }
