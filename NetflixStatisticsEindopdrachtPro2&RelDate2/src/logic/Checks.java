@@ -1,70 +1,60 @@
 package logic;
 
 public class Checks {
-    private int letterCounter;
-    private int spaceCounter;
-    private int specialSymbolCounter;
-    private String string;
 
-    public Checks(String string) {
-        this.string = string;
-        letterCounter = 0;
-        spaceCounter = 0;
-        specialSymbolCounter = 0;
-    }
-
-
-    public void letterCounterUpper() {
-        letterCounter++;
-    }
-
-    public void spaceCounterUpper() {
-        spaceCounter++;
-    }
-
-    public void specialSymbolCounterUpper() {
-        specialSymbolCounter++;
-    }
-
-
-    public boolean checkIfNotNull() {
+    public static boolean checkIfNotNull(String string) {
         //checks if the string is null, if it is null, it returns false, else it returns true
-        return (!(string == null));
+        return (string != null);
     }
 
-    public boolean checkIfLettersOnly() {
-        //first it checks if it the string is not null
-
-        //!!!string.checkIfNotNull(); !!!
+    public static boolean checkIfLettersOnly(String string) {
+        int letterCounter = 0;
+        int spaceCounter = 0;
+        int specialSymbolCounter = 0;
 
         // this for-loop counts all the letters, spaces, apostrophes, dashes and dots in a string
         for (int i = 0; i < string.length(); i++) {
             if (Character.isLetter(string.charAt(i))) {
-                letterCounterUpper();
+                letterCounter++;
             } else if (string.charAt(i) == ' ') {
-                spaceCounterUpper();
+                spaceCounter++;
             } else if (string.charAt(i) == '\'' || string.charAt(i) == '-' || string.charAt(i) == '.') {
-                specialSymbolCounterUpper();
+                specialSymbolCounter++;
             }
         }
         // returns true if the string only consists out of letters, spaces, apostrophes, dashes and dots.
         return (letterCounter + spaceCounter + specialSymbolCounter == string.length());
     }
 
-    public boolean checkIfNumbersOnly() {
-        if (string == null) {
-            return false;
-        }
+    public static boolean checkIfNumbersOnly(String string) {
+        int digitCounter = 0;
+        int spaceCounter = 0;
+
+        // this for-loop counts all the digits and spaces in a string
         for (int i = 0; i < string.length(); i++) {
-            if (!Character.isDigit(string.charAt(i))) {
-                return false;
+            if (Character.isDigit(string.charAt(i))) {
+                digitCounter++;
+            } else if (string.charAt(i) == ' ') {
+                spaceCounter++;
             }
         }
-        return true;
+        // returns true if the string only consists out of digits and spaces.
+        return (digitCounter + spaceCounter == string.length());
     }
 
-    public boolean checkifPostalCode(String string) {
-        return true;
+    public static boolean checkifPostalCode(String string) {
+        // returns true if the string is a Dutch postalCode, so if the first 4 characters are numbers and the last two are letters.
+
+        boolean check = true;
+        for (int i = 0; i < 4; i++) {
+            if (!Character.isDigit(string.charAt(i))) {
+                check = false;
+            }
+        }
+        if (!(Character.isLetter(string.charAt(4)) && Character.isLetter(string.charAt(5)) || Character.isLetter(string.charAt(5)) && Character.isLetter(string.charAt(6)))) {
+            check = false;
+        }
+        return check;
     }
 
 }
