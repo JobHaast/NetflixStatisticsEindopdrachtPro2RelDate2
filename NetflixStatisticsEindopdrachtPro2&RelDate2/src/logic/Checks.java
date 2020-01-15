@@ -2,9 +2,12 @@ package logic;
 
 public class Checks {
 
-    public static boolean checkIfNotNull(String string) {
-        //checks if the string is null, if it is null, it returns false, else it returns true
-        return (string != null);
+    public static boolean checkIfNotNullOrEmptyString(String string) {
+        //checks if the string is null or empty, if it is null or empty it returns false, else it returns true.
+        if (string == null) {
+            return false;
+        }
+        return !string.isEmpty();
     }
 
     public static boolean checkIfLettersOnly(String string) {
