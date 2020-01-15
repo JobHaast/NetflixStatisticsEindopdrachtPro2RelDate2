@@ -56,5 +56,4 @@ public class Checks {
         }
         return check;
     }
-
 }
