@@ -1,5 +1,6 @@
 package database;
 
+import javafx.beans.property.SimpleStringProperty;
 import logic.*;
 
 import java.lang.reflect.Array;
@@ -883,6 +884,86 @@ public class Read {
 
             while (resultSet.next()) {
                 accounts.add(resultSet.getString("AccountName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return accounts;
+    }
+
+    //Method for retrieving permission
+    public int checkAdminPermission(String accountName){
+        int i = 0;
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT IsAdmin FROM Administrator WHERE AccountName = '"+accountName+"';");
+
+            while (resultSet.next()) {
+                i = resultSet.getInt("IsAdmin");
+
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return i;
+    }
+
+    //Method for retrieving accounts with same address (currently not being used)
+    public ArrayList<StringForTableView> getAccountsWithOneProfile(){
+        ArrayList<StringForTableView> accounts = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT AccountName, COUNT(ProfileName) as 'Amount' FROM Profile GROUP BY AccountName HAVING COUNT(ProfileName) = 1;");
+
+            while (resultSet.next()) {
+                accounts.add(new StringForTableView(resultSet.getString("AccountName")));
             }
 
 //            Handle any errors that may have occurred.
