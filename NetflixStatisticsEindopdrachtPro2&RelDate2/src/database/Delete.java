@@ -22,6 +22,7 @@ public class Delete {
         this.resultSet = null;
     }
 
+    //Method for deleting an account
     public String deleteAccount(String accountName) {
         try {
             // Import the downloaded driver.
@@ -52,6 +53,7 @@ public class Delete {
         return "Account deleted";
     }
 
+    //Method for deleting a profile
     public String deleteProfile(String profileName, String accountName) {
         int linesAffected = 0;
         try {
@@ -86,6 +88,7 @@ public class Delete {
         return "Nothing deleted";
     }
 
+    //Method for deleting a watched program
     public String deleteWatchedProgram(String accountName, String profileName, int programId) {
         try {
             // Import the downloaded driver.
@@ -114,5 +117,37 @@ public class Delete {
             }
         }
         return "Watched program deleted";
+    }
+
+    //Method for deleting an address (Currently not being used)
+    public String deleteAddress(int addressId) {
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            statement.executeUpdate("DELETE Address WHERE AddressId = " + addressId + ";");
+
+
+//            Handle any errors that may have occurred.
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return "Address deleted";
     }
 }

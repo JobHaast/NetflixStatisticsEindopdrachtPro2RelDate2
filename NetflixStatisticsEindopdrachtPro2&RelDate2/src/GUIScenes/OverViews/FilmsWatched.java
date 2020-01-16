@@ -4,11 +4,13 @@ import database.Read;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -21,9 +23,17 @@ public class FilmsWatched {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
         ArrayList<StringForTableView> films = read.getWatchedFilms(loggedPerson.getAccountName());
 
+        //CRUD Scene
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(25, 25, 25, 25));
+
         // Scene Tableview
         final Label label = new Label("Films Watched");
         label.setFont(new Font("Arial", 20));
+        gridPane.add(label, 0, 0);
 
         TableView<StringForTableView> table = new TableView<>();
         table.setMaxWidth(500);
@@ -35,13 +45,9 @@ public class FilmsWatched {
         table.getColumns().add(movieTitle);
         table.setItems(data);
         table.setEditable(false);
+        gridPane.add(table, 0, 1);
 
-        final VBox vbox = new VBox();
-        vbox.setSpacing(5);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table);
-
-        Scene scene = new Scene(vbox);
+        Scene scene = new Scene(gridPane);
         return scene;
     }
 }

@@ -23,6 +23,7 @@ public class Update {
         this.resultSet = null;
     }
 
+    //Method for updating an account
     public String updateAccount(String accountName, String email, String phoneNumber, String password){
         try {
             // Import the downloaded driver.
@@ -57,6 +58,7 @@ public class Update {
         return "Account updated";
     }
 
+    //Method for updating an address
     public String updateAddress(String city, String streetName, int number, String addition, Read read){
         try {
             // Import the downloaded driver.
@@ -96,6 +98,7 @@ public class Update {
         return "Address updated";
     }
 
+    //Method for updating a profile
     public String updateProfile(String accountName, String profileName, String profileLanguage, String birthDay){
         try {
             // Import the downloaded driver.
@@ -131,6 +134,7 @@ public class Update {
         return "Profile updated";
     }
 
+    //Method for updating a watched program
     public String updateWatchedProgram(String accountName, String profileName, int programId, int percentageWatched){
         try {
             // Import the downloaded driver.
@@ -166,6 +170,7 @@ public class Update {
         return "Watched program updated";
     }
 
+    //Method for updating an administrator
     public String updateAdministrator(String accountName, String passWord){
         try {
             // Import the downloaded driver.

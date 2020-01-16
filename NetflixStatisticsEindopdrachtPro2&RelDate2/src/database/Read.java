@@ -23,6 +23,7 @@ public class Read {
         this.resultSet = null;
     }
 
+    //Method for getting one value from the database
     public String executeQueryOneValue(String query, String columnName){
         String returnValue = null;
         try {
@@ -61,6 +62,7 @@ public class Read {
         return returnValue;
     }
 
+    //Method for retrieving addressinfo (Currently not being used)
     public Address addressInfo(int addressID){
         String streetName = "";
         int number = 0;
@@ -108,6 +110,7 @@ public class Read {
         return address;
     }
 
+    //Method for retrieving filmInfo
     public Film filmInfo(String title){
         String filmTitle = "";
         int length = 0;
@@ -157,6 +160,7 @@ public class Read {
         return film;
     }
 
+    //Method for retrieving seriesInfo
     public Serie seriesInfo(String title){
         String seriesTitle = "";
         String language = "";
@@ -204,6 +208,7 @@ public class Read {
         return serie;
     }
 
+    //Method for retrieving all addresses
     public ArrayList<Address> getAddresses(){
         ArrayList<Address> addresses = new ArrayList<>();
         try {
@@ -250,6 +255,7 @@ public class Read {
         return addresses;
     }
 
+    //method for retrieving all account names
     public ArrayList<String> getAccountsNames(){
         ArrayList<String> namesAccounts = new ArrayList<>();
         try {
@@ -289,6 +295,7 @@ public class Read {
         return namesAccounts;
     }
 
+    //Method for retrieving all profile names
     public ArrayList<String> getProfileNames(String accountName){
         ArrayList<String> namesProfiles = new ArrayList<>();
 
@@ -329,6 +336,7 @@ public class Read {
         return namesProfiles;
     }
 
+    //method for retrieving an account
     public Account getAccount(String accountName){
         Account loggedPerson = new Account("n", "@", "0", "x", 1);
 
@@ -369,6 +377,7 @@ public class Read {
         return loggedPerson;
     }
 
+    //Method for retrieving all watched films for a specific account
     public ArrayList<StringForTableView> getWatchedFilms(String accountName){
         ArrayList<StringForTableView> films = new ArrayList<>();
 
@@ -416,6 +425,7 @@ public class Read {
         return films;
     }
 
+    //Method for retrieving the longest movie for people under 16
     public String getLongestMovieUnder16() {
         String movie = "";
         try {
@@ -456,6 +466,7 @@ public class Read {
         return movie;
     }
 
+    //method for retrieving all titles of programs
     public ArrayList<String> getTitlePrograms() {
         ArrayList<String> titles = new ArrayList<>();
         try {
@@ -499,6 +510,7 @@ public class Read {
         return titles;
     }
 
+    //Method for retrieving a programId
     public int getProgramId(String programTitle) {
         int id = 0;
         try {
@@ -508,7 +520,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT ProgramId FROM Program WHERE Title = '"+programTitle+"'");
+            resultSet = statement.executeQuery("(SELECT ProgramId FROM Program WHERE Title = '"+programTitle+"') UNION (SELECT ProgramId FROM Episode WHERE Name = '"+programTitle+"');");
 
             while (resultSet.next()) {
                 id = resultSet.getInt("ProgramId");
@@ -534,6 +546,7 @@ public class Read {
         return id;
     }
 
+    //Method for retrieving all watched programs for a certain profile
     public ArrayList<String> getWatchedPrograms(String accountName, String profileName){
         ArrayList<String> films = new ArrayList<>();
 
@@ -578,6 +591,7 @@ public class Read {
         return films;
     }
 
+    //Method that checks if an address already exists
     public int checkIfAddressExists(String streetName, int number, String addition, String city){
         int addressId = 0;
 
@@ -617,6 +631,7 @@ public class Read {
         return addressId;
     }
 
+    //method that retrieves the highest addressId
     public int getHighestAddressId(){
         int addressId = 0;
 
@@ -656,6 +671,7 @@ public class Read {
         return addressId;
     }
 
+    //Method for retrieving a profile
     public ArrayList<String> getProfile(String accountName, String profileName){
         ArrayList<String> profile = new ArrayList<>();
 
@@ -695,6 +711,7 @@ public class Read {
         return profile;
     }
 
+    //Method for retrieving a watched program
     public ArrayList<String> getwatchedProgram(String accountName, String profileName, String programTitle){
         ArrayList<String> watchedProgram = new ArrayList<>();
         Read read = new Read("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
@@ -735,6 +752,7 @@ public class Read {
         return watchedProgram;
     }
 
+    //Method for check if an account exists
     public ArrayList<String> getAccountCheck(String accountName){
         ArrayList<String> accountNameCheck = new ArrayList<>();
         try {
@@ -773,6 +791,7 @@ public class Read {
         return accountNameCheck;
     }
 
+    //method for retrieving amount of profiles
     public int amountOfProfiles(String accountName){
         int i = 0;
         try {
@@ -809,5 +828,83 @@ public class Read {
             }
         }
         return i;
+    }
+
+    //Method for retrieving addressId (currently not being used)
+    public int getAddressId(String accountName){
+        int i = 0;
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT AddressId FROM Account WHERE AccountName = '"+accountName+"';");
+
+            while (resultSet.next()) {
+                i = resultSet.getInt("AddressId");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return i;
+    }
+
+    //Method for retrieving accounts with same address (currently not being used)
+    public ArrayList<String> getAccountWithAddressId(int addressId){
+        ArrayList<String> accounts = new ArrayList<>();
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT AccountName WHERE AddressId = '"+addressId+"';");
+
+            while (resultSet.next()) {
+                accounts.add(resultSet.getString("AccountName"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return accounts;
     }
 }

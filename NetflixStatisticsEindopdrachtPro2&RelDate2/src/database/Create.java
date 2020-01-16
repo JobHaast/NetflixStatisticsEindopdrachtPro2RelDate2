@@ -25,6 +25,7 @@ public class Create {
         this.resultSet = null;
     }
 
+    //Method for creating address
     public String createAddress(String streetName, int number, String addition, String city) {
         try {
             // Import the downloaded driver.
@@ -57,6 +58,7 @@ public class Create {
         return "Address created";
     }
 
+    //Method for creating account
     public String createAccount(String accountName, String email, String phonenumber, String password, int addressId) {
         try {
             // Import the downloaded driver.
@@ -90,6 +92,7 @@ public class Create {
         return "Account created";
     }
 
+    //Method for creating watched program
     public String createWatchedProgram(String accountName, String profileName, String programtitle, int percentageWatched, Read read) {
         int programId = read.getProgramId(programtitle);
         try {
@@ -122,6 +125,7 @@ public class Create {
         return "Watched program created";
     }
 
+    //Method for creating profile
     public String createProfile(String accountName, String profileName, String profileLanguage, String birthDay) {
 
         try {

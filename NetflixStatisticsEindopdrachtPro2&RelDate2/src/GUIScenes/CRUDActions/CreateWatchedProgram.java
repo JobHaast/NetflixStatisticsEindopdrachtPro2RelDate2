@@ -87,13 +87,18 @@ public class CreateWatchedProgram {
 
         //Onclick for submit
         submit.setOnAction(event -> {
+            if(0 == read.getwatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue()).size()) {
                 if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
                     actiontarget.setFill(Color.GREEN);
                     actiontarget.setText("Succesfully added");
-                }else {
+                } else {
                     actiontarget.setFill(Color.FIREBRICK);
                     actiontarget.setText("Error");
                 }
+            }else{
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Profile already has record of program");
+            }
             pause.play();
         });
 

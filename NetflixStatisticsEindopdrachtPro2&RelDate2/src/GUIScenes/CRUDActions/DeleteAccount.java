@@ -52,15 +52,15 @@ public class DeleteAccount {
         });
 
         Button submit = new Button("Submit");
-        gridPane.add(submit,1,2);
+        gridPane.add(submit, 1, 2);
         submit.setOnAction(event -> {
-            if("Account deleted".equals(dA.deleteAccount(accountNameComboBox.getValue()))){
+            if ("Account deleted".equals(dA.deleteAccount(accountNameComboBox.getValue()))) {
                 ArrayList<String> names = read.getAccountsNames();
                 accountNameComboBox.getItems().clear();
                 accountNameComboBox.getItems().addAll(names);
                 actiontarget.setFill(Color.GREEN);
                 actiontarget.setText("Account deleted");
-            }else{
+            } else {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Account not deleted");
             }
