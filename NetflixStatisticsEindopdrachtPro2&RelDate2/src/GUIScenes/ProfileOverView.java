@@ -41,7 +41,7 @@ public class ProfileOverView {
         TextField passwordTextField = new TextField();
         gridPane.add(passwordTextField, 1, 2);
 
-        Button submitButton = new Button();
+        Button submitButton = new Button("Change");
         gridPane.add(submitButton, 1, 3);
 
         submitButton.setOnAction(event -> {
