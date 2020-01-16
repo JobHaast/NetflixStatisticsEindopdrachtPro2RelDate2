@@ -1,6 +1,7 @@
 package GUIScenes;
 
 import database.Read;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import logic.Account;
 
 public class LoginScene extends Application {
@@ -31,6 +33,8 @@ public class LoginScene extends Application {
     }
 
     public static Scene display(Stage stage, Read read){
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+
         // Scene login
         GridPane gridPaneLogin = new GridPane();
         gridPaneLogin.setAlignment(Pos.CENTER);
@@ -60,22 +64,33 @@ public class LoginScene extends Application {
         final Text actiontarget = new Text();
         gridPaneLogin.add(actiontarget, 1, 6);
 
+        //Action when pause.play() is called//
+        pause.setOnFinished(e -> {
+            actiontarget.setText(null);
+        });
+
         Scene loginScene = new Scene(gridPaneLogin);
 
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
             String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
-            if(pwBox.getText().equals(password)) {
-                try {
-                    Account loggedPerson = read.getAccount(userTextField.getText());
-                    stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-                }catch(Exception e){
-                    e.getMessage();
+            if(read.checkAdminPermission(userTextField.getText()) == 1) {
+                if (pwBox.getText().equals(password)) {
+                    try {
+                        Account loggedPerson = read.getAccount(userTextField.getText());
+                        stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+                } else {
+                    actiontarget.setFill(Color.FIREBRICK);
+                    actiontarget.setText("Combination is incorrect");
                 }
             }else{
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Combination is incorrect");
+                actiontarget.setText("Account isn't an administrator");
             }
+            pause.play();
         });
         return loginScene;
     }

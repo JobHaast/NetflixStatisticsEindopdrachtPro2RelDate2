@@ -1,5 +1,6 @@
 package GUIScenes;
 
+import GUIScenes.OverViews.AllAccountsWithOneProfile;
 import GUIScenes.OverViews.AvgWatchtimeSerie;
 import GUIScenes.OverViews.FilmsWatched;
 import GUIScenes.OverViews.LongestMovieUnder16;
@@ -40,6 +41,13 @@ public class OverViewsDirect {
         gridPane.add(avgWatchedTimeSerie, 2, 0);
         avgWatchedTimeSerie.setOnAction(event -> {
             stage.setScene(AvgWatchtimeSerie.display(stage, read));
+        });
+
+        //Button for accounts with one profile
+        Button oneProfile = new Button("Accounts with one profile");
+        gridPane.add(oneProfile, 0, 1);
+        oneProfile.setOnAction(event -> {
+            stage.setScene(AllAccountsWithOneProfile.display(stage, read));
         });
 
 
