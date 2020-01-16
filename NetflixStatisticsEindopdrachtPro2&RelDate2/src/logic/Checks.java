@@ -61,8 +61,6 @@ public class Checks {
     }
 
     public static boolean checkIfCorrectBirthdayFormat(String string) {
-        boolean check = false;
-
         if (string.length() < 10) {
             return false;
         }
@@ -87,36 +85,32 @@ public class Checks {
             return false;
         }
 
-//        if (!(string.charAt(5) <= 1 && (string.charAt(6) <= 2)) || (!(string.charAt(5) == 0) && !(string.charAt(6) <= 9))) {
-//            return false;
-//        }
-
-        if (!(string.charAt(5) > 1)) {
+        if ((Integer.parseInt(String.valueOf(string.charAt(5))) > 1)) {
             return false;
         }
 
-        if (string.charAt(5) == 0) {
-            if (!(string.charAt(6) <= 9)) {
+        if (string.charAt(5) == '0') {
+            if (!(Integer.parseInt(String.valueOf(string.charAt(6))) <= 9)) {
                 return false;
             }
         }
 
-        if (string.charAt(5) == 1) {
-            if (!(string.charAt(6) <= 2)) {
+        if (string.charAt(5) == '1') {
+            if (!(Integer.parseInt(String.valueOf(string.charAt(6))) <= 2)) {
                 return false;
             }
         }
 
-        if (!(string.charAt(8) > 3)) {
+        if ((Integer.parseInt(String.valueOf(string.charAt(8))) > 3)) {
             return false;
         }
 
-        if (string.charAt(8) == 0) {
-            if (string.charAt(9) == 0) {
+        if (string.charAt(8) == '0') {
+            if (string.charAt(9) == '0') {
                 return false;
             }
-        } else if (string.charAt(8) == 3) {
-            if (string.charAt(9) > 1) {
+        } else if (string.charAt(8) == '3') {
+            if ((Integer.parseInt(String.valueOf(string.charAt(9))) > 1)) {
                 return false;
             }
         }

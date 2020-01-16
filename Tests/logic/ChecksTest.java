@@ -184,4 +184,80 @@ class ChecksTest {
         //Assert
         Assertions.assertFalse(testCheck);
     }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2019_12_32ShouldReturnFalse(){
+        //Arrange
+        String testString = "2019-12-32";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2019_13_32ShouldReturnFalse(){
+        //Arrange
+        String testString = "2019-13-32";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2019slash12slash10ShouldReturnFalse() {
+        //Arrange
+        String testString = "2019/12/10";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput99_12_10ShouldReturnFalse() {
+        //Arrange
+        String testString = "99-12-10";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2019_01_31ShouldReturnTrue(){
+        //Arrange
+        String testString = "2019-01-31";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertTrue(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput20019_12_10ShouldReturnFalse() {
+        //Arrange
+        String testString = "20019-12-10";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
+
+
+
+
 }
