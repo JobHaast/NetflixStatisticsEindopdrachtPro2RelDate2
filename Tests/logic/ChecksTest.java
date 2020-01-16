@@ -131,10 +131,57 @@ class ChecksTest {
         String testString = "abc";
 
         //Act
-        boolean testCheck = Checks.checkIfNumbersOnly(testString);
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
 
         //Assert
         Assertions.assertFalse(testCheck);
     }
 
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2001_11_13ShouldReturnTrue(){
+        //Arrange
+        String testString = "2001-11-13";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertTrue(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2001_12_29ShouldReturnTrue(){
+        //Arrange
+        String testString = "2001-12-29";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertTrue(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2001_12_31ShouldReturnTrue(){
+        //Arrange
+        String testString = "2001-12-31";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertTrue(testCheck);
+    }
+
+    @Test
+    void testcheckIfCorrectBirthdayFormatWithInput2001_13_30ShouldReturnFalse(){
+        //Arrange
+        String testString = "2001-13-30";
+
+        //Act
+        boolean testCheck = Checks.checkIfCorrectBirthdayFormat(testString);
+
+        //Assert
+        Assertions.assertFalse(testCheck);
+    }
 }

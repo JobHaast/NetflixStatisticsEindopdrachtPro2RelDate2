@@ -61,13 +61,13 @@ public class Checks {
     }
 
     public static boolean checkIfCorrectBirthdayFormat(String string) {
-        boolean check = true;
+        boolean check = false;
 
         if (string.length() < 10) {
             return false;
         }
 
-        if (!Character.isDigit(string.charAt(0)) || !Character.isDigit(string.charAt(1)) || !Character.isDigit(string.charAt(2)) || !Character.isDigit(string.charAt(3))) {
+        if (!(Character.isDigit(string.charAt(0)) && Character.isDigit(string.charAt(1)))) {
             return false;
         }
 
@@ -75,28 +75,52 @@ public class Checks {
             return false;
         }
 
-        if ((!Character.isDigit(string.charAt(5)) || !Character.isDigit(string.charAt(6))) || (!Character.isDigit(string.charAt(5)))) {
+        if (!(Character.isDigit(string.charAt(5)) && Character.isDigit(string.charAt(6)))) {
             return false;
         }
 
-        if ((string.charAt(7) != '-') || (string.charAt(6) != '-')) {
+        if (!(string.charAt(7) == '-')) {
             return false;
         }
 
-        if ((!Character.isDigit(string.charAt(8)) || !Character.isDigit(string.charAt(9))) || (!Character.isDigit(string.charAt(7)))) {
+        if (!(Character.isDigit(string.charAt(8)) && Character.isDigit(string.charAt(9)))) {
             return false;
         }
 
-        if (!(string.charAt(5) <= 1 && (string.charAt(6) <= 2)) || ((string.charAt(5) > 1) && (string.charAt(6) != '-'))) {
+//        if (!(string.charAt(5) <= 1 && (string.charAt(6) <= 2)) || (!(string.charAt(5) == 0) && !(string.charAt(6) <= 9))) {
+//            return false;
+//        }
+
+        if (!(string.charAt(5) > 1)) {
             return false;
         }
 
-        if ((!((string.charAt(8) <= 2) && (string.charAt(9) <= 9)) || !((string.charAt(8) <= 3) && (string.charAt(9) <= 1))) || ((string.charAt(6) != '-') && string.charAt(7) <= 9)) {
+        if (string.charAt(5) == 0) {
+            if (!(string.charAt(6) <= 9)) {
+                return false;
+            }
+        }
+
+        if (string.charAt(5) == 1) {
+            if (!(string.charAt(6) <= 2)) {
+                return false;
+            }
+        }
+
+        if (!(string.charAt(8) > 3)) {
             return false;
         }
 
+        if (string.charAt(8) == 0) {
+            if (string.charAt(9) == 0) {
+                return false;
+            }
+        } else if (string.charAt(8) == 3) {
+            if (string.charAt(9) > 1) {
+                return false;
+            }
+        }
         return true;
     }
-
 
 }
