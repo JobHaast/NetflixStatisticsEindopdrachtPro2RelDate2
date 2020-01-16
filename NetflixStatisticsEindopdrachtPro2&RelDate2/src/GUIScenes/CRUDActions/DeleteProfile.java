@@ -65,7 +65,7 @@ public class DeleteProfile {
             actiontarget.setText(null);
         });
 
-        Button submit = new Button("Submit");
+        Button submit = new Button("Delete");
         gridPane.add(submit,1,2);
         submit.setOnAction(event -> {
             String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());

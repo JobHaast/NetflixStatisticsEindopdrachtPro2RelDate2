@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AddressTest {
 
     @Test
-    void testgetNumberWithInputAccountWithNumber12ShouldReturn12() {
+    void testgetNumberWithInputAddressWithNumber12ShouldReturn12() {
         //Arrange
         Address testAddress = new Address("bomenlaan", 12, "a", "CityOfPalms");
 
@@ -20,14 +20,50 @@ class AddressTest {
     }
 
     @Test
-    void getAddition() {
+    void testgetAdditionWithInputAddressWithAdditionaShouldReturna() {
+        //Arrange
+        Address testAddress = new Address("bomenlaan", 12, "a", "CityOfPalms");
+
+        //Act
+        String result = testAddress.getAddition();
+
+        //Assert
+        Assertions.assertEquals("a", result);
     }
 
     @Test
-    void getStreetName() {
+    void testgetStreetNameWithInputAddressWithStreetNamebomenlaanShouldReturnbomenlaan() {
+        //Arrange
+        Address testAddress = new Address("bomenlaan", 12, "a", "CityOfPalms");
+
+        //Act
+        String result = testAddress.getStreetName();
+
+        //Assert
+        Assertions.assertEquals("bomenlaan", result);
     }
 
     @Test
-    void getCity() {
+    void testgetCityWithInputAddressWithCityOfPalmsShouldReturnCityOfPalms() {
+        //Arrange
+        Address testAddress = new Address("bomenlaan", 12, "a", "CityOfPalms");
+
+        //Act
+        String result = testAddress.getCity();
+
+        //Assert
+        Assertions.assertEquals("CityOfPalms", result);
+    }
+
+    @Test
+    void testToStringWithInputAddressShouldReturnstreetNamenumberadditioncity(){
+        //Arrange
+        Address testAddress = new Address("bomenlaan", 12, "a", "CityOfPalms");
+
+        //Act
+        String result = testAddress.toString();
+
+        //Assert
+        Assertions.assertEquals("bomenlaan 12a CityOfPalms", result);
     }
 }

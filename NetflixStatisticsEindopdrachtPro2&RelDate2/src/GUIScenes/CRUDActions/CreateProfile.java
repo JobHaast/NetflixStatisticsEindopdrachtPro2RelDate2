@@ -66,7 +66,7 @@ public class CreateProfile {
         gridPane.add(birthdayDatePicker, 1, 3);
 
         //Label for format date
-        Label birthdayLabelFormat = new Label("Format: 2002-3-15");
+        Label birthdayLabelFormat = new Label("Format: 2002-03-05");
         gridPane.add(birthdayLabelFormat, 2, 3);
 
         //Feedbacktext
