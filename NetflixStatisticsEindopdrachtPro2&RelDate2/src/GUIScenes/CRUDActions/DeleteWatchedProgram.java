@@ -58,8 +58,8 @@ public class DeleteWatchedProgram {
             ComboBox<String> programTitles = new ComboBox<>();
             gridPane.add(programTitles, 1, 2);
 
-            //Button for sumbitting
-            Button submit = new Button("Submit");
+            //Button for submitting
+            Button submit = new Button("Delete");
             gridPane.add(submit, 1, 3);
 
             //Feedbacktext

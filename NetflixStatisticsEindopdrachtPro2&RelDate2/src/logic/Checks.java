@@ -130,4 +130,12 @@ public class Checks {
         return true;
     }
 
+    public static boolean checkIfNumberWithin1and100(String string) {
+        if (Integer.parseInt(string) >= 0 && Integer.parseInt(string) <= 100) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

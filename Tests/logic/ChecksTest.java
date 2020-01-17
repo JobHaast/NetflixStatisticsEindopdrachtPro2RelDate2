@@ -257,6 +257,69 @@ class ChecksTest {
         Assertions.assertFalse(testCheck);
     }
 
+    @Test
+    void testcheckIfNumberWithin1and100WithInput50ShouldReturnTrue(){
+        //Arrange
+        String testString = "50";
+
+        //Act
+        Boolean result = Checks.checkIfNumberWithin1and100(testString);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testcheckIfNumberWithin1and100WithInput0ShouldReturnTrue() {
+        //Arrange
+        String testString = "0";
+
+        //Act
+        Boolean result = Checks.checkIfNumberWithin1and100(testString);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testcheckIfNumberWithin1and100WithInput100ShouldReturnTrue() {
+        //Arrange
+        String testString = "100";
+
+        //Act
+        Boolean result = Checks.checkIfNumberWithin1and100(testString);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testcheckIfNumberWithin1and100WithInputNegativeOneShouldReturnFalse() {
+        //Arrange
+        String testString = "-1";
+
+        //Act
+        Boolean result = Checks.checkIfNumberWithin1and100(testString);
+
+        //Assert
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void testcheckIfNumberWithin1and100WithInput101ShouldReturnFalse() {
+        //Arrange
+        String testString = "101";
+
+        //Act
+        Boolean result = Checks.checkIfNumberWithin1and100(testString);
+
+        //Assert
+        Assertions.assertFalse(result);
+    }
+
+
+
+
 
 
 

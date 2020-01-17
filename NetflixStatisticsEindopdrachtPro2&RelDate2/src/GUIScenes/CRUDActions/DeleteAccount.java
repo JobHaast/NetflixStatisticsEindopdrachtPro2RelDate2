@@ -51,7 +51,7 @@ public class DeleteAccount {
             actiontarget.setText(null);
         });
 
-        Button submit = new Button("Submit");
+        Button submit = new Button("Delete");
         gridPane.add(submit, 1, 2);
         submit.setOnAction(event -> {
             if ("Account deleted".equals(dA.deleteAccount(accountNameComboBox.getValue()))) {

@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
@@ -80,6 +81,11 @@ public class CreateProfile {
         TextField birthdayDatePicker = new TextField();
         gridPane.add(birthdayDatePicker, 1, 3);
 
+        //Text for feedback birthday
+        final Text feedbackTextBirthday = new Text();
+        feedbackTextBirthday.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextBirthday, 2, 4);
+
         //Label for format date
         Label birthdayLabelFormat = new Label("Format: 2002-03-05");
         gridPane.add(birthdayLabelFormat, 2, 3);
@@ -90,31 +96,40 @@ public class CreateProfile {
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
-
+            feedbackTextBirthday.setText(null);
             actiontarget.setText(null);
         });
 
         Button submit = new Button("Create");
         gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
-            if(!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)){
-                if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
-                    if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
-                        actiontarget.setFill(Color.GREEN);
-                        actiontarget.setText("Profile created successfully");
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNameTextField.getText()) &&
+                    Checks.checkIfNotNullOrEmptyString(languagesComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(birthdayDatePicker.getText())) {
+                if (Checks.checkIfCorrectBirthdayFormat(birthdayDatePicker.getText())) {
+                    if (!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)) {
+                        if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
+                            if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
+                                actiontarget.setFill(Color.GREEN);
+                                actiontarget.setText("Profile created successfully");
+                            } else {
+                                actiontarget.setFill(Color.FIREBRICK);
+                                actiontarget.setText("Profile not created");
+                            }
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("Profile name already exists");
+                        }
                     } else {
                         actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("Profile not created");
+                        actiontarget.setText("There are already 5 profiles for this account");
                     }
                 } else {
-                    actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("Profile name already exists");
+                    feedbackTextBirthday.setText("Please use the correct Birthday Format: YYYY-MM-DD");
                 }
-            }else{
+            } else {
+                actiontarget.setText("Please fill in all the boxes");
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("There are already 5 profiles for this account");
             }
-
             pause.play();
         });
 
