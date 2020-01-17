@@ -1,9 +1,6 @@
 package GUIScenes;
 
-import GUIScenes.OverViews.AllAccountsWithOneProfile;
-import GUIScenes.OverViews.AvgWatchtimeSerie;
-import GUIScenes.OverViews.FilmsWatched;
-import GUIScenes.OverViews.LongestMovieUnder16;
+import GUIScenes.OverViews.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,6 +46,20 @@ public class OverViewsDirect {
         gridPane.add(oneProfile, 0, 1);
         oneProfile.setOnAction(event -> {
             stage.setScene(AllAccountsWithOneProfile.display(stage, read, loggedPerson));
+        });
+
+        //Button for class amount of times watched movie 100 percent
+        Button amount100Percent = new Button("Amount of times movie fully watched");
+        gridPane.add(amount100Percent, 1, 1);
+        amount100Percent.setOnAction(event -> {
+            stage.setScene(AmountOfTimesWatchedMovie100Percent.display(stage, read, loggedPerson));
+        });
+
+        //Button for class selectedAccountAndSeriePerEpisodeAvgWatchedPercentage
+        Button selectedAccountAndSeriePerEpisodeAvgWatchedPercentage = new Button("I don't know how to name this class");
+        gridPane.add(selectedAccountAndSeriePerEpisodeAvgWatchedPercentage, 2, 1);
+        selectedAccountAndSeriePerEpisodeAvgWatchedPercentage.setOnAction(event -> {
+            stage.setScene(SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage.display(stage, read, loggedPerson));
         });
 
 //GridPane for different tabs

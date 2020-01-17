@@ -28,7 +28,7 @@ public class FilmsWatched {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
-        // Scene Tableview
+        //Tableview
         final Label label = new Label("Films Watched");
         label.setFont(new Font("Arial", 20));
         gridPane.add(label, 0, 0);

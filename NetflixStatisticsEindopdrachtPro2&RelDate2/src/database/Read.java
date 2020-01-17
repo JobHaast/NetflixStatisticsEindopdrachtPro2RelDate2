@@ -941,7 +941,7 @@ public class Read {
         return i;
     }
 
-    //Method for retrieving accounts with same address (currently not being used)
+    //Method for retrieving accounts with one profile
     public ArrayList<StringForTableView> getAccountsWithOneProfile(){
         ArrayList<StringForTableView> accounts = new ArrayList<>();
 
@@ -979,5 +979,92 @@ public class Read {
             }
         }
         return accounts;
+    }
+
+    //Method for retrieving accounts with one profile
+    public ArrayList<String> getSerieNames(){
+        ArrayList<String> series = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Name FROM Series;");
+
+            while (resultSet.next()) {
+                series.add(resultSet.getString("Name"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return series;
+    }
+
+    //Method for retrieving accounts with one profile
+    public ArrayList<EpisodeAvgWatchedSelAcc> getEpisodeAvgWatchedSelAcc(String accountName, String serieName){
+        ArrayList<EpisodeAvgWatchedSelAcc> series = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Episode.EpisodeNumber, Episode.SeasonNumber, Program.Title, AVG(Profile_Program.PercentageWatched) AS AveragePercentage\n" +
+                    "FROM Profile\n" +
+                    "JOIN Profile_Program ON Profile.ProfileName = Profile_Program.ProfileName\n" +
+                    "JOIN Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "JOIN Episode ON Episode.ProgramId = Program.ProgramId\n" +
+                    "WHERE Profile.AccountName = '"+accountName+"' AND Episode.Name = '"+serieName+"'\n" +
+                    "GROUP BY Episode.EpisodeNumber, Episode.SeasonNumber, Program.Title\n" +
+                    "ORDER BY SeasonNumber");
+
+            while (resultSet.next()) {
+                series.add(new EpisodeAvgWatchedSelAcc(resultSet.getInt("EpisodeNumber"), resultSet.getInt("SeasonNumber"), resultSet.getString("Title"), resultSet.getInt("AveragePercentage")));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return series;
     }
 }
