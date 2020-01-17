@@ -1067,4 +1067,93 @@ public class Read {
         }
         return series;
     }
+
+    //Method for retrieving accounts with one profile
+    public ArrayList<String> getFilms(){
+        ArrayList<String> films = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            resultSet = statement.executeQuery("SELECT Title\n" +
+                    "FROM Program\n" +
+                    "JOIN Film ON Film.ProgramId = Program.ProgramId ");
+
+            while (resultSet.next()) {
+                films.add(resultSet.getString("Title"));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return films;
+    }
+
+    //Method for retrieving accounts with one profile
+    public int getAmountWatchedMovie(String filmTitle){
+        int amount = 0;
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            if (filmTitle.contains("\'")) {
+                filmTitle = filmTitle.replace("\'", "\'\'");
+            }
+
+            resultSet = statement.executeQuery("SELECT COUNT(*) as 'Amount'\n" +
+                    "FROM Program\n" +
+                    "JOIN Profile_Program ON Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "WHERE Title = '"+filmTitle+"' AND PercentageWatched = 100;");
+
+            while (resultSet.next()) {
+                amount = resultSet.getInt("Amount");
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return amount;
+    }
 }

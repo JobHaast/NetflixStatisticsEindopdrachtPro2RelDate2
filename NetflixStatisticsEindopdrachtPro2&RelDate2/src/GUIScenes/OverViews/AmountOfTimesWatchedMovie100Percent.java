@@ -6,6 +6,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -25,6 +28,29 @@ public class AmountOfTimesWatchedMovie100Percent {
         menu.setHgap(20);
         menu.setVgap(20);
         menu.setPadding(new Insets(25, 25, 25, 25));
+
+        //Button for film
+        Label filmLabel = new Label("Film: ");
+        gridPane.add(filmLabel, 0 ,0);
+
+        //ComboBox for film
+        ComboBox<String> filmComboBox = new ComboBox<>();
+        filmComboBox.getItems().addAll(read.getFilms());
+        gridPane.add(filmComboBox, 1, 0);
+
+        //Label for amount of times watched
+        Label amountOfTimesWatchedLabel = new Label("Amount of times watched: ");
+        gridPane.add(amountOfTimesWatchedLabel, 0, 1);
+
+        //TextField for amount of times watched
+        TextField amountOfTimesWatchedTextField = new TextField();
+        amountOfTimesWatchedTextField.setDisable(true);
+        gridPane.add(amountOfTimesWatchedTextField, 1, 1);
+
+        //Onclick action for film
+        filmComboBox.setOnAction(event -> {
+            amountOfTimesWatchedTextField.setText(Integer.toString(read.getAmountWatchedMovie(filmComboBox.getValue())));
+        });
 
         //Button for profileoverview
         Button profileOverView = new Button("Profile");
