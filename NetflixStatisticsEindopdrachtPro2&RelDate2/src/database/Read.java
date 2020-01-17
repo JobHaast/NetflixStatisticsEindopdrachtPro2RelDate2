@@ -477,15 +477,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("(SELECT Title\n" +
-                    "FROM Program\n" +
-                    "JOIN Film ON Film.ProgramId = Program.ProgramId\n" +
-                    ")\n" +
-                    "UNION\n" +
-                    "(\n" +
-                    "SELECT Name\n" +
-                    "FROM Episode\n" +
-                    ")");
+            resultSet = statement.executeQuery("SELECT Title FROM Program");
 
             while (resultSet.next()) {
                 titles.add(resultSet.getString("Title"));

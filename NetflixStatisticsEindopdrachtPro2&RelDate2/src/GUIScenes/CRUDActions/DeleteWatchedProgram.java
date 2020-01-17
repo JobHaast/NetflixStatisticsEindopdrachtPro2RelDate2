@@ -69,10 +69,6 @@ public class DeleteWatchedProgram {
             //Action when pause.play() is called
             pause.setOnFinished(e -> {
                 actiontarget.setText(null);
-                accountNameComboBox.getItems().clear();
-                accountNameComboBox.getItems().addAll(namesAccounts);
-                profileNamesComboBox.getItems().clear();
-                programTitles.getItems().clear();
             });
 
             //onclick for accountNamesComboBox
@@ -96,6 +92,8 @@ public class DeleteWatchedProgram {
                     actiontarget.setFill(Color.FIREBRICK);
                     actiontarget.setText("Watched program not deleted");
                 }
+                programTitles.getItems().clear();
+                programTitles.getItems().addAll(read.getWatchedPrograms(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
                 pause.play();
             });
 
