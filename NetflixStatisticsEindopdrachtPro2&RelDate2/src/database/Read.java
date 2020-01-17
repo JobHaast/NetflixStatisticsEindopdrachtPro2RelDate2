@@ -513,6 +513,10 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
+            if (programTitle.contains("\'")) {
+                programTitle = programTitle.replace("\'", "\'\'");
+            }
+
             resultSet = statement.executeQuery("(SELECT ProgramId FROM Program WHERE Title = '"+programTitle+"') UNION (SELECT ProgramId FROM Episode WHERE Name = '"+programTitle+"');");
 
             while (resultSet.next()) {
