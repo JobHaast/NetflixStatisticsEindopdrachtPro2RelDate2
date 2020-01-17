@@ -41,6 +41,10 @@ public class CreateWatchedProgram {
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
+        //Text for feedback account names
+        final Text feedbackTextAccountName = new Text();
+        gridPane.add(feedbackTextAccountName, 2, 0);
+
         //Label for profilenames
         Label profileNameLabel = new Label("Profile Name:");
         gridPane.add(profileNameLabel, 0, 1);
@@ -48,6 +52,10 @@ public class CreateWatchedProgram {
         //combobox for profilenames
         ComboBox<String> profileNamesComboBox = new ComboBox<>();
         gridPane.add(profileNamesComboBox, 1, 1);
+
+        //Text for feedback profilenames
+        final Text feedbackTextProfileNames = new Text();
+        gridPane.add(feedbackTextProfileNames, 2, 1);
 
         //Label for programnames
         Label program = new Label("Program: ");
@@ -58,6 +66,10 @@ public class CreateWatchedProgram {
         programTitles.getItems().addAll(titlesPrograms);
         gridPane.add(programTitles, 1, 2);
 
+        //Text for feedback programnames
+        final Text feedbackTextProgramNames = new Text();
+        gridPane.add(feedbackTextProgramNames, 2, 2);
+
         //Label for percentage watched
         Label percentageWatchedLabel = new Label("Percentage watched: ");
         gridPane.add(percentageWatchedLabel, 0, 3);
@@ -65,6 +77,10 @@ public class CreateWatchedProgram {
         //Textfield for percentage watched
         TextField textFieldPercentageWatched = new TextField();
         gridPane.add(textFieldPercentageWatched, 1, 3);
+
+        //Text for feedback percentage watched
+        final Text feedbackTextPercentageWatched = new Text();
+        gridPane.add(feedbackTextPercentageWatched, 2, 3);
 
         //Button for sumbitting
         Button submit = new Button("Submit");

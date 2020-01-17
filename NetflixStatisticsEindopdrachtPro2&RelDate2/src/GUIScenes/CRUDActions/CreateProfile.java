@@ -40,6 +40,10 @@ public class CreateProfile {
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
+        //Text for feedback accountname
+        final Text feedbackTextAccountName = new Text();
+        gridPane.add(feedbackTextAccountName, 2, 0);
+
         //Label for profilename
         Label profileNameLabel = new Label("Profile name:");
         gridPane.add(profileNameLabel, 0, 1);
@@ -48,7 +52,11 @@ public class CreateProfile {
         TextField profileNameTextField = new TextField();
         gridPane.add(profileNameTextField, 1, 1);
 
-        //Lable for langue
+        //Text for feedback profilename
+        final Text feedbackTextProfileName = new Text();
+        gridPane.add(feedbackTextProfileName, 2, 1);
+
+        //Label for language
         Label languageLabel = new Label("Language:");
         gridPane.add(languageLabel, 0, 2);
 
@@ -57,11 +65,15 @@ public class CreateProfile {
         languagesComboBox.getItems().addAll("Nederlands", "English");
         gridPane.add(languagesComboBox, 1, 2);
 
+        //Text for feedback languages
+        final Text feedbackTextLanguages = new Text();
+        gridPane.add(feedbackTextLanguages, 2, 2);
+
         //Label for birthday
         Label birthdayLabel = new Label("Birthday:");
         gridPane.add(birthdayLabel, 0, 3);
 
-        //datepicker for birthday
+        //Textfield for birthday
         TextField birthdayDatePicker = new TextField();
         gridPane.add(birthdayDatePicker, 1, 3);
 
@@ -71,7 +83,7 @@ public class CreateProfile {
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 5);
+        gridPane.add(actiontarget, 2, 4);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {

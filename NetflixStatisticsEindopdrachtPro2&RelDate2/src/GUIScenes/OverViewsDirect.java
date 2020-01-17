@@ -56,7 +56,7 @@ public class OverViewsDirect {
         });
 
         //Button for class selectedAccountAndSeriePerEpisodeAvgWatchedPercentage
-        Button selectedAccountAndSeriePerEpisodeAvgWatchedPercentage = new Button("I don't know how to name this class");
+        Button selectedAccountAndSeriePerEpisodeAvgWatchedPercentage = new Button("Watched percentage of episode with an account selected");
         gridPane.add(selectedAccountAndSeriePerEpisodeAvgWatchedPercentage, 2, 1);
         selectedAccountAndSeriePerEpisodeAvgWatchedPercentage.setOnAction(event -> {
             stage.setScene(SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage.display(stage, read, loggedPerson));

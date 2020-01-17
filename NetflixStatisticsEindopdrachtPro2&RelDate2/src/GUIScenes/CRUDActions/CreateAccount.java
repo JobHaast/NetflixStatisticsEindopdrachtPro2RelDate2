@@ -98,8 +98,6 @@ public class CreateAccount {
         Button submit = new Button("Create");
         gridPane.add(submit, 1, 8);
         submit.setOnAction(event -> {
-
-
             int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
             if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
                 if (addressId == 0) {
