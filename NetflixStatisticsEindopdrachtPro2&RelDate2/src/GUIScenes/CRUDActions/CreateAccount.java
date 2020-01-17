@@ -168,13 +168,13 @@ public class CreateAccount {
                                     actiontarget.setText("Account already exists");
                                 }
                             } else {
-                                feedbackTextCity.setText("Please only use letters, spaces and these special characters: - \' . ,");
+                                feedbackTextCity.setText("Please only use letters, spaces and these special characters: - \' .");
                             }
                         } else {
                             feedbackTextNumber.setText("Please refrain from using anything else but numbers");
                         }
                     } else {
-                        feedbackTextStreetname.setText("Please only use letters, spaces and these special characters: - \' . ,");
+                        feedbackTextStreetname.setText("Please only use letters, spaces and these special characters: - \' .");
                     }
                 } else {
                     feedbackTextPhoneNumber.setText("Please fill in numbers and spaces only");
