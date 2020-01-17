@@ -126,6 +126,9 @@ public class CreateAccount {
                         actiontarget.setText("Account already exists");
                     }
                 }
+            } else {
+                actiontarget.setText("Please fill in all the boxes");
+                actiontarget.setFill(Color.FIREBRICK);
             }
             pause.play();
         });

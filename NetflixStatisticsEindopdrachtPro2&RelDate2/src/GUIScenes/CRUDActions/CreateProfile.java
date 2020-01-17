@@ -42,6 +42,7 @@ public class CreateProfile {
 
         //Text for feedback accountname
         final Text feedbackTextAccountName = new Text();
+        feedbackTextAccountName.setFill(Color.FIREBRICK);
         gridPane.add(feedbackTextAccountName, 2, 0);
 
         //Label for profilename
@@ -54,6 +55,7 @@ public class CreateProfile {
 
         //Text for feedback profilename
         final Text feedbackTextProfileName = new Text();
+        feedbackTextProfileName.setFill(Color.FIREBRICK);
         gridPane.add(feedbackTextProfileName, 2, 1);
 
         //Label for language
@@ -67,6 +69,7 @@ public class CreateProfile {
 
         //Text for feedback languages
         final Text feedbackTextLanguages = new Text();
+        feedbackTextLanguages.setFill(Color.FIREBRICK);
         gridPane.add(feedbackTextLanguages, 2, 2);
 
         //Label for birthday
