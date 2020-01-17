@@ -17,7 +17,7 @@ import javafx.util.Duration;
 import logic.Account;
 
 public class CreateAccount {
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Create cA = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
 
@@ -96,27 +96,29 @@ public class CreateAccount {
         gridPane.add(actiontarget, 1, 9);
 
         Button submit = new Button("Create");
-        gridPane.add(submit,1,8);
+        gridPane.add(submit, 1, 8);
         submit.setOnAction(event -> {
-                int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-                if(read.getAccountCheck(accountNameTextField.getText()).size() == 0){
-                    if(addressId == 0) {
-                        cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-                        cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
-                        actiontarget.setFill(Color.GREEN);
-                        actiontarget.setText("Succesfully created the account");
-                    }else if(addressId != 0){
-                        cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
-                        actiontarget.setFill(Color.GREEN);
-                        actiontarget.setText("Succesfully created the account");
-                    }else{
-                        actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("An error has occurred");
-                    }
-                }else{
+
+
+            int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+            if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
+                if (addressId == 0) {
+                    cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                    cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
+                    actiontarget.setFill(Color.GREEN);
+                    actiontarget.setText("Succesfully created the account");
+                } else if (addressId != 0) {
+                    cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
+                    actiontarget.setFill(Color.GREEN);
+                    actiontarget.setText("Succesfully created the account");
+                } else {
                     actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("Account already exists");
+                    actiontarget.setText("An error has occurred");
                 }
+            } else {
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Account already exists");
+            }
             pause.play();
         });
 
@@ -177,7 +179,7 @@ public class CreateAccount {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
