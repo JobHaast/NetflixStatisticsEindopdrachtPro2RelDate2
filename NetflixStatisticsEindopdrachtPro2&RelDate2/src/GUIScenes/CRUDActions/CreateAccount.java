@@ -37,6 +37,11 @@ public class CreateAccount {
         TextField accountNameTextField = new TextField();
         gridPane.add(accountNameTextField, 1, 0);
 
+        //Text for feedback accountname
+        final Text feedbackTextAccountName = new Text();
+        feedbackTextAccountName.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextAccountName, 2, 0);
+
         //Label for email
         Label emailLabel = new Label("Email:");
         gridPane.add(emailLabel, 0, 1);
@@ -44,6 +49,12 @@ public class CreateAccount {
         //Textfield for email
         TextField emailTextField = new TextField();
         gridPane.add(emailTextField, 1, 1);
+
+        //Text for feedback email
+        final Text feedbackTextEmail = new Text();
+        feedbackTextEmail.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextEmail, 2, 1);
+
 
         //Label for phonenumber
         Label phonenumberLabel = new Label("Phonenumber:");
@@ -53,6 +64,11 @@ public class CreateAccount {
         TextField textFieldPhonenumber = new TextField();
         gridPane.add(textFieldPhonenumber, 1, 2);
 
+        //Text for feedback PhoneNumber
+        final Text feedbackTextPhoneNumber = new Text();
+        feedbackTextPhoneNumber.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextPhoneNumber, 2, 2);
+
         //Label for password
         Label passwordLabel = new Label("Password:");
         gridPane.add(passwordLabel, 0, 3);
@@ -60,6 +76,11 @@ public class CreateAccount {
         //Passwordfield for password
         PasswordField passwordFieldPassword = new PasswordField();
         gridPane.add(passwordFieldPassword, 1, 3);
+
+        //Text for feedback Password
+        final Text feedbackTextPassword = new Text();
+        feedbackTextPassword.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextPassword, 2, 3);
 
         //Label for streetname
         Label labelAddress = new Label("Streetname:");
@@ -69,6 +90,11 @@ public class CreateAccount {
         TextField textFieldStreetName = new TextField();
         gridPane.add(textFieldStreetName, 1, 4);
 
+        //Text for feedback Streetname
+        final Text feedbackTextStreetname = new Text();
+        feedbackTextStreetname.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextStreetname, 2, 4);
+
         //Label for number
         Label labelNumber = new Label("Number:");
         gridPane.add(labelNumber, 0, 5);
@@ -76,6 +102,11 @@ public class CreateAccount {
         //Textfield for number
         TextField textFieldNumber = new TextField();
         gridPane.add(textFieldNumber, 1, 5);
+
+        //Text for feedback Number
+        final Text feedbackTextNumber = new Text();
+        feedbackTextNumber.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextNumber, 2, 5);
 
         //Label for Addition
         Label labelAddition = new Label("Addition:");
@@ -93,6 +124,11 @@ public class CreateAccount {
         TextField textFieldCity = new TextField();
         gridPane.add(textFieldCity, 1, 7);
 
+        //Text for feedback City
+        final Text feedbackTextCity = new Text();
+        feedbackTextCity.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextCity, 2, 7);
+
         final Text actiontarget = new Text();
         gridPane.add(actiontarget, 1, 9);
 
@@ -101,30 +137,47 @@ public class CreateAccount {
         submit.setOnAction(event -> {
             if (Checks.checkIfNotNullOrEmptyString(accountNameTextField.getText()) && Checks.checkIfNotNullOrEmptyString(emailTextField.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldPhonenumber.getText()) && Checks.checkIfNotNullOrEmptyString(passwordFieldPassword.getText()) &&
                     Checks.checkIfNotNullOrEmptyString(textFieldStreetName.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldNumber.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldCity.getText())) {
-                    //Checks if a value in Address is empty
+                //Checks if a value in Address is empty
 
-                if (Checks.checkIfNumbersOnly(textFieldPhonenumber.getText()) && Checks.checkIfLettersOnly(textFieldStreetName.getText()) && Checks.checkIfNumbersOnly(textFieldNumber.getText()) && Checks.checkIfLettersOnly(textFieldCity.getText())) {
-                    //Checks Phonenumber, StreetName, Number and City
+                if (Checks.checkIfNumbersOnly(textFieldPhonenumber.getText())) {
+                    //Checks Phonenumber and gives feedback if it isn't the correct format
+                    if (Checks.checkIfLettersOnly(textFieldStreetName.getText())) {
+                        //Checks StreetName and gives feedback if it isn't the correct format
+                        if (Checks.checkIfNumbersOnly(textFieldNumber.getText())) {
+                            //Checks Number and gives feedback if it isn't the correct format
+                            if (Checks.checkIfLettersOnly(textFieldCity.getText())) {
+                                //Checks City and gives feedback if it isn't the correct format
 
-                    int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-                    if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
-                        if (addressId == 0) {
-                            cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-                            cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
-                            actiontarget.setFill(Color.GREEN);
-                            actiontarget.setText("Succesfully created the account");
-                        } else if (addressId != 0) {
-                            cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
-                            actiontarget.setFill(Color.GREEN);
-                            actiontarget.setText("Succesfully created the account");
+                                int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                                if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
+                                    if (addressId == 0) {
+                                        cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                                        cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
+                                        actiontarget.setFill(Color.GREEN);
+                                        actiontarget.setText("Succesfully created the account");
+                                    } else if (addressId != 0) {
+                                        cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
+                                        actiontarget.setFill(Color.GREEN);
+                                        actiontarget.setText("Succesfully created the account");
+                                    } else {
+                                        actiontarget.setFill(Color.FIREBRICK);
+                                        actiontarget.setText("An error has occurred");
+                                    }
+                                } else {
+                                    actiontarget.setFill(Color.FIREBRICK);
+                                    actiontarget.setText("Account already exists");
+                                }
+                            } else {
+                                feedbackTextCity.setText("Please only use letters, spaces and these special characters: - \' . ,");
+                            }
                         } else {
-                            actiontarget.setFill(Color.FIREBRICK);
-                            actiontarget.setText("An error has occurred");
+                            feedbackTextNumber.setText("Please refrain from using anything else but numbers");
                         }
                     } else {
-                        actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("Account already exists");
+                        feedbackTextStreetname.setText("Please only use letters, spaces and these special characters: - \' . ,");
                     }
+                } else {
+                    feedbackTextPhoneNumber.setText("Please fill in numbers and spaces only");
                 }
             } else {
                 actiontarget.setText("Please fill in all the boxes");
@@ -136,6 +189,14 @@ public class CreateAccount {
         //Action when pause.play() is called//
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
+            feedbackTextAccountName.setText(null);
+            feedbackTextCity.setText(null);
+            feedbackTextEmail.setText(null);
+            feedbackTextNumber.setText(null);
+            feedbackTextPassword.setText(null);
+            feedbackTextPhoneNumber.setText(null);
+            feedbackTextStreetname.setText(null);
+
         });
 
         //GridPane for different tabs
