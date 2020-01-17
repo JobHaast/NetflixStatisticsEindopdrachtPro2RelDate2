@@ -35,7 +35,7 @@ public class CreateProfile {
         Label accountNameLabel = new Label("Account Name:");
         gridPane.add(accountNameLabel, 0, 0);
 
-        //combobox for accountname
+        //Combobox for accountname
         ComboBox<String> accountNameComboBox = new ComboBox<>();
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
@@ -60,7 +60,7 @@ public class CreateProfile {
         Label languageLabel = new Label("Language:");
         gridPane.add(languageLabel, 0, 2);
 
-        //combobox for languages
+        //Combobox for languages
         ComboBox<String> languagesComboBox = new ComboBox<>();
         languagesComboBox.getItems().addAll("Nederlands", "English");
         gridPane.add(languagesComboBox, 1, 2);
@@ -87,6 +87,7 @@ public class CreateProfile {
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
+
             actiontarget.setText(null);
         });
 

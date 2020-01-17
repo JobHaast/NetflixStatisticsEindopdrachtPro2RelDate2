@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 public class CreateAccount {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
@@ -98,24 +99,33 @@ public class CreateAccount {
         Button submit = new Button("Create");
         gridPane.add(submit, 1, 8);
         submit.setOnAction(event -> {
-            int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-            if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
-                if (addressId == 0) {
-                    cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
-                    cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
-                    actiontarget.setFill(Color.GREEN);
-                    actiontarget.setText("Succesfully created the account");
-                } else if (addressId != 0) {
-                    cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
-                    actiontarget.setFill(Color.GREEN);
-                    actiontarget.setText("Succesfully created the account");
-                } else {
-                    actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("An error has occurred");
+            if (Checks.checkIfNotNullOrEmptyString(accountNameTextField.getText()) && Checks.checkIfNotNullOrEmptyString(emailTextField.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldPhonenumber.getText()) && Checks.checkIfNotNullOrEmptyString(passwordFieldPassword.getText()) &&
+                    Checks.checkIfNotNullOrEmptyString(textFieldStreetName.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldNumber.getText()) && Checks.checkIfNotNullOrEmptyString(textFieldCity.getText())) {
+                    //Checks if a value in Address is empty
+
+                if (Checks.checkIfNumbersOnly(textFieldPhonenumber.getText()) && Checks.checkIfLettersOnly(textFieldStreetName.getText()) && Checks.checkIfNumbersOnly(textFieldNumber.getText()) && Checks.checkIfLettersOnly(textFieldCity.getText())) {
+                    //Checks Phonenumber, StreetName, Number and City
+
+                    int addressId = read.checkIfAddressExists(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                    if (read.getAccountCheck(accountNameTextField.getText()).size() == 0) {
+                        if (addressId == 0) {
+                            cA.createAddress(textFieldStreetName.getText(), Integer.parseInt(textFieldNumber.getText()), textFieldAddition.getText(), textFieldCity.getText());
+                            cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), read.getHighestAddressId());
+                            actiontarget.setFill(Color.GREEN);
+                            actiontarget.setText("Succesfully created the account");
+                        } else if (addressId != 0) {
+                            cA.createAccount(accountNameTextField.getText(), emailTextField.getText(), textFieldPhonenumber.getText(), passwordFieldPassword.getText(), addressId);
+                            actiontarget.setFill(Color.GREEN);
+                            actiontarget.setText("Succesfully created the account");
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("An error has occurred");
+                        }
+                    } else {
+                        actiontarget.setFill(Color.FIREBRICK);
+                        actiontarget.setText("Account already exists");
+                    }
                 }
-            } else {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Account already exists");
             }
             pause.play();
         });
