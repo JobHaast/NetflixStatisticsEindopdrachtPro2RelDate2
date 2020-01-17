@@ -44,7 +44,6 @@ public class AmountOfTimesWatchedMovie100Percent {
 
         //TextField for amount of times watched
         TextField amountOfTimesWatchedTextField = new TextField();
-        amountOfTimesWatchedTextField.setDisable(true);
         gridPane.add(amountOfTimesWatchedTextField, 1, 1);
 
         //Onclick action for film
