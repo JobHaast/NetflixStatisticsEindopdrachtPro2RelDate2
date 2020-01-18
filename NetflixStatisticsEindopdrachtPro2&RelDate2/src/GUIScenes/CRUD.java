@@ -4,21 +4,29 @@ import GUIScenes.CRUDActions.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import logic.Account;
 
 public class CRUD {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+
         //CRUD Scene
         GridPane cRUDGridPane = new GridPane();
         cRUDGridPane.setAlignment(Pos.CENTER);
         cRUDGridPane.setHgap(20);
         cRUDGridPane.setVgap(20);
         cRUDGridPane.setPadding(new Insets(25, 25, 25, 25));
+
+        //Set background color
+        Color backgroundColor = Color.web("rgb(100, 97, 97)");
+        cRUDGridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Button for account creation
         Button createAccount = new Button("Create Account");
@@ -162,7 +170,11 @@ public class CRUD {
         mainScene.setBottom(menu);
         mainScene.setCenter(cRUDGridPane);
 
-        Scene scene = new Scene(mainScene);
+        //Set background color
+        Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
+        mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
         return scene;
     }
 }

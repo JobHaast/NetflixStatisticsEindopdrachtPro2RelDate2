@@ -6,12 +6,13 @@ import database.Create;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
@@ -24,6 +25,7 @@ public class CreateProfile {
         Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
         //CRUD Scene
         GridPane gridPane = new GridPane();
@@ -31,6 +33,10 @@ public class CreateProfile {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
+
+        //Backgroundcolor for gridpane
+        Color backgroundColor = Color.web("rgb(100, 97, 97)");
+        gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Label for AccountName
         Label accountNameLabel = new Label("Account Name:");
@@ -195,7 +201,11 @@ public class CreateProfile {
         mainScene.setBottom(menu);
         mainScene.setCenter(gridPane);
 
-        Scene scene = new Scene(mainScene);
+        //Set background color
+        Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
+        mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
         return scene;
     }
 }

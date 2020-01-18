@@ -5,6 +5,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
@@ -40,6 +42,7 @@ public class LoginScene extends Application {
 
     public static Scene display(Stage stage, Read read){
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
         // Scene login
         GridPane gridPaneLogin = new GridPane();
@@ -47,32 +50,33 @@ public class LoginScene extends Application {
         gridPaneLogin.setHgap(10);
         gridPaneLogin.setVgap(10);
         gridPaneLogin.setPadding(new Insets(25, 25, 25, 25));
-//        Color backgroundcolor = new Color();
-//        gridPaneLogin.backgroundProperty().set(new Background(new BackgroundFill(Color., CornerRadii.EMPTY, Insets.EMPTY)));
+
+        //Backgroundcolor for gridpane
+        Color backgroundColor = Color.web("rgb(40, 40, 40)");
+        Color textColor = Color.web("rgb(255, 255, 255)");
+        gridPaneLogin.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Set picture and position.
-//        try {
-//            Image imfNetflix = new Image(new FileInputStream(".\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\Netflix.png"));
-//            ImageView imageViewLostInSpace = new ImageView(imfNetflix);
-//            imageViewLostInSpace.setFitHeight(200);
-//            imageViewLostInSpace.setFitWidth(355);
-//            imageViewLostInSpace.setPickOnBounds(true);
-//            gridPaneLogin.add(imageViewLostInSpace, 0, 0, 7, 1);
-//        }catch (Exception e){
-//            e.getMessage();
-//        }
-
-//        Text sceneTitleLogin = new Text("Welcome");
-//        sceneTitleLogin.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-//        gridPaneLogin.add(sceneTitleLogin, 0, 2, 2, 1);
+        try {
+            Image imfNetflix = new Image(new FileInputStream(".\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\netflix.png"));
+            ImageView imageViewLostInSpace = new ImageView(imfNetflix);
+            imageViewLostInSpace.setFitHeight(200);
+            imageViewLostInSpace.setFitWidth(355);
+            imageViewLostInSpace.setPickOnBounds(true);
+            gridPaneLogin.add(imageViewLostInSpace, 0, 0, 7, 1);
+        }catch (Exception e){
+            e.getMessage();
+        }
 
         Label userName = new Label("User Name:");
+        userName.setTextFill(textColor);
         gridPaneLogin.add(userName, 4, 2);
 
         TextField userTextField = new TextField();
         gridPaneLogin.add(userTextField, 5, 2);
 
         Label pw = new Label("Password:");
+        pw.setTextFill(textColor);
         gridPaneLogin.add(pw, 4, 3);
 
         PasswordField pwBox = new PasswordField();
@@ -89,7 +93,7 @@ public class LoginScene extends Application {
             actiontarget.setText(null);
         });
 
-        Scene loginScene = new Scene(gridPaneLogin);
+        Scene loginScene = new Scene(gridPaneLogin, screenSize.getWidth(), screenSize.getHeight()*0.978);
 
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {

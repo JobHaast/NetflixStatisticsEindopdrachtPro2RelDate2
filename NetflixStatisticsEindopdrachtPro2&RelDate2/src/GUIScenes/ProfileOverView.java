@@ -3,23 +3,29 @@ package GUIScenes;
 import GUIScenes.OverViews.FilmsWatched;
 import database.Read;
 import database.Update;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import logic.Account;
-import logic.Address;
+
 
 public class ProfileOverView {
 
     public static Scene display(Stage stage, Read read, Account loggedPerson){
         Update update = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
         // Scene profileOverView
         GridPane gridPane = new GridPane();
@@ -28,24 +34,42 @@ public class ProfileOverView {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
+        //Set background color
+        Color backgroundColor = Color.web("rgb(100, 97, 97)");
+        gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
+
         Label userNameGridPaneProfileOverView = new Label("User Name:");
         gridPane.add(userNameGridPaneProfileOverView, 0, 1);
 
-        TextField userTextFieldGridPaneProfileOverView = new TextField();
+        TextField userTextFieldGridPaneProfileOverView = new TextField(loggedPerson.getAccountName());
         userTextFieldGridPaneProfileOverView.setDisable(true);
         gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
         Label passwordLabel = new Label("Password:");
         gridPane.add(passwordLabel, 0, 2);
 
-        TextField passwordTextField = new TextField();
+        TextField passwordTextField = new TextField(loggedPerson.getPassword());
         gridPane.add(passwordTextField, 1, 2);
 
         Button submitButton = new Button("Change");
         gridPane.add(submitButton, 1, 3);
 
+        final Text feedBack = new Text();
+        gridPane.add(feedBack, 1, 4);
+
+        pause.setOnFinished(event -> {
+            feedBack.setText(null);
+        });
+
         submitButton.setOnAction(event -> {
-            update.updateAdministrator(userTextFieldGridPaneProfileOverView.getText(), passwordTextField.getText());
+            if("Administrator updated".equals(update.updateAdministrator(userTextFieldGridPaneProfileOverView.getText(), passwordTextField.getText()))){
+                feedBack.setFill(Color.GREEN);
+                feedBack.setText("Password changed");
+            }else{
+                feedBack.setFill(Color.FIREBRICK);
+                feedBack.setText("Password not changed");
+            }
+            pause.play();
         });
 
         //GridPane for different tabs
@@ -110,7 +134,11 @@ public class ProfileOverView {
         mainScene.setBottom(menu);
         mainScene.setCenter(gridPane);
 
-        Scene scene = new Scene(mainScene);
+        //Set background color
+        Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
+        mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
 
         return scene;
     }

@@ -179,8 +179,8 @@ public class Update {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("UPDATE Administrator(Password)" +
-                    "VALUES('"+passWord+"')" +
+            statement.executeUpdate("UPDATE Account\n" +
+                    "SET Password = '"+passWord+"'\n" +
                     "WHERE AccountName = '"+accountName+"';");
 
 //            Handle any errors that may have occurred.

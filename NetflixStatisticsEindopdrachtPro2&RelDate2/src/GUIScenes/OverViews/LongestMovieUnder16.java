@@ -4,16 +4,19 @@ import GUIScenes.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import logic.Account;
 
 public class LongestMovieUnder16 {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         String movie = read.getLongestMovieUnder16();
 
         GridPane gridPane = new GridPane();
@@ -21,6 +24,10 @@ public class LongestMovieUnder16 {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
+
+        //Backgroundcolor for gridpane
+        Color backgroundColor = Color.web("rgb(100, 97, 97)");
+        gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Label label0 = new Label("Longest movie for people under 16: "+movie+"");
         gridPane.add(label0, 0, 0);
@@ -87,7 +94,11 @@ public class LongestMovieUnder16 {
         mainScene.setBottom(menu);
         mainScene.setCenter(gridPane);
 
-        Scene scene = new Scene(mainScene);
+        //Set background color
+        Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
+        mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
         return scene;
     }
 }
