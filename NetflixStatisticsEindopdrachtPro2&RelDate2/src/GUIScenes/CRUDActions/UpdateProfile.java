@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
@@ -67,9 +68,14 @@ public class UpdateProfile {
         Label birthdayLabel = new Label("Birthday");
         gridPane.add(birthdayLabel, 0, 3);
 
-        //
+        //TextField for birthday
         TextField birthdayDatePicker = new TextField();
         gridPane.add(birthdayDatePicker, 1, 3);
+
+        //Text for feedback birthday
+        final Text feedbackTextBirthday = new Text();
+        feedbackTextBirthday.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextBirthday, 2, 3);
 
         //Feedbacktext
         final Text actiontarget = new Text();
@@ -78,17 +84,28 @@ public class UpdateProfile {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
+            feedbackTextBirthday.setText(null);
         });
 
         Button submit = new Button("Submit");
         gridPane.add(submit,1,4);
         submit.setOnAction(event -> {
-            if("Profile updated".equals(uP.updateProfile(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), languagesComboBox.getValue(), birthdayDatePicker.getText()))){
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Profile updated");
-            }else{
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+                    Checks.checkIfNotNullOrEmptyString(languagesComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(birthdayDatePicker.getText())) {
+                if (Checks.checkIfCorrectBirthdayFormat(birthdayDatePicker.getText())) {
+                    if ("Profile updated".equals(uP.updateProfile(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
+                        actiontarget.setFill(Color.GREEN);
+                        actiontarget.setText("Profile updated");
+                    } else {
+                        actiontarget.setFill(Color.FIREBRICK);
+                        actiontarget.setText("Profile not updated");
+                    }
+                } else {
+                    feedbackTextBirthday.setText("Please use the correct birthday format: YYYY-MM-DD");
+                }
+            } else {
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile not updated");
             }
             pause.play();
         });

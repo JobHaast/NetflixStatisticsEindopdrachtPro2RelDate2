@@ -127,7 +127,7 @@ public class CreateProfile {
                     feedbackTextBirthday.setText("Please use the correct Birthday Format: YYYY-MM-DD");
                 }
             } else {
-                actiontarget.setText("Please fill in all the boxes");
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
             }
             pause.play();
