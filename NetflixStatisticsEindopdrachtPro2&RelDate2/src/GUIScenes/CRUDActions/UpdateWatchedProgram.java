@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,10 @@ public class UpdateWatchedProgram {
         TextField percentageWatchedTextField = new TextField();
         gridPane.add(percentageWatchedTextField, 1, 3);
 
+        //Text for feedback percentage watched
+        final Text feedbackTextPercentageWatched = new Text();
+        gridPane.add(feedbackTextPercentageWatched, 2, 3);
+
         //Feedbacktext
         final Text actiontarget = new Text();
         gridPane.add(actiontarget, 1, 5);
@@ -82,17 +87,34 @@ public class UpdateWatchedProgram {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
+            feedbackTextPercentageWatched.setText(null);
         });
 
         Button submit = new Button("Submit");
         gridPane.add(submit,1,4);
         submit.setOnAction(event -> {
-            if("Watched program updated".equals(uWP.updateWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), read.getProgramId(watchedProgramsComboBox.getValue()), Integer.parseInt(percentageWatchedTextField.getText())))){
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Profile updated");
-            }else{
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+                    Checks.checkIfNotNullOrEmptyString(watchedProgramsComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(percentageWatchedTextField.getText())) {
+                if (Checks.checkIfNumbersOnly(percentageWatchedTextField.getText())) {
+                    if (Checks.checkIfNumberWithin1and100(percentageWatchedTextField.getText())) {
+                        if ("Watched program updated".equals(uWP.updateWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), read.getProgramId(watchedProgramsComboBox.getValue()), Integer.parseInt(percentageWatchedTextField.getText())))) {
+                            actiontarget.setFill(Color.GREEN);
+                            actiontarget.setText("Profile updated");
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("Profile not updated");
+                        }
+                    } else {
+                        feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
+                    }
+                } else {
+                    feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                    feedbackTextPercentageWatched.setText("Please fill in numbers only");
+                }
+            } else {
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile not updated");
+                actiontarget.setText("Please fill in all the fields");
             }
             pause.play();
         });

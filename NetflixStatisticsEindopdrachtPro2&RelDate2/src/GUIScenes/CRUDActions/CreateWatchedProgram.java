@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
@@ -93,6 +94,7 @@ public class CreateWatchedProgram {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
+            feedbackTextPercentageWatched.setText(null);
         });
 
         //onclick for profileNamesComboBox
@@ -103,17 +105,33 @@ public class CreateWatchedProgram {
 
         //Onclick for submit
         submit.setOnAction(event -> {
-            if(0 == read.getwatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue()).size()) {
-                if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
-                    actiontarget.setFill(Color.GREEN);
-                    actiontarget.setText("Succesfully added");
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+                    Checks.checkIfNotNullOrEmptyString(programTitles.getValue()) && Checks.checkIfNotNullOrEmptyString(textFieldPercentageWatched.getText())) {
+                if (Checks.checkIfNumbersOnly(textFieldPercentageWatched.getText())) {
+                    if (Checks.checkIfNumberWithin1and100(textFieldPercentageWatched.getText())) {
+                        if (0 == read.getwatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue()).size()) {
+                            if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
+                                actiontarget.setFill(Color.GREEN);
+                                actiontarget.setText("Succesfully added");
+                            } else {
+                                actiontarget.setFill(Color.FIREBRICK);
+                                actiontarget.setText("Error");
+                            }
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("Profile already has record of program");
+                        }
+                    } else {
+                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
+                        feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                    }
                 } else {
-                    actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("Error");
+                    feedbackTextPercentageWatched.setText("Please use only numbers in this field");
+                    feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
                 }
-            }else{
+            } else {
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile already has record of program");
             }
             pause.play();
         });
@@ -170,7 +188,7 @@ public class CreateWatchedProgram {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
