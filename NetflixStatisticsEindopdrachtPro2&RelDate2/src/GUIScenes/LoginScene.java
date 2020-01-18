@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,6 +20,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class LoginScene extends Application {
 
@@ -29,6 +34,7 @@ public class LoginScene extends Application {
         stage.setMaximized(true);
         stage.setScene(LoginScene.display(stage, read));
         stage.setTitle("Job Haast - 2151057, Noah Korten - 2153017, Wesley de Jonge - 2144101");
+        stage.setResizable(true);
         stage.show();
     }
 
@@ -41,28 +47,42 @@ public class LoginScene extends Application {
         gridPaneLogin.setHgap(10);
         gridPaneLogin.setVgap(10);
         gridPaneLogin.setPadding(new Insets(25, 25, 25, 25));
+//        Color backgroundcolor = new Color();
+//        gridPaneLogin.backgroundProperty().set(new Background(new BackgroundFill(Color., CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Text sceneTitleLogin = new Text("Welcome");
-        sceneTitleLogin.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        gridPaneLogin.add(sceneTitleLogin, 0, 0, 2, 1);
+        //Set picture and position.
+//        try {
+//            Image imfNetflix = new Image(new FileInputStream(".\\NetflixStatisticsEindopdrachtPro2&RelDate2\\Photo's\\Netflix.png"));
+//            ImageView imageViewLostInSpace = new ImageView(imfNetflix);
+//            imageViewLostInSpace.setFitHeight(200);
+//            imageViewLostInSpace.setFitWidth(355);
+//            imageViewLostInSpace.setPickOnBounds(true);
+//            gridPaneLogin.add(imageViewLostInSpace, 0, 0, 7, 1);
+//        }catch (Exception e){
+//            e.getMessage();
+//        }
+
+//        Text sceneTitleLogin = new Text("Welcome");
+//        sceneTitleLogin.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+//        gridPaneLogin.add(sceneTitleLogin, 0, 2, 2, 1);
 
         Label userName = new Label("User Name:");
-        gridPaneLogin.add(userName, 0, 1);
+        gridPaneLogin.add(userName, 4, 2);
 
         TextField userTextField = new TextField();
-        gridPaneLogin.add(userTextField, 1, 1);
+        gridPaneLogin.add(userTextField, 5, 2);
 
         Label pw = new Label("Password:");
-        gridPaneLogin.add(pw, 0, 2);
+        gridPaneLogin.add(pw, 4, 3);
 
         PasswordField pwBox = new PasswordField();
-        gridPaneLogin.add(pwBox, 1, 2);
+        gridPaneLogin.add(pwBox, 5, 3);
 
         Button btn = new Button("Sign in");
-        gridPaneLogin.add(btn, 1, 4);
+        gridPaneLogin.add(btn, 5, 4);
 
         final Text actiontarget = new Text();
-        gridPaneLogin.add(actiontarget, 1, 6);
+        gridPaneLogin.add(actiontarget, 5, 5);
 
         //Action when pause.play() is called//
         pause.setOnFinished(e -> {

@@ -101,10 +101,10 @@ public class ProgramOverView {
         programsGridPane.add(imageBrooklynNineNine, 2, 2);
 
         //Onclick event for photo of the serie Lost in space
-        imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(LostInSpace.display(stage, read, loggedPerson));
-                }
-        );
+//        imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
+//                    stage.setScene(LostInSpace.display(stage, read, loggedPerson));
+//                }
+//        );
 
         //Onclick event for photo of the serie Rick and Morty
 //        imageRickAndMorty.setOnMouseClicked(mouseEvent -> {
@@ -119,22 +119,22 @@ public class ProgramOverView {
 //        );
 
         //Onclick event for photo of the film Insidious
-        imageInsidious.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Insidious.display(stage, read, loggedPerson));
-                }
-        );
+//        imageInsidious.setOnMouseClicked(mouseEvent -> {
+//                    stage.setScene(Insidious.display(stage, read, loggedPerson));
+//                }
+//        );
 
         //Onclick event for photo of the film Jumanji
-        imageJumanji.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(Jumanji.display(stage, read, loggedPerson));
-                }
-        );
+//        imageJumanji.setOnMouseClicked(mouseEvent -> {
+//                    stage.setScene(Jumanji.display(stage, read, loggedPerson));
+//                }
+//        );
 
         //Onclick event for photo of the film The dictator
-        imageTheDictator.setOnMouseClicked(mouseEvent -> {
-                    stage.setScene(TheDictator.display(stage, read, loggedPerson));
-                }
-        );
+//        imageTheDictator.setOnMouseClicked(mouseEvent -> {
+//                    stage.setScene(TheDictator.display(stage, read, loggedPerson));
+//                }
+//        );
 
         //Onclick event for photo of the serie how i met your mother
 //        imageTheWitcher.setOnMouseClicked(mouseEvent -> {
