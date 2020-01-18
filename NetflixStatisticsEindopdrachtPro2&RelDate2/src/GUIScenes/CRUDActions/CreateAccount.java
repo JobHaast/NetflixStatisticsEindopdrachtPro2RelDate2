@@ -180,7 +180,7 @@ public class CreateAccount {
                     feedbackTextPhoneNumber.setText("Please fill in numbers and spaces only");
                 }
             } else {
-                actiontarget.setText("Please fill in all the boxes");
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
             }
             pause.play();

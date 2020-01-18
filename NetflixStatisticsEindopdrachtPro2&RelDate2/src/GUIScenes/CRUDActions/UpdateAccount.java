@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,11 @@ public class UpdateAccount {
         TextField phonenumberTextField = new TextField();
         gridPane.add(phonenumberTextField, 1, 2);
 
+        //Text for feedback Number
+        final Text feedbackTextNumber = new Text();
+        feedbackTextNumber.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextNumber, 2, 2);
+
         //Password label
         Label passwordLabel = new Label("New password: ");
         gridPane.add(passwordLabel, 0, 3);
@@ -75,21 +81,32 @@ public class UpdateAccount {
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
+            feedbackTextNumber.setText(null);
         });
 
         submit.setOnAction(event -> {
-            if("Account updated".equals(uA.updateAccount(accountNameComboBox.getValue(), emailTextField.getText(), phonenumberTextField.getText(), passwordField.getText()))){
-                ArrayList<String> names = read.getAccountsNames();
-                accountNameComboBox.getItems().clear();
-                accountNameComboBox.getItems().addAll(names);
-                emailTextField.setText(null);
-                phonenumberTextField.setText(null);
-                passwordField.setText(null);
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Account updated");
-            }else{
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(emailTextField.getText()) &&
+                    Checks.checkIfNotNullOrEmptyString(phonenumberTextField.getText()) && Checks.checkIfNotNullOrEmptyString(passwordField.getText())) {
+                if (Checks.checkIfNumbersOnly(phonenumberTextField.getText())) {
+                    if ("Account updated".equals(uA.updateAccount(accountNameComboBox.getValue(), emailTextField.getText(), phonenumberTextField.getText(), passwordField.getText()))) {
+                        ArrayList<String> names = read.getAccountsNames();
+                        accountNameComboBox.getItems().clear();
+                        accountNameComboBox.getItems().addAll(names);
+                        emailTextField.setText(null);
+                        phonenumberTextField.setText(null);
+                        passwordField.setText(null);
+                        actiontarget.setFill(Color.GREEN);
+                        actiontarget.setText("Account updated");
+                    } else {
+                        actiontarget.setFill(Color.FIREBRICK);
+                        actiontarget.setText("Account not updated");
+                    }
+                } else {
+                    feedbackTextNumber.setText("Please use numbers only");
+                }
+            } else {
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Account not updated");
             }
             pause.play();
         });
