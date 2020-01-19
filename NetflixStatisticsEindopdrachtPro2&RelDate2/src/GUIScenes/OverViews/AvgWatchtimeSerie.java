@@ -70,12 +70,12 @@ public class AvgWatchtimeSerie {
         table.setEditable(false);
         gridPane.add(table, 0, 2, 8, 1);
 
-//        serieCombobox.setOnAction(event -> {
-//            table.getItems().clear();
-//            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getEpisodeAvgWatched(serieCombobox.getValue());
-//            ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
-//            table.setItems(data);
-//        });
+        serieCombobox.setOnAction(event -> {
+            table.getItems().clear();
+            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getSeriesAvgWachtimeEpisode(serieCombobox.getValue());
+            ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
+            table.setItems(data);
+        });
 
         //Hier eindigt de rommel die ik code noem
 

@@ -1163,4 +1163,54 @@ public class Read {
         }
         return amount;
     }
+
+    //Method for retrieving watched movies
+    public ArrayList<EpisodeAvgWatchedSelAcc> getSeriesAvgWachtimeEpisode(String serieTitle){
+        ArrayList<EpisodeAvgWatchedSelAcc> episodes = new ArrayList<>();
+
+        try {
+            // Import the downloaded driver.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Make a connection with the database
+            con = DriverManager.getConnection(connectionUrl);
+            statement = con.createStatement();
+            // Execute the query
+            if (serieTitle.contains("\'")) {
+                serieTitle = serieTitle.replace("\'", "\'\'");
+            }
+
+            resultSet = statement.executeQuery("SELECT Episode.EpisodeNumber, Episode.SeasonNumber, Program.Title, AVG(Profile_Program.PercentageWatched) AS AveragePercentage\n" +
+                    "FROM Series, Episode, Program, Profile_Program\n" +
+                    "WHERE Series.Name = Episode.Name\n" +
+                    "AND Program.ProgramId = Episode.ProgramId\n" +
+                    "AND Profile_Program.ProgramId = Program.ProgramId\n" +
+                    "AND Series.Name = '"+serieTitle+"'\n" +
+                    "GROUP BY Episode.EpisodeNumber, Episode.SeasonNumber, Program.Title ORDER BY Episode.SeasonNumber;");
+
+            while (resultSet.next()) {
+                episodes.add(new EpisodeAvgWatchedSelAcc(resultSet.getInt("EpisodeNumber"), resultSet.getInt("SeasonNumber"), resultSet.getString("Title"), resultSet.getInt("AveragePercentage")));
+            }
+
+//            Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (resultSet != null) try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            if (statement != null) try {
+                statement.close();
+            } catch (Exception e) {
+            }
+            if (con != null) try {
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return episodes;
+    }
 }
