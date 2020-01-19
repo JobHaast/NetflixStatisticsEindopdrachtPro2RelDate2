@@ -21,7 +21,7 @@ import logic.Checks;
 import java.util.ArrayList;
 
 public class UpdateAccount {
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
+    public static Scene display (Stage stage, Read read, Account loggedPerson) {
         Update uA = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         ArrayList<String> namesAccounts = read.getAccountsNames();
