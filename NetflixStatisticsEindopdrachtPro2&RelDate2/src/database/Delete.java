@@ -32,7 +32,7 @@ public class Delete {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("DELETE Account WHERE AccountName = '" + accountName + "'");
-            //The Account is deleted
+            //The Account is deleted from which the unique accountName corresponds with the given accountName
             //Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,8 +64,8 @@ public class Delete {
             statement = con.createStatement();
             // Execute the query
             linesAffected = statement.executeUpdate("DELETE Profile WHERE ProfileName = '" + profileName + "' AND AccountName = '" + accountName + "'");
-
-//            Handle any errors that may have occurred.
+            //The profile is deleted, that meets the given ProfileName and AccountName
+            //Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -98,7 +98,7 @@ public class Delete {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("DELETE Profile_Program WHERE AccountName = '" + accountName + "' AND ProfileName = '" + profileName + "' AND ProgramId = " + programId + ";");
-
+            //The link between the Profile and the Program is deleted in the Profile_Program Table in a way that the program is no longer watched by the account.
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,9 +129,9 @@ public class Delete {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("DELETE Address WHERE AddressId = " + addressId + ";");
+            // The address is deleted that meets the given addressId
 
-
-//            Handle any errors that may have occurred.
+            //Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
