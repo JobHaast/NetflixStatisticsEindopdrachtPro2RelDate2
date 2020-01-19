@@ -31,9 +31,9 @@ public class Delete {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("DELETE Account WHERE AccountName = '"+accountName+"'");
-
-//            Handle any errors that may have occurred.
+            statement.executeUpdate("DELETE Account WHERE AccountName = '" + accountName + "'");
+            //The Account is deleted
+            //Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -63,7 +63,7 @@ public class Delete {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            linesAffected = statement.executeUpdate("DELETE Profile WHERE ProfileName = '"+profileName+"' AND AccountName = '"+accountName+"'");
+            linesAffected = statement.executeUpdate("DELETE Profile WHERE ProfileName = '" + profileName + "' AND AccountName = '" + accountName + "'");
 
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class Delete {
             } catch (Exception e) {
             }
         }
-        if(linesAffected > 0){
+        if (linesAffected > 0) {
             return "Profile deleted";
         }
         return "Nothing deleted";
@@ -97,7 +97,7 @@ public class Delete {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("DELETE Profile_Program WHERE AccountName = '"+accountName+"' AND ProfileName = '"+profileName+"' AND ProgramId = "+programId+";");
+            statement.executeUpdate("DELETE Profile_Program WHERE AccountName = '" + accountName + "' AND ProfileName = '" + profileName + "' AND ProgramId = " + programId + ";");
 
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
