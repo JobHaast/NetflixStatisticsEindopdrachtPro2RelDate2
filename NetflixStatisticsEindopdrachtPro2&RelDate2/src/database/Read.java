@@ -860,7 +860,7 @@ public class Read {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            resultSet = statement.executeQuery("SELECT IsAdmin FROM Administrator WHERE AccountName = '" + accountName + "';");
+            resultSet = statement.executeQuery("SELECT IsAdmin FROM Account WHERE AccountName = '" + accountName + "';");
             //From a given account is retrieved if it is an admin Account, the bit IsAdmin is 1 if it is an AdminAccount and 0 if it isn't.
             while (resultSet.next()) {
                 i = resultSet.getInt("IsAdmin");

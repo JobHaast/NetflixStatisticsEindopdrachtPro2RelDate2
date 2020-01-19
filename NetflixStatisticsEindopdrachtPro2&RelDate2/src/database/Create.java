@@ -62,8 +62,8 @@ public class Create {
             con = DriverManager.getConnection(connectionUrl);
             statement = con.createStatement();
             // Execute the query
-            statement.executeUpdate("INSERT INTO Account (Accountname, Email, phonenumber, password, addressId)" +
-                    "VALUES ('" + accountName + "', '" + email + "', '" + phonenumber + "', '" + password + "', " + addressId + ");");
+            statement.executeUpdate("INSERT INTO Account (Accountname, Email, phonenumber, password, addressId, IsAdmin)" +
+                    "VALUES ('" + accountName + "', '" + email + "', '" + phonenumber + "', '" + password + "', " + addressId + ", 0);");
             //This query inserts an account in the table called Account. The variables accountName, email, phonenumber, password and addressId are inserted.
 
 
