@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/NetflixStatisticsEindopdrachtPro2&amp;RelDate2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/NetflixStatisticsEindopdrachtPro2&amp;RelDate2/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/NetflixStatisticsEindopdrachtPro2&amp;RelDate2/Tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/Tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

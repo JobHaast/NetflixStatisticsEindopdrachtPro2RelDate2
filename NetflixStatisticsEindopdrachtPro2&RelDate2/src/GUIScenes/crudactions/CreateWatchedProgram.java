@@ -1,16 +1,14 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.crudactions;
 
 import GUIScenes.*;
-import database.Delete;
+import database.Create;
 import database.Read;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -18,13 +16,15 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
+import logic.Checks;
 
 import java.util.ArrayList;
 
-public class DeleteProfile {
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+public class CreateWatchedProgram {
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         ArrayList<String> namesAccounts = read.getAccountsNames();
+        ArrayList<String> titlesPrograms = read.getTitlePrograms();
+        Create cWP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
@@ -48,6 +48,10 @@ public class DeleteProfile {
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
+        //Text for feedback account names
+        final Text feedbackTextAccountName = new Text();
+        gridPane.add(feedbackTextAccountName, 2, 0);
+
         //Label for profilenames
         Label profileNameLabel = new Label("Profile Name:");
         gridPane.add(profileNameLabel, 0, 1);
@@ -56,35 +60,84 @@ public class DeleteProfile {
         ComboBox<String> profileNamesComboBox = new ComboBox<>();
         gridPane.add(profileNamesComboBox, 1, 1);
 
+        //Text for feedback profilenames
+        final Text feedbackTextProfileNames = new Text();
+        gridPane.add(feedbackTextProfileNames, 2, 1);
+
+        //Label for programnames
+        Label program = new Label("Program: ");
+        gridPane.add(program, 0, 2);
+
+        //combobox for programnames
+        ComboBox<String> programTitles = new ComboBox<>();
+        programTitles.getItems().addAll(titlesPrograms);
+        gridPane.add(programTitles, 1, 2);
+
+        //Text for feedback programnames
+        final Text feedbackTextProgramNames = new Text();
+        gridPane.add(feedbackTextProgramNames, 2, 2);
+
+        //Label for percentage watched
+        Label percentageWatchedLabel = new Label("Percentage watched: ");
+        gridPane.add(percentageWatchedLabel, 0, 3);
+
+        //Textfield for percentage watched
+        TextField textFieldPercentageWatched = new TextField();
+        gridPane.add(textFieldPercentageWatched, 1, 3);
+
+        //Text for feedback percentage watched
+        final Text feedbackTextPercentageWatched = new Text();
+        gridPane.add(feedbackTextPercentageWatched, 2, 3);
+
+        //Button for sumbitting
+        Button submit = new Button("Submit");
+        gridPane.add(submit, 1, 4);
+
+        //Feedbacktext
+        final Text actiontarget = new Text();
+        gridPane.add(actiontarget, 1, 5);
+
+        //Action when pause.play() is called
+        pause.setOnFinished(e -> {
+            actiontarget.setText(null);
+            feedbackTextPercentageWatched.setText(null);
+        });
+
         //onclick for profileNamesComboBox
         accountNameComboBox.setOnAction(event -> {
             profileNamesComboBox.getItems().clear();
             profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
         });
 
-        //Feedbacktext
-        final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 3);
-
-        //Action when pause.play() is called
-        pause.setOnFinished(e -> {
-            actiontarget.setText(null);
-        });
-
-        Button submit = new Button("Delete");
-        gridPane.add(submit,1,2);
+        //Onclick for submit
         submit.setOnAction(event -> {
-            String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());
-            if("Profile deleted".equals(answer)){
-                accountNameComboBox.getItems().clear();
-                accountNameComboBox.getItems().addAll(read.getAccountsNames());
-                profileNamesComboBox.getItems().clear();
-                profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Profile deleted");
-            }else if("Nothing deleted".equals(answer)){
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+                    Checks.checkIfNotNullOrEmptyString(programTitles.getValue()) && Checks.checkIfNotNullOrEmptyString(textFieldPercentageWatched.getText())) {
+                if (Checks.checkIfNumbersOnly(textFieldPercentageWatched.getText())) {
+                    if (Checks.checkIfNumberWithin1and100(textFieldPercentageWatched.getText())) {
+                        if (0 == read.getwatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue()).size()) {
+                            if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
+                                actiontarget.setFill(Color.GREEN);
+                                actiontarget.setText("Succesfully added");
+                            } else {
+                                actiontarget.setFill(Color.FIREBRICK);
+                                actiontarget.setText("Error");
+                            }
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("Profile already has record of program");
+                        }
+                    } else {
+                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
+                        feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                    }
+                } else {
+                    feedbackTextPercentageWatched.setText("Please use only numbers in this field");
+                    feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                }
+            } else {
+                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Profile not deleted");
             }
             pause.play();
         });
@@ -141,7 +194,7 @@ public class DeleteProfile {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });

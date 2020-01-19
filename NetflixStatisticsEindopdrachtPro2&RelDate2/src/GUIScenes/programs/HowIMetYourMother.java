@@ -1,4 +1,4 @@
-package GUIScenes.Programs;
+package GUIScenes.programs;
 
 public class HowIMetYourMother {
 }

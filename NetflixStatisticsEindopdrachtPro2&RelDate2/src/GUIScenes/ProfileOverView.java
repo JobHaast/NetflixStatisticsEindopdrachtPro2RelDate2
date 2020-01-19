@@ -1,6 +1,5 @@
 package GUIScenes;
 
-import GUIScenes.OverViews.FilmsWatched;
 import database.Read;
 import database.Update;
 import javafx.animation.PauseTransition;

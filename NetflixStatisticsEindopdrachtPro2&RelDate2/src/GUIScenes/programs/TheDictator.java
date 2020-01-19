@@ -1,4 +1,4 @@
-package GUIScenes.Programs;
+package GUIScenes.programs;
 
 import GUIScenes.ProgramOverView;
 import database.Read;
@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 import logic.Account;
 import logic.Film;
 
-public class Jumanji {
+public class TheDictator {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
         //Scene for the program lost in space
-        Film jumanji = read.filmInfo("Jumanji");
+        Film theDictator = read.filmInfo("The Dictator");
 
         BorderPane borderPane = new BorderPane();
-        Label lostInSpaceLabel = new Label("Jumanji");
+        Label lostInSpaceLabel = new Label("The Dictator");
         lostInSpaceLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         HBox hBox = new HBox();
         hBox.getChildren().add(lostInSpaceLabel);
@@ -39,31 +39,31 @@ public class Jumanji {
         Label userNameGridPaneProfileOverView = new Label("Title:");
         gridPane.add(userNameGridPaneProfileOverView, 0, 1);
 
-        Label userTextFieldGridPaneProfileOverView = new Label(jumanji.getTitle());
+        Label userTextFieldGridPaneProfileOverView = new Label(theDictator.getTitle());
         gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
         Label lengthLabel = new Label("Length:");
         gridPane.add(lengthLabel, 0, 2);
 
-        Label lengthLabelAnswer = new Label(Integer.toString(jumanji.getLength()));
+        Label lengthLabelAnswer = new Label(Integer.toString(theDictator.getLength()));
         gridPane.add(lengthLabelAnswer, 1, 2);
 
         Label languageLabel = new Label("Language:");
         gridPane.add(languageLabel, 0, 3);
 
-        Label languageLabelAnswer = new Label(jumanji.getLanguage());
+        Label languageLabelAnswer = new Label(theDictator.getLanguage());
         gridPane.add(languageLabelAnswer, 1, 3);
 
         Label genreLabel = new Label("Genre:");
         gridPane.add(genreLabel, 0, 4);
 
-        Label genreLabelAsnwer = new Label(jumanji.getGenre());
+        Label genreLabelAsnwer = new Label(theDictator.getGenre());
         gridPane.add(genreLabelAsnwer, 1, 4);
 
         Label ageGroupLabel = new Label("Age group:");
         gridPane.add(ageGroupLabel, 0, 5);
 
-        Label ageGroupLabelAsnwer = new Label(jumanji.getAgeGroup());
+        Label ageGroupLabelAsnwer = new Label(theDictator.getAgeGroup());
         gridPane.add(ageGroupLabelAsnwer, 1, 5);
         borderPane.setCenter(gridPane);
 
@@ -78,8 +78,7 @@ public class Jumanji {
 
         });
 
-        Scene jumanjiScene = new Scene(borderPane);
-        return jumanjiScene;
+        Scene theDictatorScene = new Scene(borderPane);
+        return theDictatorScene;
     }
 }
-

@@ -1,26 +1,22 @@
-package GUIScenes.OverViews;
+package GUIScenes.overviews;
 
 import GUIScenes.*;
 import database.Read;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import logic.Account;
-import logic.StringForTableView;
 
-import java.util.ArrayList;
-
-public class AllAccountsWithOneProfile {
+public class AmountOfTimesWatchedMovie100Percent {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
@@ -34,32 +30,34 @@ public class AllAccountsWithOneProfile {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        // Scene Tableview
-        final Label label = new Label("Accounts with one profile:");
-        label.setFont(new Font("Arial", 20));
-        gridPane.add(label, 0, 0);
-
-        TableView<StringForTableView> table = new TableView<>();
-        table.setMaxWidth(500);
-
-        TableColumn movieTitle = new TableColumn("Account name");
-        movieTitle.setMinWidth(500);
-
-        movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
-        table.getColumns().add(movieTitle);
-        table.setEditable(false);
-        gridPane.add(table, 0, 1, 8, 1);
-
-        ArrayList<StringForTableView> films = read.getAccountsWithOneProfile();
-        ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
-        table.setItems(data);
-
         //GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);
         menu.setVgap(20);
         menu.setPadding(new Insets(25, 25, 25, 25));
+
+        //Button for film
+        Label filmLabel = new Label("Film: ");
+        gridPane.add(filmLabel, 0 ,0);
+
+        //ComboBox for film
+        ComboBox<String> filmComboBox = new ComboBox<>();
+        filmComboBox.getItems().addAll(read.getFilms());
+        gridPane.add(filmComboBox, 1, 0);
+
+        //Label for amount of times watched
+        Label amountOfTimesWatchedLabel = new Label("Amount of times watched: ");
+        gridPane.add(amountOfTimesWatchedLabel, 0, 1);
+
+        //TextField for amount of times watched
+        TextField amountOfTimesWatchedTextField = new TextField();
+        gridPane.add(amountOfTimesWatchedTextField, 1, 1);
+
+        //Onclick action for film
+        filmComboBox.setOnAction(event -> {
+            amountOfTimesWatchedTextField.setText(Integer.toString(read.getAmountWatchedMovie(filmComboBox.getValue())));
+        });
 
         //Button for profileoverview
         Button profileOverView = new Button("Profile");

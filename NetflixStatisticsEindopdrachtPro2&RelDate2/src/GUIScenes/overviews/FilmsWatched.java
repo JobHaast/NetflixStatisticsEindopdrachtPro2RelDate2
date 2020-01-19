@@ -1,4 +1,4 @@
-package GUIScenes.OverViews;
+package GUIScenes.overviews;
 
 import GUIScenes.*;
 import database.Read;

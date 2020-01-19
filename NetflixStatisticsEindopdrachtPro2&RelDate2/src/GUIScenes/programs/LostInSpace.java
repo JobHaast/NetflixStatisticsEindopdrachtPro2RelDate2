@@ -1,4 +1,4 @@
-package GUIScenes.Programs;
+package GUIScenes.programs;
 
 import GUIScenes.ProgramOverView;
 import database.Read;
@@ -14,15 +14,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Account;
-import logic.Film;
+import logic.Serie;
 
-public class TheDictator {
+public class LostInSpace {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
         //Scene for the program lost in space
-        Film theDictator = read.filmInfo("The Dictator");
+        Serie lostInSpace = read.seriesInfo("Lost in space");
 
         BorderPane borderPane = new BorderPane();
-        Label lostInSpaceLabel = new Label("The Dictator");
+        Label lostInSpaceLabel = new Label("Lost In Space");
         lostInSpaceLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         HBox hBox = new HBox();
         hBox.getChildren().add(lostInSpaceLabel);
@@ -39,33 +39,26 @@ public class TheDictator {
         Label userNameGridPaneProfileOverView = new Label("Title:");
         gridPane.add(userNameGridPaneProfileOverView, 0, 1);
 
-        Label userTextFieldGridPaneProfileOverView = new Label(theDictator.getTitle());
+        Label userTextFieldGridPaneProfileOverView = new Label(lostInSpace.getTitle());
         gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
-        Label lengthLabel = new Label("Length:");
+        Label lengthLabel = new Label("Language:");
         gridPane.add(lengthLabel, 0, 2);
 
-        Label lengthLabelAnswer = new Label(Integer.toString(theDictator.getLength()));
+        Label lengthLabelAnswer = new Label(lostInSpace.getLanguage());
         gridPane.add(lengthLabelAnswer, 1, 2);
 
-        Label languageLabel = new Label("Language:");
+        Label languageLabel = new Label("Genre:");
         gridPane.add(languageLabel, 0, 3);
 
-        Label languageLabelAnswer = new Label(theDictator.getLanguage());
+        Label languageLabelAnswer = new Label(lostInSpace.getGenre());
         gridPane.add(languageLabelAnswer, 1, 3);
 
         Label genreLabel = new Label("Genre:");
         gridPane.add(genreLabel, 0, 4);
 
-        Label genreLabelAsnwer = new Label(theDictator.getGenre());
+        Label genreLabelAsnwer = new Label(lostInSpace.getRecommendation());
         gridPane.add(genreLabelAsnwer, 1, 4);
-
-        Label ageGroupLabel = new Label("Age group:");
-        gridPane.add(ageGroupLabel, 0, 5);
-
-        Label ageGroupLabelAsnwer = new Label(theDictator.getAgeGroup());
-        gridPane.add(ageGroupLabelAsnwer, 1, 5);
-        borderPane.setCenter(gridPane);
 
         Button backButton = new Button("Back");
         gridPane.add(backButton, 0, 8);
@@ -78,7 +71,8 @@ public class TheDictator {
 
         });
 
-        Scene theDictatorScene = new Scene(borderPane);
-        return theDictatorScene;
+        borderPane.setCenter(gridPane);
+        Scene lostInSpaceScene = new Scene(borderPane);
+        return lostInSpaceScene;
     }
 }

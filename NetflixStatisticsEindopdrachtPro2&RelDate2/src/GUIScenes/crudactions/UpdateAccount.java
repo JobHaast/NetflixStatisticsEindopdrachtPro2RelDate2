@@ -1,8 +1,8 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.crudactions;
 
 import GUIScenes.*;
 import database.Read;
-import database.Create;
+import database.Update;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,14 +20,14 @@ import logic.Checks;
 
 import java.util.ArrayList;
 
-public class CreateProfile {
+public class UpdateAccount {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
-        ArrayList<String> namesAccounts = read.getAccountsNames();
+        Update uA = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        ArrayList<String> namesAccounts = read.getAccountsNames();
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
-        //CRUD Scene
+        //Gridpane for layout
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -39,98 +39,76 @@ public class CreateProfile {
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Label for AccountName
-        Label accountNameLabel = new Label("Account Name:");
+        Label accountNameLabel = new Label("Account Name: ");
         gridPane.add(accountNameLabel, 0, 0);
 
-        //Combobox for accountname
+        //combobox for accountname
         ComboBox<String> accountNameComboBox = new ComboBox<>();
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
-        //Text for feedback accountname
-        final Text feedbackTextAccountName = new Text();
-        feedbackTextAccountName.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextAccountName, 2, 0);
+        //Label for email
+        Label emailLabel = new Label("New email: ");
+        gridPane.add(emailLabel, 0, 1);
 
-        //Label for profilename
-        Label profileNameLabel = new Label("Profile name:");
-        gridPane.add(profileNameLabel, 0, 1);
+        //Textfield for email
+        TextField emailTextField = new TextField();
+        gridPane.add(emailTextField, 1, 1);
 
-        //Textfield for profilename
-        TextField profileNameTextField = new TextField();
-        gridPane.add(profileNameTextField, 1, 1);
+        //Label for phonenumber
+        Label phonenumberLabel = new Label("New phonenumber: ");
+        gridPane.add(phonenumberLabel, 0, 2);
 
-        //Text for feedback profilename
-        final Text feedbackTextProfileName = new Text();
-        feedbackTextProfileName.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextProfileName, 2, 1);
+        //textfield for phonenumber
+        TextField phonenumberTextField = new TextField();
+        gridPane.add(phonenumberTextField, 1, 2);
 
-        //Label for language
-        Label languageLabel = new Label("Language:");
-        gridPane.add(languageLabel, 0, 2);
+        //Text for feedback Number
+        final Text feedbackTextNumber = new Text();
+        feedbackTextNumber.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextNumber, 2, 2);
 
-        //Combobox for languages
-        ComboBox<String> languagesComboBox = new ComboBox<>();
-        languagesComboBox.getItems().addAll("Nederlands", "English");
-        gridPane.add(languagesComboBox, 1, 2);
+        //Password label
+        Label passwordLabel = new Label("New password: ");
+        gridPane.add(passwordLabel, 0, 3);
 
-        //Text for feedback languages
-        final Text feedbackTextLanguages = new Text();
-        feedbackTextLanguages.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextLanguages, 2, 2);
+        //password passwordfield
+        PasswordField passwordField = new PasswordField();
+        gridPane.add(passwordField, 1, 3);
 
-        //Label for birthday
-        Label birthdayLabel = new Label("Birthday:");
-        gridPane.add(birthdayLabel, 0, 3);
-
-        //Textfield for birthday
-        TextField birthdayDatePicker = new TextField();
-        gridPane.add(birthdayDatePicker, 1, 3);
-
-        //Text for feedback birthday
-        final Text feedbackTextBirthday = new Text();
-        feedbackTextBirthday.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextBirthday, 2, 4);
-
-        //Label for format date
-        Label birthdayLabelFormat = new Label("Format: 2002-03-05");
-        gridPane.add(birthdayLabelFormat, 2, 3);
+        //Button for submit
+        Button submit = new Button("Change");
+        gridPane.add(submit, 1, 4);
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 2, 4);
+        gridPane.add(actiontarget, 1, 5);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
-            feedbackTextBirthday.setText(null);
             actiontarget.setText(null);
+            feedbackTextNumber.setText(null);
         });
 
-        Button submit = new Button("Create");
-        gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
-            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNameTextField.getText()) &&
-                    Checks.checkIfNotNullOrEmptyString(languagesComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(birthdayDatePicker.getText())) {
-                if (Checks.checkIfCorrectBirthdayFormat(birthdayDatePicker.getText())) {
-                    if (!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)) {
-                        if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
-                            if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
-                                actiontarget.setFill(Color.GREEN);
-                                actiontarget.setText("Profile created successfully");
-                            } else {
-                                actiontarget.setFill(Color.FIREBRICK);
-                                actiontarget.setText("Profile not created");
-                            }
-                        } else {
-                            actiontarget.setFill(Color.FIREBRICK);
-                            actiontarget.setText("Profile name already exists");
-                        }
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(emailTextField.getText()) &&
+                    Checks.checkIfNotNullOrEmptyString(phonenumberTextField.getText()) && Checks.checkIfNotNullOrEmptyString(passwordField.getText())) {
+                if (Checks.checkIfNumbersOnly(phonenumberTextField.getText())) {
+                    if ("Account updated".equals(uA.updateAccount(accountNameComboBox.getValue(), emailTextField.getText(), phonenumberTextField.getText(), passwordField.getText()))) {
+                        ArrayList<String> names = read.getAccountsNames();
+                        accountNameComboBox.getItems().clear();
+                        accountNameComboBox.getItems().addAll(names);
+                        emailTextField.setText(null);
+                        phonenumberTextField.setText(null);
+                        passwordField.setText(null);
+                        actiontarget.setFill(Color.GREEN);
+                        actiontarget.setText("Account updated");
                     } else {
                         actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("There are already 5 profiles for this account");
+                        actiontarget.setText("Account not updated");
                     }
                 } else {
-                    feedbackTextBirthday.setText("Please use the correct Birthday Format: YYYY-MM-DD");
+                    feedbackTextNumber.setText("Please use numbers only");
                 }
             } else {
                 actiontarget.setText("Please fill in all the fields");
@@ -139,7 +117,7 @@ public class CreateProfile {
             pause.play();
         });
 
-        //GridPane for different tabs
+//GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);

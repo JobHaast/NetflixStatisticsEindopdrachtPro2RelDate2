@@ -1,4 +1,4 @@
-package GUIScenes.Programs;
+package GUIScenes.programs;
 
 import GUIScenes.ProgramOverView;
 import database.Read;
@@ -14,15 +14,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Account;
-import logic.Serie;
+import logic.Film;
 
-public class LostInSpace {
+public class Jumanji {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
         //Scene for the program lost in space
-        Serie lostInSpace = read.seriesInfo("Lost in space");
+        Film jumanji = read.filmInfo("Jumanji");
 
         BorderPane borderPane = new BorderPane();
-        Label lostInSpaceLabel = new Label("Lost In Space");
+        Label lostInSpaceLabel = new Label("Jumanji");
         lostInSpaceLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         HBox hBox = new HBox();
         hBox.getChildren().add(lostInSpaceLabel);
@@ -39,26 +39,33 @@ public class LostInSpace {
         Label userNameGridPaneProfileOverView = new Label("Title:");
         gridPane.add(userNameGridPaneProfileOverView, 0, 1);
 
-        Label userTextFieldGridPaneProfileOverView = new Label(lostInSpace.getTitle());
+        Label userTextFieldGridPaneProfileOverView = new Label(jumanji.getTitle());
         gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
 
-        Label lengthLabel = new Label("Language:");
+        Label lengthLabel = new Label("Length:");
         gridPane.add(lengthLabel, 0, 2);
 
-        Label lengthLabelAnswer = new Label(lostInSpace.getLanguage());
+        Label lengthLabelAnswer = new Label(Integer.toString(jumanji.getLength()));
         gridPane.add(lengthLabelAnswer, 1, 2);
 
-        Label languageLabel = new Label("Genre:");
+        Label languageLabel = new Label("Language:");
         gridPane.add(languageLabel, 0, 3);
 
-        Label languageLabelAnswer = new Label(lostInSpace.getGenre());
+        Label languageLabelAnswer = new Label(jumanji.getLanguage());
         gridPane.add(languageLabelAnswer, 1, 3);
 
         Label genreLabel = new Label("Genre:");
         gridPane.add(genreLabel, 0, 4);
 
-        Label genreLabelAsnwer = new Label(lostInSpace.getRecommendation());
+        Label genreLabelAsnwer = new Label(jumanji.getGenre());
         gridPane.add(genreLabelAsnwer, 1, 4);
+
+        Label ageGroupLabel = new Label("Age group:");
+        gridPane.add(ageGroupLabel, 0, 5);
+
+        Label ageGroupLabelAsnwer = new Label(jumanji.getAgeGroup());
+        gridPane.add(ageGroupLabelAsnwer, 1, 5);
+        borderPane.setCenter(gridPane);
 
         Button backButton = new Button("Back");
         gridPane.add(backButton, 0, 8);
@@ -71,8 +78,8 @@ public class LostInSpace {
 
         });
 
-        borderPane.setCenter(gridPane);
-        Scene lostInSpaceScene = new Scene(borderPane);
-        return lostInSpaceScene;
+        Scene jumanjiScene = new Scene(borderPane);
+        return jumanjiScene;
     }
 }
+

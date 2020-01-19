@@ -1,34 +1,29 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.overviews;
 
 import GUIScenes.*;
-import database.Delete;
 import database.Read;
-import javafx.animation.PauseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import logic.Account;
+import logic.StringForTableView;
 
 import java.util.ArrayList;
 
-public class DeleteAccount {
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
-        ArrayList<String> namesAccounts = read.getAccountsNames();
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+public class AllAccountsWithOneProfile {
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
-        //CRUD Scene
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -39,39 +34,25 @@ public class DeleteAccount {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        //Label for AccountName
-        Label accountNameLabel = new Label("Account Name:");
-        gridPane.add(accountNameLabel, 0, 0);
+        // Scene Tableview
+        final Label label = new Label("Accounts with one profile:");
+        label.setFont(new Font("Arial", 20));
+        gridPane.add(label, 0, 0);
 
-        //combobox for accountname
-        ComboBox<String> accountNameComboBox = new ComboBox<>();
-        accountNameComboBox.getItems().addAll(namesAccounts);
-        gridPane.add(accountNameComboBox, 1, 0);
+        TableView<StringForTableView> table = new TableView<>();
+        table.setMaxWidth(500);
 
-        //Feedbacktext
-        final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 3);
+        TableColumn movieTitle = new TableColumn("Account name");
+        movieTitle.setMinWidth(500);
 
-        //Action when pause.play() is called
-        pause.setOnFinished(e -> {
-            actiontarget.setText(null);
-        });
+        movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
+        table.getColumns().add(movieTitle);
+        table.setEditable(false);
+        gridPane.add(table, 0, 1, 8, 1);
 
-        Button submit = new Button("Delete");
-        gridPane.add(submit, 1, 2);
-        submit.setOnAction(event -> {
-            if ("Account deleted".equals(dA.deleteAccount(accountNameComboBox.getValue()))) {
-                ArrayList<String> names = read.getAccountsNames();
-                accountNameComboBox.getItems().clear();
-                accountNameComboBox.getItems().addAll(names);
-                actiontarget.setFill(Color.GREEN);
-                actiontarget.setText("Account deleted");
-            } else {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Account not deleted");
-            }
-            pause.play();
-        });
+        ArrayList<StringForTableView> films = read.getAccountsWithOneProfile();
+        ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
+        table.setItems(data);
 
         //GridPane for different tabs
         GridPane menu = new GridPane();

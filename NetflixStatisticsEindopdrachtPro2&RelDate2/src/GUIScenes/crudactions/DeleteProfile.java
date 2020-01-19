@@ -1,14 +1,16 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.crudactions;
 
 import GUIScenes.*;
+import database.Delete;
 import database.Read;
-import database.Update;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -16,13 +18,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
-import logic.Checks;
 
 import java.util.ArrayList;
 
-public class UpdateWatchedProgram {
+public class DeleteProfile {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Update uWP = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
@@ -55,72 +56,35 @@ public class UpdateWatchedProgram {
         ComboBox<String> profileNamesComboBox = new ComboBox<>();
         gridPane.add(profileNamesComboBox, 1, 1);
 
-        //onclick for accountnamecombobox
+        //onclick for profileNamesComboBox
         accountNameComboBox.setOnAction(event -> {
             profileNamesComboBox.getItems().clear();
             profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
         });
 
-        //Label for program
-        Label program = new Label("Program:");
-        gridPane.add(program, 0, 2);
-
-        //combobox for watched programs
-        ComboBox<String> watchedProgramsComboBox = new ComboBox<>();
-        gridPane.add(watchedProgramsComboBox, 1, 2);
-
-        //onclick for profilenamescombobox
-        profileNamesComboBox.setOnAction(event -> {
-            watchedProgramsComboBox.getItems().addAll(read.getWatchedPrograms(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
-        });
-
-        //label for percentage watched
-        Label percentageWatchedLabel = new Label("Percentage watched");
-        gridPane.add(percentageWatchedLabel, 0, 3);
-
-        //Textfield for percentage watched
-        TextField percentageWatchedTextField = new TextField();
-        gridPane.add(percentageWatchedTextField, 1, 3);
-
-        //Text for feedback percentage watched
-        final Text feedbackTextPercentageWatched = new Text();
-        gridPane.add(feedbackTextPercentageWatched, 2, 3);
-
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 5);
+        gridPane.add(actiontarget, 1, 3);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
-            feedbackTextPercentageWatched.setText(null);
         });
 
-        Button submit = new Button("Submit");
-        gridPane.add(submit,1,4);
+        Button submit = new Button("Delete");
+        gridPane.add(submit,1,2);
         submit.setOnAction(event -> {
-            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
-                    Checks.checkIfNotNullOrEmptyString(watchedProgramsComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(percentageWatchedTextField.getText())) {
-                if (Checks.checkIfNumbersOnly(percentageWatchedTextField.getText())) {
-                    if (Checks.checkIfNumberWithin1and100(percentageWatchedTextField.getText())) {
-                        if ("Watched program updated".equals(uWP.updateWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), read.getProgramId(watchedProgramsComboBox.getValue()), Integer.parseInt(percentageWatchedTextField.getText())))) {
-                            actiontarget.setFill(Color.GREEN);
-                            actiontarget.setText("Profile updated");
-                        } else {
-                            actiontarget.setFill(Color.FIREBRICK);
-                            actiontarget.setText("Profile not updated");
-                        }
-                    } else {
-                        feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
-                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
-                    }
-                } else {
-                    feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
-                    feedbackTextPercentageWatched.setText("Please fill in numbers only");
-                }
-            } else {
+            String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());
+            if("Profile deleted".equals(answer)){
+                accountNameComboBox.getItems().clear();
+                accountNameComboBox.getItems().addAll(read.getAccountsNames());
+                profileNamesComboBox.getItems().clear();
+                profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Profile deleted");
+            }else if("Nothing deleted".equals(answer)){
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Please fill in all the fields");
+                actiontarget.setText("Profile not deleted");
             }
             pause.play();
         });

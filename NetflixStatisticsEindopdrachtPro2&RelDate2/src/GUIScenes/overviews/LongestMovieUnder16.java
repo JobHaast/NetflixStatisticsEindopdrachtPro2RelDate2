@@ -1,31 +1,24 @@
-package GUIScenes.OverViews;
+package GUIScenes.overviews;
 
 import GUIScenes.*;
 import database.Read;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import logic.Account;
-import logic.EpisodeAvgWatchedSelAcc;
 
-import java.util.ArrayList;
-
-public class SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage {
+public class LongestMovieUnder16 {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
-        ArrayList<String> accountNames = read.getAccountsNames();
-        ArrayList<String> serieNames = read.getSerieNames();
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        String movie = read.getLongestMovieUnder16();
 
-        //Gridpane for center
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -36,61 +29,8 @@ public class SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        //Account select label
-        Label accountNameLabel = new Label("AccountName:");
-        gridPane.add(accountNameLabel, 0, 0);
-
-        //Account select combobox
-        ComboBox<String> accountNameComboBox = new ComboBox<>();
-        accountNameComboBox.getItems().addAll(accountNames);
-        gridPane.add(accountNameComboBox, 1, 0);
-
-        //Serie select label
-        Label serieLabel = new Label("Series:");
-        gridPane.add(serieLabel, 0, 1);
-
-        //Serie select combobox
-        ComboBox<String> serieCombobox = new ComboBox<>();
-        serieCombobox.getItems().addAll(serieNames);
-        gridPane.add(serieCombobox, 1, 1);
-
-        //Tabelview for episodes
-        TableView<EpisodeAvgWatchedSelAcc> table = new TableView<>();
-        table.setMaxWidth(800);
-
-        TableColumn episodesName = new TableColumn("Episodes:");
-        episodesName.setMinWidth(200);
-
-        TableColumn avgWatchedPercentage = new TableColumn("Avg percentage watched:");
-        avgWatchedPercentage.setMinWidth(200);
-
-        TableColumn episodeNumber = new TableColumn("Episode number:");
-        episodeNumber.setMinWidth(200);
-
-        TableColumn seasonNumber = new TableColumn("Season number:");
-        seasonNumber.setMinWidth(200);
-
-        episodesName.setCellValueFactory(new PropertyValueFactory<>("nameEpisode"));
-        avgWatchedPercentage.setCellValueFactory(new PropertyValueFactory<>("avgWatchedPercentage"));
-        episodeNumber.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
-        seasonNumber.setCellValueFactory(new PropertyValueFactory<>("seasonNumber"));
-        table.getColumns().addAll(seasonNumber, episodeNumber, episodesName, avgWatchedPercentage);
-        table.setEditable(false);
-        gridPane.add(table, 0, 2, 8, 1);
-
-        serieCombobox.setOnAction(event -> {
-            table.getItems().clear();
-            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getEpisodeAvgWatchedSelAcc(accountNameComboBox.getValue(), serieCombobox.getValue());
-            ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
-            table.setItems(data);
-        });
-
-        accountNameComboBox.setOnAction(event -> {
-            table.getItems().clear();
-            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getEpisodeAvgWatchedSelAcc(accountNameComboBox.getValue(), serieCombobox.getValue());
-            ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
-            table.setItems(data);
-        });
+        Label label0 = new Label("Longest movie for people under 16: "+movie+"");
+        gridPane.add(label0, 0, 0);
 
         //GridPane for different tabs
         GridPane menu = new GridPane();

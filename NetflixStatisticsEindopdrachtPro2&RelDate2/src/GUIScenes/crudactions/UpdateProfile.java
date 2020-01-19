@@ -1,4 +1,4 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.crudactions;
 
 import GUIScenes.*;
 import database.Read;

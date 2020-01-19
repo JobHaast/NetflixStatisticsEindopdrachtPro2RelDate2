@@ -1,4 +1,4 @@
-package GUIScenes.Programs;
+package GUIScenes.programs;
 
 import GUIScenes.ProgramOverView;
 import database.Read;

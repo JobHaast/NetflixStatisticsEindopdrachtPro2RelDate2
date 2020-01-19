@@ -1,6 +1,6 @@
 package GUIScenes;
 
-import GUIScenes.CRUDActions.*;
+import GUIScenes.crudactions.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

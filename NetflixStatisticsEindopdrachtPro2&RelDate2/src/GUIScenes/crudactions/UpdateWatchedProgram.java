@@ -1,8 +1,8 @@
-package GUIScenes.CRUDActions;
+package GUIScenes.crudactions;
 
 import GUIScenes.*;
-import database.Create;
 import database.Read;
+import database.Update;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,11 +20,10 @@ import logic.Checks;
 
 import java.util.ArrayList;
 
-public class CreateWatchedProgram {
-    public static Scene display(Stage stage, Read read, Account loggedPerson) {
+public class UpdateWatchedProgram {
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
+        Update uWP = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
-        ArrayList<String> titlesPrograms = read.getTitlePrograms();
-        Create cWP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
@@ -48,10 +47,6 @@ public class CreateWatchedProgram {
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
-        //Text for feedback account names
-        final Text feedbackTextAccountName = new Text();
-        gridPane.add(feedbackTextAccountName, 2, 0);
-
         //Label for profilenames
         Label profileNameLabel = new Label("Profile Name:");
         gridPane.add(profileNameLabel, 0, 1);
@@ -60,38 +55,36 @@ public class CreateWatchedProgram {
         ComboBox<String> profileNamesComboBox = new ComboBox<>();
         gridPane.add(profileNamesComboBox, 1, 1);
 
-        //Text for feedback profilenames
-        final Text feedbackTextProfileNames = new Text();
-        gridPane.add(feedbackTextProfileNames, 2, 1);
+        //onclick for accountnamecombobox
+        accountNameComboBox.setOnAction(event -> {
+            profileNamesComboBox.getItems().clear();
+            profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
+        });
 
-        //Label for programnames
-        Label program = new Label("Program: ");
+        //Label for program
+        Label program = new Label("Program:");
         gridPane.add(program, 0, 2);
 
-        //combobox for programnames
-        ComboBox<String> programTitles = new ComboBox<>();
-        programTitles.getItems().addAll(titlesPrograms);
-        gridPane.add(programTitles, 1, 2);
+        //combobox for watched programs
+        ComboBox<String> watchedProgramsComboBox = new ComboBox<>();
+        gridPane.add(watchedProgramsComboBox, 1, 2);
 
-        //Text for feedback programnames
-        final Text feedbackTextProgramNames = new Text();
-        gridPane.add(feedbackTextProgramNames, 2, 2);
+        //onclick for profilenamescombobox
+        profileNamesComboBox.setOnAction(event -> {
+            watchedProgramsComboBox.getItems().addAll(read.getWatchedPrograms(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
+        });
 
-        //Label for percentage watched
-        Label percentageWatchedLabel = new Label("Percentage watched: ");
+        //label for percentage watched
+        Label percentageWatchedLabel = new Label("Percentage watched");
         gridPane.add(percentageWatchedLabel, 0, 3);
 
         //Textfield for percentage watched
-        TextField textFieldPercentageWatched = new TextField();
-        gridPane.add(textFieldPercentageWatched, 1, 3);
+        TextField percentageWatchedTextField = new TextField();
+        gridPane.add(percentageWatchedTextField, 1, 3);
 
         //Text for feedback percentage watched
         final Text feedbackTextPercentageWatched = new Text();
         gridPane.add(feedbackTextPercentageWatched, 2, 3);
-
-        //Button for sumbitting
-        Button submit = new Button("Submit");
-        gridPane.add(submit, 1, 4);
 
         //Feedbacktext
         final Text actiontarget = new Text();
@@ -103,41 +96,31 @@ public class CreateWatchedProgram {
             feedbackTextPercentageWatched.setText(null);
         });
 
-        //onclick for profileNamesComboBox
-        accountNameComboBox.setOnAction(event -> {
-            profileNamesComboBox.getItems().clear();
-            profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
-        });
-
-        //Onclick for submit
+        Button submit = new Button("Submit");
+        gridPane.add(submit,1,4);
         submit.setOnAction(event -> {
             if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
-                    Checks.checkIfNotNullOrEmptyString(programTitles.getValue()) && Checks.checkIfNotNullOrEmptyString(textFieldPercentageWatched.getText())) {
-                if (Checks.checkIfNumbersOnly(textFieldPercentageWatched.getText())) {
-                    if (Checks.checkIfNumberWithin1and100(textFieldPercentageWatched.getText())) {
-                        if (0 == read.getwatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue()).size()) {
-                            if ("Watched program created".equals(cWP.createWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), programTitles.getValue(), Integer.parseInt(textFieldPercentageWatched.getText()), read))) {
-                                actiontarget.setFill(Color.GREEN);
-                                actiontarget.setText("Succesfully added");
-                            } else {
-                                actiontarget.setFill(Color.FIREBRICK);
-                                actiontarget.setText("Error");
-                            }
+                    Checks.checkIfNotNullOrEmptyString(watchedProgramsComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(percentageWatchedTextField.getText())) {
+                if (Checks.checkIfNumbersOnly(percentageWatchedTextField.getText())) {
+                    if (Checks.checkIfNumberWithin1and100(percentageWatchedTextField.getText())) {
+                        if ("Watched program updated".equals(uWP.updateWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), read.getProgramId(watchedProgramsComboBox.getValue()), Integer.parseInt(percentageWatchedTextField.getText())))) {
+                            actiontarget.setFill(Color.GREEN);
+                            actiontarget.setText("Profile updated");
                         } else {
                             actiontarget.setFill(Color.FIREBRICK);
-                            actiontarget.setText("Profile already has record of program");
+                            actiontarget.setText("Profile not updated");
                         }
                     } else {
-                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
                         feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
                     }
                 } else {
-                    feedbackTextPercentageWatched.setText("Please use only numbers in this field");
                     feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                    feedbackTextPercentageWatched.setText("Please fill in numbers only");
                 }
             } else {
-                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Please fill in all the fields");
             }
             pause.play();
         });
@@ -194,7 +177,7 @@ public class CreateWatchedProgram {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            } catch (Exception e) {
+            }catch(Exception e){
                 e.getMessage();
             }
         });
