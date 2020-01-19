@@ -1,12 +1,7 @@
 package database;
 
-import logic.Account;
-import logic.Address;
-import logic.Film;
-import logic.Serie;
-
 import java.sql.*;
-import java.util.ArrayList;
+
 
 public class Create {
     //String needed to make a connection to your database.
