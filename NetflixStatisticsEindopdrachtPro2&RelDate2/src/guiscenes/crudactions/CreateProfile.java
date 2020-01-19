@@ -98,7 +98,7 @@ public class CreateProfile {
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 2, 4);
+        gridPane.add(actiontarget, 1, 5);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
