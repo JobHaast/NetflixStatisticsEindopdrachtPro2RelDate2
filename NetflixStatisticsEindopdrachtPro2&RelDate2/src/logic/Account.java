@@ -7,7 +7,7 @@ public class Account {
     private String password;
     private int addressId;
 
-    public Account(String accountName, String email, String phoneNumber, String password, int address){
+    public Account(String accountName, String email, String phoneNumber, String password, int address) {
         this.accountName = accountName;
         this.email = email;
         this.phoneNumber = phoneNumber;

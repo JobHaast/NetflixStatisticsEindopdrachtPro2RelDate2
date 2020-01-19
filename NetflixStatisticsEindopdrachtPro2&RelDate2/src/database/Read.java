@@ -1111,7 +1111,7 @@ public class Read {
                     "AND Profile_Program.ProgramId = Program.ProgramId\n" +
                     "AND Series.Name = '" + serieTitle + "'\n" +
                     "GROUP BY Episode.EpisodeNumber, Episode.SeasonNumber, Program.Title ORDER BY Episode.SeasonNumber;");
-            //
+            //Query for retrieving EpisodeNumber, SeasonNumber, Title, and AveragePercentage by getting all the data from Series, Episode, Program, Profile_Program and grouping them by EpisodeNumber, SeasonNumber, Title and then ordering them by SeasonNumber.
             while (resultSet.next()) {
                 episodes.add(new EpisodeAvgWatchedSelAcc(resultSet.getInt("EpisodeNumber"), resultSet.getInt("SeasonNumber"), resultSet.getString("Title"), resultSet.getInt("AveragePercentage")));
             }

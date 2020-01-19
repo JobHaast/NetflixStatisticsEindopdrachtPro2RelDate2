@@ -6,7 +6,7 @@ public class Serie {
     private String genre;
     private String recommendation;
 
-    public Serie(String title, String language, String genre, String recommendation){
+    public Serie(String title, String language, String genre, String recommendation) {
         this.title = title;
         this.language = language;
         this.genre = genre;

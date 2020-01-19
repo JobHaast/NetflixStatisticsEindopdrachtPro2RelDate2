@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class StringForTableView {
     private final SimpleStringProperty string;
 
-    public StringForTableView(String string){
+    public StringForTableView(String string) {
         this.string = new SimpleStringProperty(string);
     }
 

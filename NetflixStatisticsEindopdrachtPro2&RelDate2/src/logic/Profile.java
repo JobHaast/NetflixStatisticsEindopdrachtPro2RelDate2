@@ -5,7 +5,7 @@ public class Profile {
     private String profileLanguage;
     private int age;
 
-    public Profile(String profileName, String profileLanguage, int age){
+    public Profile(String profileName, String profileLanguage, int age) {
         this.profileName = profileName;
         this.profileLanguage = profileLanguage;
         this.age = age;
@@ -25,6 +25,6 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "Profilename: " + profileName+ "\n" + "Profilelanguage: " + profileLanguage + "\n" + "Age: " + age;
+        return "Profilename: " + profileName + "\n" + "Profilelanguage: " + profileLanguage + "\n" + "Age: " + age;
     }
 }

@@ -22,7 +22,7 @@ import logic.Account;
 import java.util.ArrayList;
 
 public class DeleteProfile {
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
@@ -72,17 +72,17 @@ public class DeleteProfile {
         });
 
         Button submit = new Button("Delete");
-        gridPane.add(submit,1,2);
+        gridPane.add(submit, 1, 2);
         submit.setOnAction(event -> {
             String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());
-            if("Profile deleted".equals(answer)){
+            if ("Profile deleted".equals(answer)) {
                 accountNameComboBox.getItems().clear();
                 accountNameComboBox.getItems().addAll(read.getAccountsNames());
                 profileNamesComboBox.getItems().clear();
                 profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
                 actiontarget.setFill(Color.GREEN);
                 actiontarget.setText("Profile deleted");
-            }else if("Nothing deleted".equals(answer)){
+            } else if ("Nothing deleted".equals(answer)) {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Profile not deleted");
             }
@@ -141,7 +141,7 @@ public class DeleteProfile {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
@@ -155,7 +155,7 @@ public class DeleteProfile {
         Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight() * 0.978);
         return scene;
     }
 }

@@ -37,7 +37,7 @@ public class LoginScene extends Application {
         stage.show();
     }
 
-    public static Scene display(Stage stage, Read read){
+    public static Scene display(Stage stage, Read read) {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
@@ -61,7 +61,7 @@ public class LoginScene extends Application {
             imageViewLostInSpace.setFitWidth(355);
             imageViewLostInSpace.setPickOnBounds(true);
             gridPaneLogin.add(imageViewLostInSpace, 0, 0, 7, 1);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
 
@@ -90,12 +90,12 @@ public class LoginScene extends Application {
             actiontarget.setText(null);
         });
 
-        Scene loginScene = new Scene(gridPaneLogin, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene loginScene = new Scene(gridPaneLogin, screenSize.getWidth(), screenSize.getHeight() * 0.978);
 
         //Onclick event for submit button in login scene
         btn.setOnAction(event -> {
-            String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '"+userTextField.getText()+"';", "Password");
-            if(read.checkAdminPermission(userTextField.getText()) == 1) {
+            String password = read.executeQueryOneValue("SELECT Password FROM Account WHERE AccountName = '" + userTextField.getText() + "';", "Password");
+            if (read.checkAdminPermission(userTextField.getText()) == 1) {
                 if (pwBox.getText().equals(password)) {
                     try {
                         Account loggedPerson = read.getAccount(userTextField.getText());
@@ -107,7 +107,7 @@ public class LoginScene extends Application {
                     actiontarget.setFill(Color.FIREBRICK);
                     actiontarget.setText("Combination is incorrect");
                 }
-            }else{
+            } else {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Account isn't an administrator");
             }

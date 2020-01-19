@@ -39,7 +39,7 @@ public class AmountOfTimesWatchedMovie100Percent {
 
         //Button for film
         Label filmLabel = new Label("Film: ");
-        gridPane.add(filmLabel, 0 ,0);
+        gridPane.add(filmLabel, 0, 0);
 
         //ComboBox for film
         ComboBox<String> filmComboBox = new ComboBox<>();
@@ -104,7 +104,7 @@ public class AmountOfTimesWatchedMovie100Percent {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
@@ -118,7 +118,7 @@ public class AmountOfTimesWatchedMovie100Percent {
         Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight() * 0.978);
         return scene;
     }
 }

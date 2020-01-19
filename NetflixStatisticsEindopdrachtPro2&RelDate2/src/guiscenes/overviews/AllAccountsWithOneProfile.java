@@ -106,7 +106,7 @@ public class AllAccountsWithOneProfile {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
@@ -120,7 +120,7 @@ public class AllAccountsWithOneProfile {
         Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight() * 0.978);
         return scene;
     }
 }

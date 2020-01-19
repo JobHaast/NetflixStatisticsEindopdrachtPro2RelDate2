@@ -29,7 +29,7 @@ public class LongestMovieUnder16 {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Label label0 = new Label("Longest movie for people under 16: "+movie+"");
+        Label label0 = new Label("Longest movie for people under 16: " + movie + "");
         gridPane.add(label0, 0, 0);
 
         //GridPane for different tabs
@@ -84,7 +84,7 @@ public class LongestMovieUnder16 {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
@@ -98,7 +98,7 @@ public class LongestMovieUnder16 {
         Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight() * 0.978);
         return scene;
     }
 }

@@ -6,7 +6,7 @@ public class Address {
     private String addition;
     private String city;
 
-    public Address(String streetName, int number, String addition, String city){
+    public Address(String streetName, int number, String addition, String city) {
         this.streetName = streetName;
         this.number = number;
         this.addition = addition;
@@ -31,6 +31,6 @@ public class Address {
 
     @Override
     public String toString() {
-        return streetName + " " + number+addition + " " + city;
+        return streetName + " " + number + addition + " " + city;
     }
 }

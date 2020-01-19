@@ -21,7 +21,7 @@ import logic.Checks;
 import java.util.ArrayList;
 
 public class UpdateAccount {
-    public static Scene display (Stage stage, Read read, Account loggedPerson) {
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Update uA = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         ArrayList<String> namesAccounts = read.getAccountsNames();
@@ -169,7 +169,7 @@ public class UpdateAccount {
         programOverView.setOnAction(event -> {
             try {
                 stage.setScene(ProgramOverView.display(stage, read, loggedPerson));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.getMessage();
             }
         });
@@ -183,7 +183,7 @@ public class UpdateAccount {
         Color backgroundColorUnder = Color.web("rgb(77, 73, 73)");
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+        Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight() * 0.978);
         return scene;
     }
 }

@@ -13,7 +13,7 @@ public class Create {
     //Result of a query is stored in here.
     private ResultSet resultSet;
 
-    public Create(String connectionUrl){
+    public Create(String connectionUrl) {
         this.connectionUrl = connectionUrl;
         this.con = null;
         this.statement = null;
@@ -36,8 +36,7 @@ public class Create {
 //            Handle any errors that may have occurred.
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (resultSet != null) try {
                 resultSet.close();
             } catch (Exception e) {
@@ -64,9 +63,8 @@ public class Create {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("INSERT INTO Account (Accountname, Email, phonenumber, password, addressId)" +
-                        "VALUES ('"+accountName+"', '"+email+"', '"+phonenumber+"', '"+password+"', "+addressId+");");
+                    "VALUES ('" + accountName + "', '" + email + "', '" + phonenumber + "', '" + password + "', " + addressId + ");");
             //This query inserts an account in the table called Account. The variables accountName, email, phonenumber, password and addressId are inserted.
-
 
 
 //          Handle any errors that may have occurred.
@@ -100,7 +98,7 @@ public class Create {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("INSERT INTO Profile_Program (AccountName, ProfileName, ProgramId, PercentageWatched)" +
-                    "VALUES ('"+accountName+"', '"+profileName+"', "+programId+", "+percentageWatched+");");
+                    "VALUES ('" + accountName + "', '" + profileName + "', " + programId + ", " + percentageWatched + ");");
 //This query inserts a watched program in the table called Profile_Program. The variables accountName, profileName, programId and percentageWatched are inserted.
 
 //Handle any errors that may have occurred.
@@ -133,7 +131,7 @@ public class Create {
             statement = con.createStatement();
             // Execute the query
             statement.executeUpdate("INSERT INTO Profile (AccountName, ProfileName, ProfileLanguage, Birthday)" +
-                    "VALUES ('"+accountName+"', '"+profileName+"', '"+profileLanguage+"', '"+birthDay+"');");
+                    "VALUES ('" + accountName + "', '" + profileName + "', '" + profileLanguage + "', '" + birthDay + "');");
 //This query inserts a profile in the table called Profile. The variables accountName, profileName, profileLanguage and brithDay are inserted.
 
 //Handle any errors that may have occurred.
