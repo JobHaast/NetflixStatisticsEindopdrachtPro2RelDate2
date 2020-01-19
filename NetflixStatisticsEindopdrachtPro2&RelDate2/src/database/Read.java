@@ -1072,9 +1072,6 @@ public class Read {
         return series;
     }
 
-    //Method for retrieving all the episodes from one serie
-//    public ArrayList<> getEpisodeAvgWatched
-
     //Method for retrieving films
     public ArrayList<String> getFilms(){
         ArrayList<String> films = new ArrayList<>();
@@ -1164,7 +1161,7 @@ public class Read {
         return amount;
     }
 
-    //Method for retrieving watched movies
+    //Method for retrieving watched series percentage
     public ArrayList<EpisodeAvgWatchedSelAcc> getSeriesAvgWachtimeEpisode(String serieTitle){
         ArrayList<EpisodeAvgWatchedSelAcc> episodes = new ArrayList<>();
 

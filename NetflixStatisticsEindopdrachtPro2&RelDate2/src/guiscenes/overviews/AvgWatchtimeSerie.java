@@ -34,9 +34,6 @@ public class AvgWatchtimeSerie {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-        //Hier begint de rommel die ik code noem:
-
         //Serie select label
         Label serieLabel = new Label("Series:");
         gridPane.add(serieLabel, 0, 1);
@@ -76,8 +73,6 @@ public class AvgWatchtimeSerie {
             ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
             table.setItems(data);
         });
-
-        //Hier eindigt de rommel die ik code noem
 
         //GridPane for different tabs
         GridPane menu = new GridPane();
