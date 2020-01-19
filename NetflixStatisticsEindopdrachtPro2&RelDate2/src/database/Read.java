@@ -985,7 +985,7 @@ public class Read {
         return accounts;
     }
 
-    //Method for retrieving accounts with one profile
+    //Method for retrieving serieNames
     public ArrayList<String> getSerieNames(){
         ArrayList<String> series = new ArrayList<>();
 
@@ -1025,7 +1025,7 @@ public class Read {
         return series;
     }
 
-    //Method for retrieving accounts with one profile
+    //Method for retrieving the avg watched episodes from a selected account
     public ArrayList<EpisodeAvgWatchedSelAcc> getEpisodeAvgWatchedSelAcc(String accountName, String serieName){
         ArrayList<EpisodeAvgWatchedSelAcc> series = new ArrayList<>();
 
@@ -1072,7 +1072,10 @@ public class Read {
         return series;
     }
 
-    //Method for retrieving accounts with one profile
+    //Method for retrieving all the episodes from one serie
+//    public ArrayList<> getEpisodeAvgWatched
+
+    //Method for retrieving films
     public ArrayList<String> getFilms(){
         ArrayList<String> films = new ArrayList<>();
 
@@ -1114,7 +1117,7 @@ public class Read {
         return films;
     }
 
-    //Method for retrieving accounts with one profile
+    //Method for retrieving watched movies
     public int getAmountWatchedMovie(String filmTitle){
         int amount = 0;
 
