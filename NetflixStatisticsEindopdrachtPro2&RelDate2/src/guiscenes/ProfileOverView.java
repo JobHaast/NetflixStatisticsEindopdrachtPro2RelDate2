@@ -1,34 +1,75 @@
-package GUIScenes.overviews;
+package guiscenes;
 
-import GUIScenes.*;
 import database.Read;
+import database.Update;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import logic.Account;
 
-public class AmountOfTimesWatchedMovie100Percent {
-    public static Scene display(Stage stage, Read read, Account loggedPerson) {
+
+public class ProfileOverView {
+
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
+        Update update = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
+        // Scene profileOverView
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
-        //Backgroundcolor for gridpane
+        //Set background color
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Label userNameGridPaneProfileOverView = new Label("User Name:");
+        gridPane.add(userNameGridPaneProfileOverView, 0, 1);
+
+        TextField userTextFieldGridPaneProfileOverView = new TextField(loggedPerson.getAccountName());
+        userTextFieldGridPaneProfileOverView.setDisable(true);
+        gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
+
+        Label passwordLabel = new Label("Password:");
+        gridPane.add(passwordLabel, 0, 2);
+
+        TextField passwordTextField = new TextField(loggedPerson.getPassword());
+        gridPane.add(passwordTextField, 1, 2);
+
+        Button submitButton = new Button("Change");
+        gridPane.add(submitButton, 1, 3);
+
+        final Text feedBack = new Text();
+        gridPane.add(feedBack, 1, 4);
+
+        pause.setOnFinished(event -> {
+            feedBack.setText(null);
+        });
+
+        submitButton.setOnAction(event -> {
+            if("Administrator updated".equals(update.updateAdministrator(userTextFieldGridPaneProfileOverView.getText(), passwordTextField.getText()))){
+                feedBack.setFill(Color.GREEN);
+                feedBack.setText("Password changed");
+            }else{
+                feedBack.setFill(Color.FIREBRICK);
+                feedBack.setText("Password not changed");
+            }
+            pause.play();
+        });
 
         //GridPane for different tabs
         GridPane menu = new GridPane();
@@ -36,28 +77,6 @@ public class AmountOfTimesWatchedMovie100Percent {
         menu.setHgap(20);
         menu.setVgap(20);
         menu.setPadding(new Insets(25, 25, 25, 25));
-
-        //Button for film
-        Label filmLabel = new Label("Film: ");
-        gridPane.add(filmLabel, 0 ,0);
-
-        //ComboBox for film
-        ComboBox<String> filmComboBox = new ComboBox<>();
-        filmComboBox.getItems().addAll(read.getFilms());
-        gridPane.add(filmComboBox, 1, 0);
-
-        //Label for amount of times watched
-        Label amountOfTimesWatchedLabel = new Label("Amount of times watched: ");
-        gridPane.add(amountOfTimesWatchedLabel, 0, 1);
-
-        //TextField for amount of times watched
-        TextField amountOfTimesWatchedTextField = new TextField();
-        gridPane.add(amountOfTimesWatchedTextField, 1, 1);
-
-        //Onclick action for film
-        filmComboBox.setOnAction(event -> {
-            amountOfTimesWatchedTextField.setText(Integer.toString(read.getAmountWatchedMovie(filmComboBox.getValue())));
-        });
 
         //Button for profileoverview
         Button profileOverView = new Button("Profile");
@@ -75,14 +94,9 @@ public class AmountOfTimesWatchedMovie100Percent {
         Button programOverView = new Button("Program overview");
         menu.add(programOverView, 3, 0);
 
-        //Button for longest movie for overviews
+        //Button for overViews
         Button overViews = new Button("Overviews");
         menu.add(overViews, 4, 0);
-
-        //Onclick event for overviews
-        overViews.setOnAction(event -> {
-            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
-        });
 
         //Onclick event for logout
         logOut.setOnAction(event -> {
@@ -109,6 +123,11 @@ public class AmountOfTimesWatchedMovie100Percent {
             }
         });
 
+        //Onclick event for overview
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
+        });
+
         //Borderpane for layout
         BorderPane mainScene = new BorderPane();
         mainScene.setBottom(menu);
@@ -119,6 +138,7 @@ public class AmountOfTimesWatchedMovie100Percent {
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
+
         return scene;
     }
 }

@@ -1,14 +1,16 @@
-package GUIScenes.crudactions;
+package guiscenes.crudactions;
 
-import GUIScenes.*;
+import guiscenes.*;
+import database.Delete;
 import database.Read;
-import database.Update;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -16,18 +18,17 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.Account;
-import logic.Checks;
 
 import java.util.ArrayList;
 
-public class UpdateAccount {
+public class DeleteAccount {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Update uA = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
-        //Gridpane for layout
+        //CRUD Scene
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -39,7 +40,7 @@ public class UpdateAccount {
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Label for AccountName
-        Label accountNameLabel = new Label("Account Name: ");
+        Label accountNameLabel = new Label("Account Name:");
         gridPane.add(accountNameLabel, 0, 0);
 
         //combobox for accountname
@@ -47,77 +48,32 @@ public class UpdateAccount {
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
-        //Label for email
-        Label emailLabel = new Label("New email: ");
-        gridPane.add(emailLabel, 0, 1);
-
-        //Textfield for email
-        TextField emailTextField = new TextField();
-        gridPane.add(emailTextField, 1, 1);
-
-        //Label for phonenumber
-        Label phonenumberLabel = new Label("New phonenumber: ");
-        gridPane.add(phonenumberLabel, 0, 2);
-
-        //textfield for phonenumber
-        TextField phonenumberTextField = new TextField();
-        gridPane.add(phonenumberTextField, 1, 2);
-
-        //Text for feedback Number
-        final Text feedbackTextNumber = new Text();
-        feedbackTextNumber.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextNumber, 2, 2);
-
-        //Password label
-        Label passwordLabel = new Label("New password: ");
-        gridPane.add(passwordLabel, 0, 3);
-
-        //password passwordfield
-        PasswordField passwordField = new PasswordField();
-        gridPane.add(passwordField, 1, 3);
-
-        //Button for submit
-        Button submit = new Button("Change");
-        gridPane.add(submit, 1, 4);
-
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 5);
+        gridPane.add(actiontarget, 1, 3);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
             actiontarget.setText(null);
-            feedbackTextNumber.setText(null);
         });
 
+        Button submit = new Button("Delete");
+        gridPane.add(submit, 1, 2);
         submit.setOnAction(event -> {
-            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(emailTextField.getText()) &&
-                    Checks.checkIfNotNullOrEmptyString(phonenumberTextField.getText()) && Checks.checkIfNotNullOrEmptyString(passwordField.getText())) {
-                if (Checks.checkIfNumbersOnly(phonenumberTextField.getText())) {
-                    if ("Account updated".equals(uA.updateAccount(accountNameComboBox.getValue(), emailTextField.getText(), phonenumberTextField.getText(), passwordField.getText()))) {
-                        ArrayList<String> names = read.getAccountsNames();
-                        accountNameComboBox.getItems().clear();
-                        accountNameComboBox.getItems().addAll(names);
-                        emailTextField.setText(null);
-                        phonenumberTextField.setText(null);
-                        passwordField.setText(null);
-                        actiontarget.setFill(Color.GREEN);
-                        actiontarget.setText("Account updated");
-                    } else {
-                        actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("Account not updated");
-                    }
-                } else {
-                    feedbackTextNumber.setText("Please use numbers only");
-                }
+            if ("Account deleted".equals(dA.deleteAccount(accountNameComboBox.getValue()))) {
+                ArrayList<String> names = read.getAccountsNames();
+                accountNameComboBox.getItems().clear();
+                accountNameComboBox.getItems().addAll(names);
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Account deleted");
             } else {
-                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Account not deleted");
             }
             pause.play();
         });
 
-//GridPane for different tabs
+        //GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);

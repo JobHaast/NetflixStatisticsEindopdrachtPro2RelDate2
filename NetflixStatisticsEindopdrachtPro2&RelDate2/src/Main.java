@@ -1,5 +1,4 @@
-import GUIScenes.CRUD;
-import GUIScenes.LoginScene;
+import guiscenes.LoginScene;
 
 import static javafx.application.Application.launch;
 

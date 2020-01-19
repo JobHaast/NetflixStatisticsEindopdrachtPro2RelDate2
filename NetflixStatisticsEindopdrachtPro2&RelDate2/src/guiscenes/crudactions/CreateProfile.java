@@ -1,8 +1,8 @@
-package GUIScenes.crudactions;
+package guiscenes.crudactions;
 
-import GUIScenes.*;
+import guiscenes.*;
 import database.Read;
-import database.Update;
+import database.Create;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,9 +20,9 @@ import logic.Checks;
 
 import java.util.ArrayList;
 
-public class UpdateProfile {
+public class CreateProfile {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Update uP = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
@@ -42,72 +42,95 @@ public class UpdateProfile {
         Label accountNameLabel = new Label("Account Name:");
         gridPane.add(accountNameLabel, 0, 0);
 
-        //combobox for accountname
+        //Combobox for accountname
         ComboBox<String> accountNameComboBox = new ComboBox<>();
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
-        //Label for profilenames
-        Label profileNameLabel = new Label("Profile Name:");
+        //Text for feedback accountname
+        final Text feedbackTextAccountName = new Text();
+        feedbackTextAccountName.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextAccountName, 2, 0);
+
+        //Label for profilename
+        Label profileNameLabel = new Label("Profile name:");
         gridPane.add(profileNameLabel, 0, 1);
 
-        //combobox for profilenames
-        ComboBox<String> profileNamesComboBox = new ComboBox<>();
-        gridPane.add(profileNamesComboBox, 1, 1);
+        //Textfield for profilename
+        TextField profileNameTextField = new TextField();
+        gridPane.add(profileNameTextField, 1, 1);
 
-        //onclick for profileNamesComboBox
-        accountNameComboBox.setOnAction(event -> {
-            profileNamesComboBox.getItems().clear();
-            profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
-        });
+        //Text for feedback profilename
+        final Text feedbackTextProfileName = new Text();
+        feedbackTextProfileName.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextProfileName, 2, 1);
 
-        //Label for Profilelanguage
-        Label profileLanguageLabel = new Label("Profile language:");
-        gridPane.add(profileLanguageLabel, 0, 2);
+        //Label for language
+        Label languageLabel = new Label("Language:");
+        gridPane.add(languageLabel, 0, 2);
 
-        //combobox for languages
+        //Combobox for languages
         ComboBox<String> languagesComboBox = new ComboBox<>();
         languagesComboBox.getItems().addAll("Nederlands", "English");
         gridPane.add(languagesComboBox, 1, 2);
 
+        //Text for feedback languages
+        final Text feedbackTextLanguages = new Text();
+        feedbackTextLanguages.setFill(Color.FIREBRICK);
+        gridPane.add(feedbackTextLanguages, 2, 2);
+
         //Label for birthday
-        Label birthdayLabel = new Label("Birthday");
+        Label birthdayLabel = new Label("Birthday:");
         gridPane.add(birthdayLabel, 0, 3);
 
-        //TextField for birthday
+        //Textfield for birthday
         TextField birthdayDatePicker = new TextField();
         gridPane.add(birthdayDatePicker, 1, 3);
 
         //Text for feedback birthday
         final Text feedbackTextBirthday = new Text();
         feedbackTextBirthday.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextBirthday, 2, 3);
+        gridPane.add(feedbackTextBirthday, 2, 4);
+
+        //Label for format date
+        Label birthdayLabelFormat = new Label("Format: 2002-03-05");
+        gridPane.add(birthdayLabelFormat, 2, 3);
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 1, 5);
+        gridPane.add(actiontarget, 2, 4);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
-            actiontarget.setText(null);
             feedbackTextBirthday.setText(null);
+            actiontarget.setText(null);
         });
 
-        Button submit = new Button("Submit");
-        gridPane.add(submit,1,4);
+        Button submit = new Button("Create");
+        gridPane.add(submit, 1, 4);
         submit.setOnAction(event -> {
-            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNameTextField.getText()) &&
                     Checks.checkIfNotNullOrEmptyString(languagesComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(birthdayDatePicker.getText())) {
                 if (Checks.checkIfCorrectBirthdayFormat(birthdayDatePicker.getText())) {
-                    if ("Profile updated".equals(uP.updateProfile(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
-                        actiontarget.setFill(Color.GREEN);
-                        actiontarget.setText("Profile updated");
+                    if (!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)) {
+                        if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
+                            if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
+                                actiontarget.setFill(Color.GREEN);
+                                actiontarget.setText("Profile created successfully");
+                            } else {
+                                actiontarget.setFill(Color.FIREBRICK);
+                                actiontarget.setText("Profile not created");
+                            }
+                        } else {
+                            actiontarget.setFill(Color.FIREBRICK);
+                            actiontarget.setText("Profile name already exists");
+                        }
                     } else {
                         actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("Profile not updated");
+                        actiontarget.setText("There are already 5 profiles for this account");
                     }
                 } else {
-                    feedbackTextBirthday.setText("Please use the correct birthday format: YYYY-MM-DD");
+                    feedbackTextBirthday.setText("Please use the correct Birthday Format: YYYY-MM-DD");
                 }
             } else {
                 actiontarget.setText("Please fill in all the fields");

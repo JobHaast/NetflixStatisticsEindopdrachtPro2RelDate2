@@ -1,6 +1,6 @@
-package GUIScenes.overviews;
+package guiscenes.overviews;
 
-import GUIScenes.*;
+import guiscenes.*;
 import database.Read;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,13 +19,11 @@ import logic.EpisodeAvgWatchedSelAcc;
 
 import java.util.ArrayList;
 
-public class SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage {
+public class AvgWatchtimeSerie {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
-        ArrayList<String> accountNames = read.getAccountsNames();
         ArrayList<String> serieNames = read.getSerieNames();
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
-        //Gridpane for center
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -36,14 +34,8 @@ public class SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        //Account select label
-        Label accountNameLabel = new Label("AccountName:");
-        gridPane.add(accountNameLabel, 0, 0);
 
-        //Account select combobox
-        ComboBox<String> accountNameComboBox = new ComboBox<>();
-        accountNameComboBox.getItems().addAll(accountNames);
-        gridPane.add(accountNameComboBox, 1, 0);
+        //Hier begint de rommel die ik code noem:
 
         //Serie select label
         Label serieLabel = new Label("Series:");
@@ -80,17 +72,12 @@ public class SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage {
 
         serieCombobox.setOnAction(event -> {
             table.getItems().clear();
-            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getEpisodeAvgWatchedSelAcc(accountNameComboBox.getValue(), serieCombobox.getValue());
+            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getSeriesAvgWachtimeEpisode(serieCombobox.getValue());
             ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
             table.setItems(data);
         });
 
-        accountNameComboBox.setOnAction(event -> {
-            table.getItems().clear();
-            ArrayList<EpisodeAvgWatchedSelAcc> episodes = read.getEpisodeAvgWatchedSelAcc(accountNameComboBox.getValue(), serieCombobox.getValue());
-            ObservableList<EpisodeAvgWatchedSelAcc> data = FXCollections.observableArrayList(episodes);
-            table.setItems(data);
-        });
+        //Hier eindigt de rommel die ik code noem
 
         //GridPane for different tabs
         GridPane menu = new GridPane();

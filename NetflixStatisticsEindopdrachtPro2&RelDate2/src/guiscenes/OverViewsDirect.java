@@ -1,23 +1,21 @@
-package GUIScenes.overviews;
+package guiscenes;
 
-import GUIScenes.*;
+import guiscenes.overviews.*;
 import database.Read;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import logic.Account;
 
-public class LongestMovieUnder16 {
+public class OverViewsDirect {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        String movie = read.getLongestMovieUnder16();
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -25,14 +23,53 @@ public class LongestMovieUnder16 {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
-        //Backgroundcolor for gridpane
+        //Set background color
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Label label0 = new Label("Longest movie for people under 16: "+movie+"");
-        gridPane.add(label0, 0, 0);
+        //Button for longest movie under 16
+        Button longestMovieUnder16 = new Button("Longest movie under 16");
+        gridPane.add(longestMovieUnder16, 0, 0);
+        longestMovieUnder16.setOnAction(event -> {
+            stage.setScene(LongestMovieUnder16.display(stage, read, loggedPerson));
+        });
 
-        //GridPane for different tabs
+        //Button for FilmsWatched
+        Button filmsWatched = new Button("Films watched");
+        gridPane.add(filmsWatched, 1, 0);
+        filmsWatched.setOnAction(event -> {
+            stage.setScene(FilmsWatched.display(stage, read, loggedPerson));
+        });
+
+        //Button for avgwatchedtimeSerie
+        Button avgWatchedTimeSerie = new Button("Average watched time series");
+        gridPane.add(avgWatchedTimeSerie, 2, 0);
+        avgWatchedTimeSerie.setOnAction(event -> {
+            stage.setScene(AvgWatchtimeSerie.display(stage, read, loggedPerson));
+        });
+
+        //Button for accounts with one profile
+        Button oneProfile = new Button("Accounts with one profile");
+        gridPane.add(oneProfile, 0, 1);
+        oneProfile.setOnAction(event -> {
+            stage.setScene(AllAccountsWithOneProfile.display(stage, read, loggedPerson));
+        });
+
+        //Button for class amount of times watched movie 100 percent
+        Button amount100Percent = new Button("Amount of times movie fully watched");
+        gridPane.add(amount100Percent, 1, 1);
+        amount100Percent.setOnAction(event -> {
+            stage.setScene(AmountOfTimesWatchedMovie100Percent.display(stage, read, loggedPerson));
+        });
+
+        //Button for class selectedAccountAndSeriePerEpisodeAvgWatchedPercentage
+        Button selectedAccountAndSeriePerEpisodeAvgWatchedPercentage = new Button("Watched percentage of episode with an account selected");
+        gridPane.add(selectedAccountAndSeriePerEpisodeAvgWatchedPercentage, 2, 1);
+        selectedAccountAndSeriePerEpisodeAvgWatchedPercentage.setOnAction(event -> {
+            stage.setScene(SelectedAccountAndSeriePerEpisodeAvgWatchedPercentage.display(stage, read, loggedPerson));
+        });
+
+//GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);

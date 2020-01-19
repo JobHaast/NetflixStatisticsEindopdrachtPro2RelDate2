@@ -1,4 +1,4 @@
-package GUIScenes;
+package guiscenes;
 
 import database.Read;
 import javafx.animation.PauseTransition;
@@ -15,8 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -24,7 +22,6 @@ import javafx.util.Duration;
 import logic.Account;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class LoginScene extends Application {
 

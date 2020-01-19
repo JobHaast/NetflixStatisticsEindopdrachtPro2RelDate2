@@ -1,4 +1,4 @@
-package GUIScenes;
+package guiscenes;
 
 import database.Read;
 import javafx.geometry.Insets;
@@ -103,61 +103,6 @@ public class ProgramOverView {
         imageBrooklynNineNine.setFitWidth(200);
         imageBrooklynNineNine.setPickOnBounds(true);
         programsGridPane.add(imageBrooklynNineNine, 2, 2);
-
-        //Onclick event for photo of the serie Lost in space
-//        imageViewLostInSpace.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(LostInSpace.display(stage, read, loggedPerson));
-//                }
-//        );
-
-        //Onclick event for photo of the serie Rick and Morty
-//        imageRickAndMorty.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
-
-        //Onclick event for photo of the serie The flash
-//        imageTheFlash.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
-
-        //Onclick event for photo of the film Insidious
-//        imageInsidious.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(Insidious.display(stage, read, loggedPerson));
-//                }
-//        );
-
-        //Onclick event for photo of the film Jumanji
-//        imageJumanji.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(Jumanji.display(stage, read, loggedPerson));
-//                }
-//        );
-
-        //Onclick event for photo of the film The dictator
-//        imageTheDictator.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(TheDictator.display(stage, read, loggedPerson));
-//                }
-//        );
-
-        //Onclick event for photo of the serie how i met your mother
-//        imageTheWitcher.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
-
-        //Onclick event for photo of the serie the witcher
-//        imageHowIMetYourMother.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
-
-        //Onclick event for photo of the serie Brooklyn nine-nine
-//        imageBrooklynNineNine.setOnMouseClicked(mouseEvent -> {
-//                    stage.setScene(lostInSpaceScene);
-//                }
-//        );
-
 
         //GridPane for different tabs
         GridPane menu = new GridPane();

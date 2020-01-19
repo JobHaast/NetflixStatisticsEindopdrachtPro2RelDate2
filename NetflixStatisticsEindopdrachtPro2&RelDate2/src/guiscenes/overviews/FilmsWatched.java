@@ -1,6 +1,6 @@
-package GUIScenes.overviews;
+package guiscenes.overviews;
 
-import GUIScenes.*;
+import guiscenes.*;
 import database.Read;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,10 +20,11 @@ import logic.StringForTableView;
 
 import java.util.ArrayList;
 
-public class AllAccountsWithOneProfile {
+public class FilmsWatched {
     public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
+        //CRUD Scene
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -34,15 +35,22 @@ public class AllAccountsWithOneProfile {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        // Scene Tableview
-        final Label label = new Label("Accounts with one profile:");
+        //Tableview
+        final Label label = new Label("Films Watched");
         label.setFont(new Font("Arial", 20));
         gridPane.add(label, 0, 0);
+
+        Label accountNameLabel = new Label("Account name: ");
+        gridPane.add(accountNameLabel, 1, 3);
+
+        ComboBox<String> account = new ComboBox<>();
+        account.getItems().addAll(read.getAccountsNames());
+        gridPane.add(account, 2, 3);
 
         TableView<StringForTableView> table = new TableView<>();
         table.setMaxWidth(500);
 
-        TableColumn movieTitle = new TableColumn("Account name");
+        TableColumn movieTitle = new TableColumn("Movie Title");
         movieTitle.setMinWidth(500);
 
         movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
@@ -50,11 +58,14 @@ public class AllAccountsWithOneProfile {
         table.setEditable(false);
         gridPane.add(table, 0, 1, 8, 1);
 
-        ArrayList<StringForTableView> films = read.getAccountsWithOneProfile();
-        ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
-        table.setItems(data);
+        account.setOnAction(event -> {
+            movieTitle.getColumns().clear();
+            ArrayList<StringForTableView> films = read.getWatchedFilms(account.getValue());
+            ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
+            table.setItems(data);
+        });
 
-        //GridPane for different tabs
+//GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);

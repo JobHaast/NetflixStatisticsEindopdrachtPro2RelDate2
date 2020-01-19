@@ -1,8 +1,8 @@
-package GUIScenes.crudactions;
+package guiscenes.crudactions;
 
-import GUIScenes.*;
+import guiscenes.*;
 import database.Read;
-import database.Create;
+import database.Update;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,9 +20,9 @@ import logic.Checks;
 
 import java.util.ArrayList;
 
-public class CreateProfile {
+public class UpdateWatchedProgram {
     public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Create cP = new Create("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        Update uWP = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
         ArrayList<String> namesAccounts = read.getAccountsNames();
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
@@ -42,99 +42,85 @@ public class CreateProfile {
         Label accountNameLabel = new Label("Account Name:");
         gridPane.add(accountNameLabel, 0, 0);
 
-        //Combobox for accountname
+        //combobox for accountname
         ComboBox<String> accountNameComboBox = new ComboBox<>();
         accountNameComboBox.getItems().addAll(namesAccounts);
         gridPane.add(accountNameComboBox, 1, 0);
 
-        //Text for feedback accountname
-        final Text feedbackTextAccountName = new Text();
-        feedbackTextAccountName.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextAccountName, 2, 0);
-
-        //Label for profilename
-        Label profileNameLabel = new Label("Profile name:");
+        //Label for profilenames
+        Label profileNameLabel = new Label("Profile Name:");
         gridPane.add(profileNameLabel, 0, 1);
 
-        //Textfield for profilename
-        TextField profileNameTextField = new TextField();
-        gridPane.add(profileNameTextField, 1, 1);
+        //combobox for profilenames
+        ComboBox<String> profileNamesComboBox = new ComboBox<>();
+        gridPane.add(profileNamesComboBox, 1, 1);
 
-        //Text for feedback profilename
-        final Text feedbackTextProfileName = new Text();
-        feedbackTextProfileName.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextProfileName, 2, 1);
+        //onclick for accountnamecombobox
+        accountNameComboBox.setOnAction(event -> {
+            profileNamesComboBox.getItems().clear();
+            profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
+        });
 
-        //Label for language
-        Label languageLabel = new Label("Language:");
-        gridPane.add(languageLabel, 0, 2);
+        //Label for program
+        Label program = new Label("Program:");
+        gridPane.add(program, 0, 2);
 
-        //Combobox for languages
-        ComboBox<String> languagesComboBox = new ComboBox<>();
-        languagesComboBox.getItems().addAll("Nederlands", "English");
-        gridPane.add(languagesComboBox, 1, 2);
+        //combobox for watched programs
+        ComboBox<String> watchedProgramsComboBox = new ComboBox<>();
+        gridPane.add(watchedProgramsComboBox, 1, 2);
 
-        //Text for feedback languages
-        final Text feedbackTextLanguages = new Text();
-        feedbackTextLanguages.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextLanguages, 2, 2);
+        //onclick for profilenamescombobox
+        profileNamesComboBox.setOnAction(event -> {
+            watchedProgramsComboBox.getItems().addAll(read.getWatchedPrograms(accountNameComboBox.getValue(), profileNamesComboBox.getValue()));
+        });
 
-        //Label for birthday
-        Label birthdayLabel = new Label("Birthday:");
-        gridPane.add(birthdayLabel, 0, 3);
+        //label for percentage watched
+        Label percentageWatchedLabel = new Label("Percentage watched");
+        gridPane.add(percentageWatchedLabel, 0, 3);
 
-        //Textfield for birthday
-        TextField birthdayDatePicker = new TextField();
-        gridPane.add(birthdayDatePicker, 1, 3);
+        //Textfield for percentage watched
+        TextField percentageWatchedTextField = new TextField();
+        gridPane.add(percentageWatchedTextField, 1, 3);
 
-        //Text for feedback birthday
-        final Text feedbackTextBirthday = new Text();
-        feedbackTextBirthday.setFill(Color.FIREBRICK);
-        gridPane.add(feedbackTextBirthday, 2, 4);
-
-        //Label for format date
-        Label birthdayLabelFormat = new Label("Format: 2002-03-05");
-        gridPane.add(birthdayLabelFormat, 2, 3);
+        //Text for feedback percentage watched
+        final Text feedbackTextPercentageWatched = new Text();
+        gridPane.add(feedbackTextPercentageWatched, 2, 3);
 
         //Feedbacktext
         final Text actiontarget = new Text();
-        gridPane.add(actiontarget, 2, 4);
+        gridPane.add(actiontarget, 1, 5);
 
         //Action when pause.play() is called
         pause.setOnFinished(e -> {
-            feedbackTextBirthday.setText(null);
             actiontarget.setText(null);
+            feedbackTextPercentageWatched.setText(null);
         });
 
-        Button submit = new Button("Create");
-        gridPane.add(submit, 1, 4);
+        Button submit = new Button("Submit");
+        gridPane.add(submit,1,4);
         submit.setOnAction(event -> {
-            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNameTextField.getText()) &&
-                    Checks.checkIfNotNullOrEmptyString(languagesComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(birthdayDatePicker.getText())) {
-                if (Checks.checkIfCorrectBirthdayFormat(birthdayDatePicker.getText())) {
-                    if (!(read.amountOfProfiles(accountNameComboBox.getValue()) == 5)) {
-                        if (0 == read.getProfile(accountNameComboBox.getValue(), profileNameTextField.getText()).size()) {
-                            if ("Profile created".equals(cP.createProfile(accountNameComboBox.getValue(), profileNameTextField.getText(), languagesComboBox.getValue(), birthdayDatePicker.getText()))) {
-                                actiontarget.setFill(Color.GREEN);
-                                actiontarget.setText("Profile created successfully");
-                            } else {
-                                actiontarget.setFill(Color.FIREBRICK);
-                                actiontarget.setText("Profile not created");
-                            }
+            if (Checks.checkIfNotNullOrEmptyString(accountNameComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(profileNamesComboBox.getValue()) &&
+                    Checks.checkIfNotNullOrEmptyString(watchedProgramsComboBox.getValue()) && Checks.checkIfNotNullOrEmptyString(percentageWatchedTextField.getText())) {
+                if (Checks.checkIfNumbersOnly(percentageWatchedTextField.getText())) {
+                    if (Checks.checkIfNumberWithin1and100(percentageWatchedTextField.getText())) {
+                        if ("Watched program updated".equals(uWP.updateWatchedProgram(accountNameComboBox.getValue(), profileNamesComboBox.getValue(), read.getProgramId(watchedProgramsComboBox.getValue()), Integer.parseInt(percentageWatchedTextField.getText())))) {
+                            actiontarget.setFill(Color.GREEN);
+                            actiontarget.setText("Profile updated");
                         } else {
                             actiontarget.setFill(Color.FIREBRICK);
-                            actiontarget.setText("Profile name already exists");
+                            actiontarget.setText("Profile not updated");
                         }
                     } else {
-                        actiontarget.setFill(Color.FIREBRICK);
-                        actiontarget.setText("There are already 5 profiles for this account");
+                        feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                        feedbackTextPercentageWatched.setText("Please fill in a number between 0 and 100");
                     }
                 } else {
-                    feedbackTextBirthday.setText("Please use the correct Birthday Format: YYYY-MM-DD");
+                    feedbackTextPercentageWatched.setFill(Color.FIREBRICK);
+                    feedbackTextPercentageWatched.setText("Please fill in numbers only");
                 }
             } else {
-                actiontarget.setText("Please fill in all the fields");
                 actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Please fill in all the fields");
             }
             pause.play();
         });

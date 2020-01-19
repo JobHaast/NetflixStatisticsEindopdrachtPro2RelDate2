@@ -1,6 +1,6 @@
-package GUIScenes.crudactions;
+package guiscenes.crudactions;
 
-import GUIScenes.*;
+import guiscenes.*;
 import database.Delete;
 import database.Read;
 import javafx.animation.PauseTransition;

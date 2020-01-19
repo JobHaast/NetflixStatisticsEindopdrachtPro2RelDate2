@@ -1,27 +1,31 @@
-package GUIScenes.overviews;
+package guiscenes.crudactions;
 
-import GUIScenes.*;
+import guiscenes.*;
+import database.Delete;
 import database.Read;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import logic.Account;
-import logic.StringForTableView;
 
 import java.util.ArrayList;
 
-public class FilmsWatched {
-    public static Scene display(Stage stage, Read read, Account loggedPerson) {
+public class DeleteProfile {
+    public static Scene display(Stage stage, Read read, Account loggedPerson){
+        Delete dA = new Delete("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
+        ArrayList<String> namesAccounts = read.getAccountsNames();
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
         //CRUD Scene
@@ -35,37 +39,57 @@ public class FilmsWatched {
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        //Tableview
-        final Label label = new Label("Films Watched");
-        label.setFont(new Font("Arial", 20));
-        gridPane.add(label, 0, 0);
+        //Label for AccountName
+        Label accountNameLabel = new Label("Account Name:");
+        gridPane.add(accountNameLabel, 0, 0);
 
-        Label accountNameLabel = new Label("Account name: ");
-        gridPane.add(accountNameLabel, 1, 3);
+        //combobox for accountname
+        ComboBox<String> accountNameComboBox = new ComboBox<>();
+        accountNameComboBox.getItems().addAll(namesAccounts);
+        gridPane.add(accountNameComboBox, 1, 0);
 
-        ComboBox<String> account = new ComboBox<>();
-        account.getItems().addAll(read.getAccountsNames());
-        gridPane.add(account, 2, 3);
+        //Label for profilenames
+        Label profileNameLabel = new Label("Profile Name:");
+        gridPane.add(profileNameLabel, 0, 1);
 
-        TableView<StringForTableView> table = new TableView<>();
-        table.setMaxWidth(500);
+        //combobox for profilenames
+        ComboBox<String> profileNamesComboBox = new ComboBox<>();
+        gridPane.add(profileNamesComboBox, 1, 1);
 
-        TableColumn movieTitle = new TableColumn("Movie Title");
-        movieTitle.setMinWidth(500);
-
-        movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
-        table.getColumns().add(movieTitle);
-        table.setEditable(false);
-        gridPane.add(table, 0, 1, 8, 1);
-
-        account.setOnAction(event -> {
-            movieTitle.getColumns().clear();
-            ArrayList<StringForTableView> films = read.getWatchedFilms(account.getValue());
-            ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
-            table.setItems(data);
+        //onclick for profileNamesComboBox
+        accountNameComboBox.setOnAction(event -> {
+            profileNamesComboBox.getItems().clear();
+            profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
         });
 
-//GridPane for different tabs
+        //Feedbacktext
+        final Text actiontarget = new Text();
+        gridPane.add(actiontarget, 1, 3);
+
+        //Action when pause.play() is called
+        pause.setOnFinished(e -> {
+            actiontarget.setText(null);
+        });
+
+        Button submit = new Button("Delete");
+        gridPane.add(submit,1,2);
+        submit.setOnAction(event -> {
+            String answer = dA.deleteProfile(profileNamesComboBox.getValue(), accountNameComboBox.getValue());
+            if("Profile deleted".equals(answer)){
+                accountNameComboBox.getItems().clear();
+                accountNameComboBox.getItems().addAll(read.getAccountsNames());
+                profileNamesComboBox.getItems().clear();
+                profileNamesComboBox.getItems().addAll(read.getProfileNames(accountNameComboBox.getValue()));
+                actiontarget.setFill(Color.GREEN);
+                actiontarget.setText("Profile deleted");
+            }else if("Nothing deleted".equals(answer)){
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Profile not deleted");
+            }
+            pause.play();
+        });
+
+        //GridPane for different tabs
         GridPane menu = new GridPane();
         menu.setAlignment(Pos.CENTER);
         menu.setHgap(20);

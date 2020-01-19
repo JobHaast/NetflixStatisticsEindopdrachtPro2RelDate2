@@ -1,75 +1,58 @@
-package GUIScenes;
+package guiscenes.overviews;
 
+import guiscenes.*;
 import database.Read;
-import database.Update;
-import javafx.animation.PauseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import logic.Account;
+import logic.StringForTableView;
 
+import java.util.ArrayList;
 
-public class ProfileOverView {
-
-    public static Scene display(Stage stage, Read read, Account loggedPerson){
-        Update update = new Update("jdbc:sqlserver://localhost;databaseName=NetflixStatistix;integratedSecurity=true;");
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+public class AllAccountsWithOneProfile {
+    public static Scene display(Stage stage, Read read, Account loggedPerson) {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
-        // Scene profileOverView
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
-        //Set background color
+        //Backgroundcolor for gridpane
         Color backgroundColor = Color.web("rgb(100, 97, 97)");
         gridPane.backgroundProperty().set(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Label userNameGridPaneProfileOverView = new Label("User Name:");
-        gridPane.add(userNameGridPaneProfileOverView, 0, 1);
+        // Scene Tableview
+        final Label label = new Label("Accounts with one profile:");
+        label.setFont(new Font("Arial", 20));
+        gridPane.add(label, 0, 0);
 
-        TextField userTextFieldGridPaneProfileOverView = new TextField(loggedPerson.getAccountName());
-        userTextFieldGridPaneProfileOverView.setDisable(true);
-        gridPane.add(userTextFieldGridPaneProfileOverView, 1, 1);
+        TableView<StringForTableView> table = new TableView<>();
+        table.setMaxWidth(500);
 
-        Label passwordLabel = new Label("Password:");
-        gridPane.add(passwordLabel, 0, 2);
+        TableColumn movieTitle = new TableColumn("Account name");
+        movieTitle.setMinWidth(500);
 
-        TextField passwordTextField = new TextField(loggedPerson.getPassword());
-        gridPane.add(passwordTextField, 1, 2);
+        movieTitle.setCellValueFactory(new PropertyValueFactory<>("string"));
+        table.getColumns().add(movieTitle);
+        table.setEditable(false);
+        gridPane.add(table, 0, 1, 8, 1);
 
-        Button submitButton = new Button("Change");
-        gridPane.add(submitButton, 1, 3);
-
-        final Text feedBack = new Text();
-        gridPane.add(feedBack, 1, 4);
-
-        pause.setOnFinished(event -> {
-            feedBack.setText(null);
-        });
-
-        submitButton.setOnAction(event -> {
-            if("Administrator updated".equals(update.updateAdministrator(userTextFieldGridPaneProfileOverView.getText(), passwordTextField.getText()))){
-                feedBack.setFill(Color.GREEN);
-                feedBack.setText("Password changed");
-            }else{
-                feedBack.setFill(Color.FIREBRICK);
-                feedBack.setText("Password not changed");
-            }
-            pause.play();
-        });
+        ArrayList<StringForTableView> films = read.getAccountsWithOneProfile();
+        ObservableList<StringForTableView> data = FXCollections.observableArrayList(films);
+        table.setItems(data);
 
         //GridPane for different tabs
         GridPane menu = new GridPane();
@@ -94,9 +77,14 @@ public class ProfileOverView {
         Button programOverView = new Button("Program overview");
         menu.add(programOverView, 3, 0);
 
-        //Button for overViews
+        //Button for longest movie for overviews
         Button overViews = new Button("Overviews");
         menu.add(overViews, 4, 0);
+
+        //Onclick event for overviews
+        overViews.setOnAction(event -> {
+            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
+        });
 
         //Onclick event for logout
         logOut.setOnAction(event -> {
@@ -123,11 +111,6 @@ public class ProfileOverView {
             }
         });
 
-        //Onclick event for overview
-        overViews.setOnAction(event -> {
-            stage.setScene(OverViewsDirect.display(stage, read, loggedPerson));
-        });
-
         //Borderpane for layout
         BorderPane mainScene = new BorderPane();
         mainScene.setBottom(menu);
@@ -138,7 +121,6 @@ public class ProfileOverView {
         mainScene.backgroundProperty().set(new Background(new BackgroundFill(backgroundColorUnder, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(mainScene, screenSize.getWidth(), screenSize.getHeight()*0.978);
-
         return scene;
     }
 }
